@@ -82,14 +82,14 @@ jobs:
             -allowProvisioningUpdates \
             SKIP_INSTALL=NO
 
-    # 6. 导出 IPA (修复第 85 行语法及环境问题)
-          - name: Export IPA
-            run: |
-              xcodebuild -exportArchive \
-                -archivePath ./build/${{ env.PROJECT_NAME }}.xcarchive \
-                -exportPath ./build/ipa \
-                -exportOptionsPlist ./exportOptions.plist \
-                -allowProvisioningUpdates
+      # 6. 导出 IPA (修复第 85 行语法及环境问题)
+      - name: Export IPA
+        run: |
+          xcodebuild -exportArchive \
+            -archivePath ./build/${{ env.PROJECT_NAME }}.xcarchive \
+            -exportPath ./build/ipa \
+            -exportOptionsPlist ./exportOptions.plist \
+            -allowProvisioningUpdates
 
       # 7. 上传到蒲公英
       - name: Upload to Pgyer
