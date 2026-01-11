@@ -33,11 +33,9 @@ jobs:
           security set-key-partition-list -S apple-tool:,apple:,codesign: -s -k "$KEYCHAIN_PASSWORD" "$KEYCHAIN_PATH"
 
           # 导入描述文件并重命名为 UUID (确保 Xcode 100% 能找到)
-          mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
-          echo "$PROVISIONING_BASE64" | base64 -D > $RUNNER_TEMP/temp.mobileprovision
-          UUID=$(mobileprovision-read -f $RUNNER_TEMP/temp.mobileprovision -o UUID)
-          cp $RUNNER_TEMP/temp.mobileprovision ~/Library/MobileDevice/Provisioning\ Profiles/$UUID.mobileprovision
-          
+          mkdir -p ~/Documents/PartTime/AL1/Profiles
+          echo "$PROVISIONING_BASE64" | base64 -D > ~/Documents/PartTime/AL1/Profiles/al10test.mobileprovision
+
           echo "KEYCHAIN_PATH=$KEYCHAIN_PATH" >> $GITHUB_ENV
 
       # 2. 准备变量
