@@ -83,13 +83,29 @@ jobs:
             SKIP_INSTALL=NO
 
       # 6. Export IPA (使用你的 exportOptions.plist)
-      - name: Export IPA
-        run: |
-          xcodebuild -exportArchive \
-            -archivePath ./build/${{ env.PROJECT_NAME }}.xcarchive \
-            -exportPath ./build/ipa \
-            -exportOptionsPlist ./exportOptions.plist \
-            -allowProvisioningUpdates
+#      - name: Export IPA
+#        run: |
+#          xcodebuild -exportArchive \
+#            -archivePath ./build/${{ env.PROJECT_NAME }}.xcarchive \
+#            -exportPath ./build/ipa \
+#            -exportOptionsPlist ./exportOptions.plist \
+#            -allowProvisioningUpdates
+
+      # 6. 导出 IPA (增加环境清理和编码强制)
+       - name: Export IPA
+         run: |
+           # 强制设置区域环境，防止 Plist 解析因字符集报错
+           export LANG=en_US.UTF-8
+           export LC_ALL=en_US.UTF-8
+           
+           # 检查描述文件是否确实存在（调试用）
+           ls ~/Library/MobileDevice/Provisioning\ Profiles/
+          
+           xcodebuild -exportArchive \
+             -archivePath ./build/${{ env.PROJECT_NAME }}.xcarchive \
+             -exportPath ./build/ipa \
+             -exportOptionsPlist ./exportOptions.plist \
+             -allowProvisioningUpdates
 
       # 7. 上传到蒲公英
       - name: Upload to Pgyer
