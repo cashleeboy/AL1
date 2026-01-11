@@ -1,0 +1,69 @@
+# Gradle files
+.gradle/
+build/
+**/build/
+!gradle/wrapper/gradle-wrapper.jar
+# Exception: Keep OpenAPI generated files in git
+!shared/build/
+!shared/build/generated/
+!shared/build/generated/src/
+!shared/build/generated/src/main/
+
+# Local configuration file (sdk path, etc)
+local.properties
+
+# Android Studio / IntelliJ IDEA
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# macOS
+.DS_Store
+
+# Xcode
+*.xcworkspace/xcuserdata/
+*.xcodeproj/xcuserdata/
+DerivedData/
+*.hmap
+*.ipa
+*.dSYM.zip
+*.dSYM
+.build/
+
+# Bundler / Ruby
+androidApp/vendor/
+iosApp/vendor/
+.bundle/
+
+# Kotlin Multiplatform
+# Ignore everything in shared/build except the OpenAPI generated code
+shared/build/*
+!shared/build/generated/
+shared/build/generated/*
+!shared/build/generated/src/
+shared/build/generated/src/*
+!shared/build/generated/src/main/
+.kotlin/
+
+# Fastlane
+**/fastlane/report.xml
+**/fastlane/Preview.html
+**/fastlane/screenshots
+**/fastlane/test_output
+
+# Generated files
+androidApp/build/generated/
+iosApp/iosApp.xcodeproj/project.xcworkspace/xcuserdata
+iosApp/iosApp.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved
+
+# Windsurf configuration
+.windsurf/
+!.windsurf/
+!.windsurf/rules/
+!.windsurf/rules/*.md
+!.windsurf/workflows/
+!.windsurf/workflows/*.md
+
+# Pre-commit cache
+scripts/.cache/

@@ -1,0 +1,94 @@
+name: iOS CI/CD Build
+
+on:
+  push:
+    branches: [ "main" ] # 当 main 分支有推送时触发
+  workflow_dispatch:      # 允许手动触发
+
+jobs:
+  build:
+    runs-on: macos-15 # 使用最新的 macOS 环境
+    
+    steps:
+      - name: Checkout project
+        uses: actions/checkout@v4
+
+      # 1. 安装证书和描述文件 (GitHub Actions 运行环境是干净的，必须手动导入)
+      - name: Install the Apple certificate and provisioning profile
+        env:
+          P12_BASE64: ${{ secrets.P12_BASE64 }}
+          P12_PASSWORD: ${{ secrets.P12_PASSWORD }}
+          PROVISIONING_BASE64: ${{ secrets.PROVISIONING_BASE64 }}
+        run: |
+          # 创建临时钥匙扣
+          KEYCHAIN_PATH=$RUNNER_TEMP/app-signing.keychain-db
+          KEYCHAIN_PASSWORD=$(openssl rand -base64 21)
+          security create-keychain -p "$KEYCHAIN_PASSWORD" "$KEYCHAIN_PATH"
+          security set-keychain-settings -lut 21600 "$KEYCHAIN_PATH"
+          security unlock-keychain -p "$KEYCHAIN_PASSWORD" "$KEYCHAIN_PATH"
+
+          # 导入 P12 证书
+          echo $P12_BASE64 | base64 --decode > $RUNNER_TEMP/cert.p12
+          security import $RUNNER_TEMP/cert.p12 -k "$KEYCHAIN_PATH" -P "$P12_PASSWORD" -T /usr/bin/codesign
+          security set-key-partition-list -S apple-tool:,apple:,codesign: -s -k "$KEYCHAIN_PASSWORD" "$KEYCHAIN_PATH"
+
+          # 导入描述文件
+          mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
+          echo $PROVISIONING_BASE64 | base64 --decode > ~/Library/MobileDevice/Provisioning\ Profiles/temp.mobileprovision
+
+      # 2. 设置项目变量 (复用你原脚本的逻辑)
+      - name: Prepare Build Variables
+        run: |
+          PROJECT_PATH=$(ls -d *.xcodeproj | head -n 1)
+          PROJECT_NAME=$(basename "$PROJECT_PATH" .xcodeproj)
+          SCHEME_NAME=$(xcodebuild -list -json -project "$PROJECT_PATH" | python3 -c 'import json, sys; d = json.load(sys.stdin); s = d.get("project", {}).get("schemes", []); print(s[0] if s else "")')
+          NEW_BUILD_NUMBER=$(date +"%Y%m%d%H%M")
+          
+          # 将变量写入环境变量，供后续步骤使用
+          echo "PROJECT_PATH=$PROJECT_PATH" >> $GITHUB_ENV
+          echo "PROJECT_NAME=$PROJECT_NAME" >> $GITHUB_ENV
+          echo "SCHEME_NAME=$SCHEME_NAME" >> $GITHUB_ENV
+          echo "NEW_BUILD_NUMBER=$NEW_BUILD_NUMBER" >> $GITHUB_ENV
+
+      # 3. 更新 Build 号
+      - name: Update Build Number
+        run: |
+          xcrun agvtool new-version -all "$NEW_BUILD_NUMBER"
+
+      # 4. Archive 并构建
+      - name: Build Archive
+        run: |
+          xcodebuild archive \
+            -project "${{ env.PROJECT_PATH }}" \
+            -scheme "${{ env.SCHEME_NAME }}" \
+            -configuration Release \
+            -sdk iphoneos \
+            -archivePath ./build/${{ env.PROJECT_NAME }}.xcarchive \
+            -allowProvisioningUpdates
+
+      # 5. 导出 IPA
+      - name: Export IPA
+        run: |
+          xcodebuild -exportArchive \
+            -archivePath ./build/${{ env.PROJECT_NAME }}.xcarchive \
+            -exportPath ./build/ipa \
+            -exportOptionsPlist ./exportOptions.plist \
+            -allowProvisioningUpdates
+
+      # 6. 上传到蒲公英
+      - name: Upload to Pgyer
+        env:
+          PGY_API_KEY: ${{ secrets.PGY_API_KEY }}
+          PGY_USER_KEY: ${{ secrets.PGY_USER_KEY }}
+        run: |
+          IPA_PATH=$(find ./build/ipa -name "*.ipa" | head -n 1)
+          echo "🚀 Uploading $IPA_PATH to Pgyer..."
+          
+          RESPONSE=$(curl -s -F "file=@${IPA_PATH}" \
+               -F "uKey=${PGY_USER_KEY}" \
+               -F "_api_key=${PGY_API_KEY}" \
+               https://www.pgyer.com/apiv2/app/upload)
+               
+          echo "Pgyer Response: $RESPONSE"
+          DOWNLOAD_URL=$(echo "$RESPONSE" | python3 -c 'import sys, json; print(json.load(sys.stdin)["data"]["buildShortcutUrl"])' 2>/dev/null)
+          echo "🎉 App Uploaded! URL: https://www.pgyer.com/$DOWNLOAD_URL"
