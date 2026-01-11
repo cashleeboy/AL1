@@ -85,6 +85,10 @@ jobs:
       # 6. Export IPA (使用你的 exportOptions.plist)
       - name: Export IPA
         run: |
+        # 强制指定字符编码为 UTF-8
+          export LANG=en_US.UTF-8
+          export LC_ALL=en_US.UTF-8
+          
           xcodebuild -exportArchive \
             -archivePath ./build/${{ env.PROJECT_NAME }}.xcarchive \
             -exportPath ./build/ipa \
