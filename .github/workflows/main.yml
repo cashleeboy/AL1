@@ -83,8 +83,6 @@ jobs:
       # 6. 导出 IPA (增加环境编码和错误检查)
       - name: Export IPA
         run: |
-          export LANG=en_US.UTF-8
-          export LC_ALL=en_US.UTF-8
           
           # 打印身份信息用于调试，若显示 0 identities 则 P12 有误
           security find-identity -v -p codesigning ${{ env.KEYCHAIN_PATH }}
