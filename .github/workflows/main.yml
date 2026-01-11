@@ -85,15 +85,6 @@ jobs:
 # 6. 导出 IPA (修复第 85 行语法及环境问题)
       - name: Export IPA
         run: |
-          # 1. 设置语言环境防止字符集解析错误
-          export LANG=en_US.UTF-8
-          export LC_ALL=en_US.UTF-8
-          
-          # 2. 确保导出目录干净
-          rm -rf ./build/ipa
-          mkdir -p ./build/ipa
-          
-          # 3. 执行导出
           xcodebuild -exportArchive \
             -archivePath ./build/${{ env.PROJECT_NAME }}.xcarchive \
             -exportPath ./build/ipa \
