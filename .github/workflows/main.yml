@@ -78,11 +78,6 @@ jobs:
             -sdk iphoneos \
             -archivePath ./build/${{ env.PROJECT_NAME }}.xcarchive \
             -allowProvisioningUpdates \
-            DEVELOPMENT_TEAM="F7XLR9JPD6" \
-            CODE_SIGN_STYLE="Manual" \
-            PROVISIONING_PROFILE_SPECIFIER="al10test" \
-            CODE_SIGN_IDENTITY="Apple Development" \
-            SKIP_INSTALL=NO
 
       # 6. 导出 IPA (增加环境编码和错误检查)
       - name: Export IPA
