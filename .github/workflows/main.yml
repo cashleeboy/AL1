@@ -84,8 +84,9 @@ jobs:
       - name: Export IPA
         run: |
           
-          # 打印身份信息用于调试，若显示 0 identities 则 P12 有误
-          security find-identity -v -p codesigning ${{ env.KEYCHAIN_PATH }}
+          # 强制解锁并设置搜索列表（防止导出进程丢失路径）
+          security unlock-keychain -p "" ${{ env.KEYCHAIN_PATH }}
+          security list-keychains -d user -s ${{ env.KEYCHAIN_PATH }}
           
           rm -rf ./build/ipa
           mkdir -p ./build/ipa
