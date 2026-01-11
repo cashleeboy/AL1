@@ -1,0 +1,64 @@
+{
+  "object" : {
+    "artifacts" : [
+
+    ],
+    "dependencies" : [
+      {
+        "basedOn" : null,
+        "packageRef" : {
+          "identity" : "alamofire",
+          "kind" : "remoteSourceControl",
+          "location" : "https://github.com/Alamofire/Alamofire",
+          "name" : "Alamofire"
+        },
+        "state" : {
+          "checkoutState" : {
+            "revision" : "513364f870f6bfc468f9d2ff0a95caccc10044c5",
+            "version" : "5.10.2"
+          },
+          "name" : "sourceControlCheckout"
+        },
+        "subpath" : "Alamofire"
+      },
+      {
+        "basedOn" : null,
+        "packageRef" : {
+          "identity" : "easyswiftlayout",
+          "kind" : "remoteSourceControl",
+          "location" : "https://github.com/Pimine/EasySwiftLayout.git",
+          "name" : "EasySwiftLayout"
+        },
+        "state" : {
+          "checkoutState" : {
+            "revision" : "ce78b3ddc7f3499ffab8597eccd98854e899459d",
+            "version" : "1.6.3"
+          },
+          "name" : "sourceControlCheckout"
+        },
+        "subpath" : "EasySwiftLayout"
+      },
+      {
+        "basedOn" : null,
+        "packageRef" : {
+          "identity" : "swiftentrykit",
+          "kind" : "remoteSourceControl",
+          "location" : "https://github.com/huri000/SwiftEntryKit",
+          "name" : "SwiftEntryKit"
+        },
+        "state" : {
+          "checkoutState" : {
+            "revision" : "5ad36cccf0c4b9fea32f4e9b17a8e38f07563ef0",
+            "version" : "2.0.0"
+          },
+          "name" : "sourceControlCheckout"
+        },
+        "subpath" : "SwiftEntryKit"
+      }
+    ],
+    "prebuilts" : [
+
+    ]
+  },
+  "version" : 7
+}

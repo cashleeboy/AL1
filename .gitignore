@@ -29,7 +29,6 @@ DerivedData/
 *.ipa
 *.dSYM.zip
 *.dSYM
-.build/
 
 # Bundler / Ruby
 androidApp/vendor/
