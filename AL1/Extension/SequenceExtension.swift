@@ -29,6 +29,12 @@ extension Sequence {
     func sum<T: Numeric>(for keyPath: KeyPath<Element, T>) -> T {
         return reduce(0) { $0 + $1[keyPath: keyPath] }
     }
+    
+    func sumString(for keyPath: KeyPath<Element, String>) -> String {
+        let total = reduce(0.0) { $0 + (Double($1[keyPath: keyPath]) ?? 0.0) }
+        // 如果能整除 1，说明是整数，去掉小数点
+        return total.truncatingRemainder(dividingBy: 1) == 0 ? String(format: "%.0f", total) : String(total)
+    }
 }
 
 

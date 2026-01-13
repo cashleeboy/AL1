@@ -142,7 +142,7 @@ struct LoanProductModel {
     let compServiceFee: Int                 // 综合服务费 egDPL
     let repaymentAmount: Int                //  应还金额 pKvuYmz8
     let receiptAmount: Int                  // 到账金额 orkhVnsORxaaV4WEBu
-    let interest: Int
+    let interest: String
 
     init(json: JSON) {
         self.appOrderId = json["poW1L_VZhHh"].stringValue
@@ -160,7 +160,7 @@ struct LoanProductModel {
         self.compServiceFee = json["egDPL"].intValue
         self.receiptAmount = json["orkhVnsORxaaV4WEBu"].intValue
         self.repaymentAmount = json["pKvuYmz8"].intValue
-        self.interest = json["aTGXpg0"].intValue
+        self.interest = json["aTGXpg0"].stringValue
     }
     
     func fetchComfirmLoan() -> [String: String] {
@@ -196,14 +196,14 @@ struct RepaymentPlanModel {
 // MARK: - 费用详情 (eHp5mtR601Vd)
 struct FeeDetailModel {
     let creditServiceFee: Int            //征信服务费 g80pYruWY
-    let interest: Int                    // 利息 aTGXpg0
+    let interest: String                    // 利息 aTGXpg0
     let payChannelFee: Int               //支付通道费 dNuTf
     let serviceFee: Int                  // 服务费 iMuLp_O74wA2
     let taxation: Int                    // 费 i7zlLwtp8i6sf1
 
     init(json: JSON) {
         self.creditServiceFee = json["g80pYruWY"].intValue
-        self.interest = json["aTGXpg0"].intValue
+        self.interest = json["aTGXpg0"].stringValue
         self.payChannelFee = json["dNuTf"].intValue
         self.serviceFee = json["iMuLp_O74wA2"].intValue
         self.taxation = json["i7zlLwtp8i6sf1"].intValue

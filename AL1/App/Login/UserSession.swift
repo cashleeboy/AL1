@@ -58,7 +58,6 @@ final class UserSession {
         // 必须显式重置，因为 RequestHeaderConfig 独立存储了 tokenId
         RequestHeaderConfig.tokenId = ""
         // 3. 可选：清除与该会话相关的 AES 密钥
-        RequestHeaderConfig.aesKey = ""
         print("⚠️ 用户已下线：UserSession 与 RequestHeaderConfig 已重置")
     }
 }

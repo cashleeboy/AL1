@@ -71,6 +71,7 @@
 		8F61E1A12F028D8F00FE2D69 /* LaunchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F61E1A02F028D8F00FE2D69 /* LaunchViewModel.swift */; };
 		8F61E1A32F02A89900FE2D69 /* AppLocationProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F61E1A22F02A89900FE2D69 /* AppLocationProvider.swift */; };
 		8F61E1C32F03B15D00FE2D69 /* PrestamoTitleSectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F61E1C22F03B15D00FE2D69 /* PrestamoTitleSectionCell.swift */; };
+		8F78F7652F1655E8009C7560 /* AppNotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F78F7642F1655E8009C7560 /* AppNotificationManager.swift */; };
 		8FADF1E22EF3AFE5003BB16E /* LoginAuthModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FADF1E12EF3AFE5003BB16E /* LoginAuthModel.swift */; };
 		8FADF1E62EF3B9B8003BB16E /* DragableButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FADF1E52EF3B9B8003BB16E /* DragableButton.swift */; };
 		8FADF2422EF3C7CC003BB16E /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FADF2412EF3C7CC003BB16E /* CustomTextField.swift */; };
@@ -368,6 +369,7 @@
 		8F61E1A02F028D8F00FE2D69 /* LaunchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchViewModel.swift; sourceTree = "<group>"; };
 		8F61E1A22F02A89900FE2D69 /* AppLocationProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppLocationProvider.swift; sourceTree = "<group>"; };
 		8F61E1C22F03B15D00FE2D69 /* PrestamoTitleSectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrestamoTitleSectionCell.swift; sourceTree = "<group>"; };
+		8F78F7642F1655E8009C7560 /* AppNotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppNotificationManager.swift; sourceTree = "<group>"; };
 		8FADF1E12EF3AFE5003BB16E /* LoginAuthModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginAuthModel.swift; sourceTree = "<group>"; };
 		8FADF1E52EF3B9B8003BB16E /* DragableButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DragableButton.swift; sourceTree = "<group>"; };
 		8FADF2412EF3C7CC003BB16E /* CustomTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
@@ -1271,6 +1273,7 @@
 			isa = PBXGroup;
 			children = (
 				8FE3A2332EEC72AB001A08AC /* ALTabBarViewController.swift */,
+				8F78F7642F1655E8009C7560 /* AppNotificationManager.swift */,
 			);
 			path = Tab;
 			sourceTree = "<group>";
@@ -1845,6 +1848,7 @@
 				8FCE8E742EECE7EE009B87C4 /* ProfileHeaderSelectionView.swift in Sources */,
 				8FB445692EF7F8F000D93B1C /* BankModuleViewModel.swift in Sources */,
 				8FADF2622EF3D2A5003BB16E /* LoginViewModel.swift in Sources */,
+				8F78F7652F1655E8009C7560 /* AppNotificationManager.swift in Sources */,
 				8FB43D242EF6700200D93B1C /* GIFHUDImageView.swift in Sources */,
 				8FCE8E6E2EEC9304009B87C4 /* ProfileSelectionCell.swift in Sources */,
 				8F4460DA2F0CE05E00A77EF3 /* LoanOrderViewModel.swift in Sources */,
@@ -1983,7 +1987,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 202601092007;
+				CURRENT_PROJECT_VERSION = 202601131848;
 				DEVELOPMENT_TEAM = "";
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = AL1/Info.plist;
@@ -2026,7 +2030,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 202601092007;
+				CURRENT_PROJECT_VERSION = 202601131848;
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = F7XLR9JPD6;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -2187,7 +2191,7 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 202601092007;
+				CURRENT_PROJECT_VERSION = 202601131848;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 18.5;
 				MARKETING_VERSION = 1.0;
@@ -2205,7 +2209,7 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 202601092007;
+				CURRENT_PROJECT_VERSION = 202601131848;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 18.5;
 				MARKETING_VERSION = 1.0;
@@ -2222,7 +2226,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 202601092007;
+				CURRENT_PROJECT_VERSION = 202601131848;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.test.AL1UITests;
@@ -2238,7 +2242,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 202601092007;
+				CURRENT_PROJECT_VERSION = 202601131848;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.test.AL1UITests;

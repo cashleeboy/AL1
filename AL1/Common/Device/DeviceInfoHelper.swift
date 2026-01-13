@@ -14,9 +14,8 @@ import Alamofire
 
 class DeviceInfoHelper
 {
+    // 1. 获取 App 信息
     static func fetchCurrentDeviceInfo() -> DeviceInfo {
-        
-        // 1. 获取 App 信息
         let infoDict = Bundle.main.infoDictionary
         let version = infoDict?["CFBundleShortVersionString"] as? String ?? "unknown"
         let build = infoDict?["CFBundleVersion"] as? String ?? "unknown"
@@ -30,8 +29,13 @@ class DeviceInfoHelper
         let uptimeSecondsInt = Int(ProcessInfo.processInfo.systemUptime)
         let uptimeStr = "\(uptimeSecondsInt)"
         
+        // 获取 IDFV
+        let idfv = UIDevice.current.identifierForVendor?.uuidString ?? ""
+        let idfa = AppIDFAProvider.shared.getIDFA()
+        
         return DeviceInfo(
             deviceModel: getModelName(),
+            deviceBrand: "Apple",
             osVersion: UIDevice.current.systemVersion,
             deviceId: DeviceIDManager.getDeviceId(),
             appVersion: version,
@@ -39,15 +43,20 @@ class DeviceInfoHelper
             localTimezone: TimeZone.current.identifier,
             language: Locale.preferredLanguages.first ?? "en",
             screenSize: res,
+            screenWidth: "\(bounds.width)",
+            screenHeight: "\(bounds.height)",
             batteryLevel: batteryLevel,
             batteryState: isCharging ? 1 : 0,
+            batteryPower: batteryLevel,
+            isCharging: batteryStatusRawValue,
+            idfv: idfv,
+            idfa: idfa,
             networkType: getNetworkType(),
             carrierName: getCarrierName(),
             ipAddress: getIPAddress() ?? "0.0.0.0",
-//            connectionSpeed: "0Mbps", // 占位，测速需下载小文件计算
             currentTime: "\(Int(Date().timeIntervalSince1970))",
             bootTime: uptimeStr,
-//            isJailbroken: checkJailbreak() ? "true" : "false"
+            isJailbroken: isJailbroken,
         )
     }
     
@@ -118,9 +127,52 @@ class DeviceInfoHelper
         return battery < 0 ? 0 : Int(battery * 100)
     }
     
+    /// 映射电池状态：1：未知；2：充电中； 3：放电中；4：未充电；5：充满
+    static var batteryStatusRawValue: Int {
+        UIDevice.current.isBatteryMonitoringEnabled = true
+        let state = UIDevice.current.batteryState
+        var batteryState = 1
+        switch state {
+        case .unknown:
+            batteryState = 1
+        case .charging:
+            batteryState = 2
+        case .unplugged:
+            batteryState = 3
+        case .full:
+            batteryState = 5
+        @unknown default:
+            batteryState = 1
+        }
+        return batteryState
+    }
+    
+    
     // 注意：获取 IP 地址通常涉及底层 C 代码（ifaddrs），此处省略具体实现以保持简洁
+//    private static func getIPAddress() -> String? {
+//        return "192.168.1.1"
+//    }
     private static func getIPAddress() -> String? {
-        return "192.168.1.1"
+        var address: String?
+        var ifaddr: UnsafeMutablePointer<ifaddrs>?
+        if getifaddrs(&ifaddr) == 0 {
+            var ptr = ifaddr
+            while ptr != nil {
+                defer { ptr = ptr?.pointee.ifa_next }
+                let interface = ptr?.pointee
+                let addrFamily = interface?.ifa_addr.pointee.sa_family
+                if addrFamily == UInt8(AF_INET) { // IPv4
+                    let name = String(cString: (interface?.ifa_name)!)
+                    if name == "en0" { // WiFi 接口
+                        var hostname = [CChar](repeating: 0, count: Int(NI_MAXHOST))
+                        getnameinfo(interface?.ifa_addr, socklen_t((interface?.ifa_addr.pointee.sa_len)!), &hostname, socklen_t(hostname.count), nil, socklen_t(0), NI_NUMERICHOST)
+                        address = String(cString: hostname)
+                    }
+                }
+            }
+            freeifaddrs(ifaddr)
+        }
+        return address
     }
     
     private static func getNetworkType() -> String {

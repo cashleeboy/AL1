@@ -25,16 +25,18 @@ echo "📁 Project Path: $PROJECT_PATH"
 # 自动获取 Scheme（Shared）
 ############################
 
-SCHEME_NAME=$(
-  xcodebuild -list -json -project "$PROJECT_PATH" \
-  | python3 -c 'import json, sys; d = json.load(sys.stdin); s = d.get("project", {}).get("schemes", []); print(s[0] if s else "")'
-)
+# 先获取原始 JSON 输出
+XCODE_LIST_JSON=$(xcodebuild -list -json -project "$PROJECT_PATH" || echo "")
 
-if [ -z "$SCHEME_NAME" ]; then
-  echo "❌ No shared scheme found. Please mark scheme as Shared in Xcode."
+if [ -z "$XCODE_LIST_JSON" ]; then
+  echo "❌ Failed to run xcodebuild -list. Check your Xcode select path."
   exit 1
 fi
 
+SCHEME_NAME=$(
+  echo "$XCODE_LIST_JSON" \
+  | python3 -c 'import json, sys; d = json.load(sys.stdin); s = d.get("project", {}).get("schemes", []); print(s[0] if s else "")'
+)
 echo "🧩 Scheme: $SCHEME_NAME"
 
 ############################

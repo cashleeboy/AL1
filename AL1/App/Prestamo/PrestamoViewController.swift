@@ -163,13 +163,14 @@ extension PrestamoViewController
                     navigation.item.title = ""
                     navigation.item.leftBarButtonItem = UIBarButtonItem(customView: leftBarTitle)
                     navigation.bar.alpha = 0
+                    navigation.bar.setBackgroundImage(nil, for: .default)
+                    
+                    isShowBottomButtonContainer = false
+                    isShowTopBannerContainer = false
                     
                     updateTableViewTop(to: .viewTop, animated: false)
                     viewModel.homeTableItems = viewModel.buildHomeSections()
                     setupFormData(with: viewModel.homeTableItems)
-                    
-                    isShowBottomButtonContainer = false
-                    isShowTopBannerContainer = false
                     
                     if viewModel.prestamoHome != nil {
                         viewModel.prestamoHome?.value = viewModel.homeModel?.marketLoanAmount

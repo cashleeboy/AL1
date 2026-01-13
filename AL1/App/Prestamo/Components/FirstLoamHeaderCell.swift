@@ -213,8 +213,7 @@ class FirstLoamHeaderCell: BaseConfigurablewCell {
         itemsStackView.addArrangedSubview(v3)
         
         // 4. 利息
-        let feeDetails = info.products.compactMap { $0.feeDetail }
-        let interest = feeDetails.sum(for: \.interest)
+        let interest = info.products.sumString(for: \.interest) // "" -> "0", "1.5" -> "1.5"
         let v4 = PrestamoCommonItemView(title: "Interés",
                                         value: "$\(interest)",
                                         valueColor: AppColorStyle.shared.textBlack)
@@ -234,7 +233,6 @@ class FirstLoamHeaderCell: BaseConfigurablewCell {
                 "Cantidad pagable"]
             
             let receiptAmount = info.products.sum(for: \.receiptAmount)
-            let interest = info.products.sum(for: \.interest)
             let values = [
                 "$\(receiptAmount)",
                 "$\(compServiceFee)",

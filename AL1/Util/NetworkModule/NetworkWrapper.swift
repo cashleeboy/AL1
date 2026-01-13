@@ -202,6 +202,7 @@ extension NetworkWrapper
             completion(.failure(.registerFailed(code: resp.status.rawValue, message: resp.message)))
         }
     }
+    
     /// 修改后的处理方法，增加 urlPath 参数
     private func handleUnauthorizedAccess(for urlPath: String?) {
         guard let path = urlPath else { return }

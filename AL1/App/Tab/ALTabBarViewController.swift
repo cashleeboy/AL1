@@ -6,9 +6,11 @@
 //
 
 import UIKit
+import SwiftEntryKit
 
 class ALTabBarViewController: UITabBarController {
-
+    private static var isAlreadyKickedOut = false // 使用静态变量防止多个实例竞争
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.delegate = self // 必须设置代理
@@ -20,10 +22,11 @@ class ALTabBarViewController: UITabBarController {
         NotificationCenter.default.addObserver(forName: .unauthorizedAccess, object: nil, queue: .main) { [self] _ in
             showLoginScreen()
         }
+        // 1. 先移除旧的监听，确保唯一性
+        NotificationCenter.default.removeObserver(self, name: .sessionKickedOut, object: nil)
+        // 2. 添加监听
+        NotificationCenter.default.addObserver(self, selector: #selector(handleKickedOut), name: .sessionKickedOut, object: nil)
         
-        NotificationCenter.default.addObserver(forName: .sessionKickedOut, object: nil, queue: .main) { [self] _ in
-            handleKickedOut()
-        }
         NotificationCenter.default.addObserver(forName: .jumpToTabbarController, object: nil, queue: .main) { [self] notification in
             if let index = notification.object as? Int {
                 jumpToVC(with: index)
@@ -33,7 +36,9 @@ class ALTabBarViewController: UITabBarController {
             }
         }
     }
+    
     deinit {
+        NotificationCenter.default.removeObserver(self)
         NotificationCenter.default.removeObserver(self, name: .unauthorizedAccess, object: nil)
         NotificationCenter.default.removeObserver(self, name: .sessionKickedOut, object: nil)
     }
@@ -139,13 +144,41 @@ extension ALTabBarViewController
         }
     }
     
-    func handleKickedOut() {
-        // 1. 立即清除本地持久化的用户信息和 Token
+    @objc func handleKickedOut() {
+        guard !ALTabBarViewController.isAlreadyKickedOut else { return }
+        ALTabBarViewController.isAlreadyKickedOut = true
+
+        print("*** 处理被踢下线逻辑 ***")
         UserSession.shared.clear()
-        showToast("Tu cuenta ha iniciado sesión en otro dispositivo. Se ha cerrado la sesión actual.")
+
+        // show dialog
+        dataExpirationDialog { [weak self] in
+            guard let self else { return }
+            ALTabBarViewController.isAlreadyKickedOut = false
+            // push to login page
+            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.5) {
+                self.showLoginScreen()
+            }
+        }
     }
     
     func jumpToVC(with idx: Int) {
         selectedIndex = idx
+    }
+}
+
+
+extension ALTabBarViewController {
+    // 数据过期弹窗
+    func dataExpirationDialog(with completion: @escaping (() -> Void)) {
+        let dialog = SimpleInfoDialog()
+        dialog.configure(title: "Consejos amables", message: "Ya hay un pedido en curso para el producto actual, no repita la operación", buttonTitle: "Confirmar", action: {
+            SwiftEntryKit.dismiss()
+            completion()
+        }, showCancelButton: true) {
+            SwiftEntryKit.dismiss()
+        }
+        let attributes = EKAttributes.centerDialog()
+        SwiftEntryKit.display(entry: dialog, using: attributes)
     }
 }

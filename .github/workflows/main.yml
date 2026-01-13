@@ -41,6 +41,9 @@ jobs:
           
           echo "KEYCHAIN_PATH=$KEYCHAIN_PATH" >> $GITHUB_ENV
 
+      - name: Select Xcode
+        run: sudo xcode-select -s /Applications/Xcode.app # 根据需要选择版本
+
       # 2. 设置项目变量
       - name: Prepare Build Variables
         run: |
