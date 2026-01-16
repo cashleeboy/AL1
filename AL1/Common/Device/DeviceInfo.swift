@@ -38,8 +38,8 @@ struct DeviceInfo {
     let idfa: String
     
     // 网络相关
-    let networkType: String    // 4G / 5G / etc.
-    let carrierName: String
+    let networkType: String    // 网络类型 4G / 5G / etc.
+    let carrierName: String // 网络运行商名称
     let ipAddress: String
 
     // 系统状态

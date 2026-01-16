@@ -17,8 +17,8 @@ class DeviceInfoHelper
     // 1. 获取 App 信息
     static func fetchCurrentDeviceInfo() -> DeviceInfo {
         let infoDict = Bundle.main.infoDictionary
-        let version = infoDict?["CFBundleShortVersionString"] as? String ?? "unknown"
-        let build = infoDict?["CFBundleVersion"] as? String ?? "unknown"
+        let version = infoDict?["CFBundleShortVersionString"] as? String ?? ""
+        let build = infoDict?["CFBundleVersion"] as? String ?? ""
         
         // 2. 获取屏幕尺寸
         let bounds = UIScreen.main.bounds
@@ -36,9 +36,9 @@ class DeviceInfoHelper
         return DeviceInfo(
             deviceModel: getModelName(),
             deviceBrand: "Apple",
-            osVersion: UIDevice.current.systemVersion,
+            osVersion: "iOS \(UIDevice.current.systemVersion)",
             deviceId: DeviceIDManager.getDeviceId(),
-            appVersion: version,
+            appVersion: "iOS_\(version)",
             appBuildNumber: build,
             localTimezone: TimeZone.current.identifier,
             language: Locale.preferredLanguages.first ?? "en",
@@ -268,25 +268,16 @@ extension DeviceInfoHelper {
     static var carrierName: String {
         let telephonyInfo = CTTelephonyNetworkInfo()
         
-        // iOS 12 及以上支持多卡，需遍历服务提供商
+        // 检查 serviceSubscriberCellularProviders 是否有数据
         if #available(iOS 12.0, *) {
-            if let providers = telephonyInfo.serviceSubscriberCellularProviders {
-                // 返回第一个活跃插槽的运营商名称
-                for (_, carrier) in providers {
-                    if let name = carrier.carrierName, !name.isEmpty {
-                        return name
-                    }
-                }
-            }
+            let providers = telephonyInfo.serviceSubscriberCellularProviders
+            // 使用 sorted 确保多卡时顺序相对固定，或者通过 serviceCurrentRadioAccessTechnology 匹配当前活跃卡
+            let name = providers?.values
+                .compactMap({ $0.carrierName })
+                .first(where: { !$0.isEmpty })
+            return name ?? "--"
         } else {
-            // iOS 12 以下单卡逻辑
-            if let carrier = telephonyInfo.subscriberCellularProvider,
-               let name = carrier.carrierName, !name.isEmpty {
-                return name
-            }
+            return telephonyInfo.subscriberCellularProvider?.carrierName ?? "--"
         }
-        
-        return "UNKNOWN"
     }
-    
 }
