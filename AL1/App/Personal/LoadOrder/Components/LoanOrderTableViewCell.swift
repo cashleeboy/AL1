@@ -141,14 +141,14 @@ class LoanOrderTableViewCell: BaseTableViewCell {
         orderStackView.addArrangedSubview(v1)
         
         // 借款金额
-        let loanAmount = item.loanAmount
+        let loanAmount = item.loanAmount.formattedNumber()
         let préstamoTitle =  "Monto del préstamo: S/\(loanAmount)"
         let v2 = TitleValueView(frame: .zero, title: préstamoTitle, value: "S/\(loanAmount)")
         orderStackView.addArrangedSubview(v2)
         
         // 申请时间
         let applyDate = item.applyDate ?? ""
-        let aplicacionTitle =  "Tiempo de aplicación:: \(applyDate)"
+        let aplicacionTitle =  "Tiempo de aplicación: \(applyDate)"
         let v3 = TitleValueView(frame: .zero, title: aplicacionTitle, value: applyDate)
         orderStackView.addArrangedSubview(v3)
     }

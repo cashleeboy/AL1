@@ -15,12 +15,14 @@ class PrestamoViewController: BaseTableViewController
 {
     private lazy var leftBarTitle: UILabel = {
         let label = UILabel()
-        label.text = "QoriCredi"
+        label.text = "Fácil Crédito"
         label.textColor = AppColorStyle.shared.backgroundWhite
         label.font = AppFontProvider.shared.getFont18Semibold()
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
+    
+    private lazy var privacyTermsView = PrivacyTermsView()
     
     private lazy var viewModel = PrestamoViewModel()
     
@@ -39,9 +41,12 @@ class PrestamoViewController: BaseTableViewController
         // initial form data
         viewModel.homeTableItems = viewModel.buildHomeSections()
         setupFormData(with: viewModel.homeTableItems)
-        // 获取定位权限
-        viewModel.requestLocationPermission()
         
+        // ⭐️ 串行执行：定位 -> IDFA
+        viewModel.fetchIdfa { [weak self] in
+            self?.viewModel.requestLocationPermission {
+            }
+        }
         setupPullToRefresh(to: false)
     }
     
@@ -172,10 +177,10 @@ extension PrestamoViewController
                     viewModel.homeTableItems = viewModel.buildHomeSections()
                     setupFormData(with: viewModel.homeTableItems)
                     
-                    if viewModel.prestamoHome != nil {
-                        viewModel.prestamoHome?.value = viewModel.homeModel?.marketLoanAmount
-                        viewModel.prestamoHome?.marketLoanDays = viewModel.homeModel?.marketLoanDays
-                        updateData(with: viewModel.prestamoHome!)
+                    if var home = viewModel.prestamoHome {
+                        home.value = viewModel.homeModel?.marketLoanAmount
+                        home.marketLoanDays = viewModel.homeModel?.marketLoanDays
+                        updateData(with: home)
                     }
                 case .confirmAmount:    // 首次借款
                     navigation.item.title = "Confirmar préstamo"
@@ -354,15 +359,33 @@ extension PrestamoViewController
     
     private func updateFirstLoanBottom() {
         let hasSelection = !viewModel.firstLoanMap.isEmpty
-        if self.isShowBottomButtonContainer != hasSelection {
-            self.isShowBottomButtonContainer = hasSelection
-            let style = BottomButtonStyle.customContentView(primaryTitle: "Someter", topContentView: nil, bottomContentView: nil) { [weak self] in
-                guard let self else { return }
-                viewModel.fetchComfirmToLoan()
-//                navigateToStep(.identityInfo)
-            }
-            bottomContainer.configure(with: style)
+        
+        // Evitar re-configurar si el estado no ha cambiado
+        guard isShowBottomButtonContainer != hasSelection else { return }
+        self.isShowBottomButtonContainer = hasSelection
+        
+        if hasSelection {
+            setupBottomContainer()
         }
+    }
+    
+    private func setupBottomContainer() {
+        privacyTermsView.onPrivacyTerms = {
+            // push to web view 
+        }
+        let style = BottomButtonStyle.customContentView(
+            primaryTitle: "Someter",
+            topContentView: privacyTermsView,
+            bottomContentView: nil
+        ) { [weak self] in
+            guard let self = self, self.privacyTermsView.isAccepted else {
+                // Mostrar alerta de "Debe aceptar los términos"
+                self?.showToast("Primero seleccione y acepte nuestra política de privacidad.")
+                return
+            }
+            self.viewModel.fetchComfirmToLoan()
+        }
+        bottomContainer.configure(with: style)
     }
     
     private func appIconName() -> UIView {

@@ -5,10 +5,10 @@
 //  Created by cashlee on 2025/12/17.
 //
 
-import Foundation
+import UIKit
 import Network
 import Combine
-import UIKit
+import Foundation
 
 enum HomeDisplayStatus {
     case loading            // 加载中
@@ -194,8 +194,17 @@ class PrestamoViewModel
     }
     
     // 获取定位权限
-    func requestLocationPermission() {
+    func requestLocationPermission(thenFetchIdfa: @escaping () -> Void) {
         AppLocationProvider.shared.requestLocationPermission { status in
+            // 定位权限流程结束（无论成功或失败），去请求 IDFA
+//            print("*** Location auth done, now fetching IDFA...")
+            thenFetchIdfa()
+        }
+    }
+    
+    func fetchIdfa(thenFetchIdfa: @escaping () -> Void) {
+        AppIDFAProvider.shared.requestAuthorization { isAuthorized in
+            thenFetchIdfa()
         }
     }
     
@@ -210,11 +219,6 @@ extension PrestamoViewModel {
     private func handleRecoveryFlow() {
         // 流程：基本信息 -> 联系人 -> 风控上传
         self.onActionStartRecovery?()
-    }
-    
-    /// 处理风控数据检查与配置加载
-    private func handleRiskControlCheck() {
-        
     }
     
     /// 根据 orderShowType 解析当前 UI 状态
@@ -374,6 +378,7 @@ extension PrestamoViewModel
     
     // 首款申请
     func fetchComfirmToLoan() {
+        
         dataValid { [weak self] isValid in
             guard let self else { return }
             guard isValid else {

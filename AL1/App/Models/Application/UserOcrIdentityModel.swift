@@ -10,8 +10,8 @@ import SwiftyJSON
 protocol OCRDataProtocol {
     var idCardNumber: String { get }
     var firstName: String { get }
-    var middleName: String { get }
-    var lastName: String { get }
+    var fatherName: String { get }
+    var motherName: String { get }
     var gender: String { get }
     var birthday: String { get }
     var frontUrl: String { get }
@@ -20,9 +20,9 @@ protocol OCRDataProtocol {
 }
 
 struct UserOcrIdentityModel: DecodableData, OCRDataProtocol {
-    let firstName: String           // foxPFFW8QXYt88
-    let middleName: String          // tc4tNeoQMkLa
-    let lastName: String            // tStWiy
+    let firstName: String           // 名字
+    let fatherName: String          // 父姓
+    let motherName: String          // 母姓
     let birthday: String            // tR0Hfq39qFxtC
     let gender: String              // lDL1GdY
     let idCardNumber: String        // dzwMhwX
@@ -39,8 +39,8 @@ struct UserOcrIdentityModel: DecodableData, OCRDataProtocol {
         isUpdate = data.isEmpty ? 0 : 1
         
         self.firstName = data["foxPFFW8QXYt88"].stringValue
-        self.middleName = data["tc4tNeoQMkLa"].stringValue
-        self.lastName = data["tStWiy"].stringValue
+        self.motherName = data["tc4tNeoQMkLa"].stringValue
+        self.fatherName = data["tStWiy"].stringValue
         self.birthday = data["tR0Hfq39qFxtC"].stringValue
         self.gender = data["lDL1GdY"].stringValue
         self.idCardNumber = data["dzwMhwX"].stringValue
@@ -54,10 +54,9 @@ struct UserOcrIdentityModel: DecodableData, OCRDataProtocol {
 // 客户OCR校验
 struct CustomerOCRResultModel: DecodableData, OCRDataProtocol {
     var isUpdate: Int
-    
-    var firstName: String
-    var middleName: String
-    var lastName: String
+    let firstName: String           // 名字
+    let fatherName: String          // 父姓
+    let motherName: String          // 母姓
     
     let idCardNumber: String        // dzwMhwX (身份证号)
     
@@ -73,9 +72,10 @@ struct CustomerOCRResultModel: DecodableData, OCRDataProtocol {
     init(json: JSON) {
         isUpdate = 0
         // 映射混淆的后端 Key
-        self.firstName = json["pUHPZyYRkT0hyzzjSi"].stringValue
-        self.middleName = json["n9Mrj"].stringValue
-        self.lastName = json["oBSX33x8DOeJnWBTNP"].stringValue
+        // JENNYFER ANAIS
+        self.firstName = json["n9Mrj"].stringValue
+        self.fatherName = json["pUHPZyYRkT0hyzzjSi"].stringValue
+        self.motherName = json["oBSX33x8DOeJnWBTNP"].stringValue
         
         self.idCardNumber = json["dzwMhwX"].stringValue
         self.documentNumber = json["kgkoMvcxP7ukB8Xa"].stringValue

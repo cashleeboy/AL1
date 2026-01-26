@@ -8,7 +8,6 @@
 import UIKit
 import SnapKit
 import Foundation
-import SkeletonView
 
 struct PrestamoHome: IdentifiableTableItem {
     let identifier: String = "PrestamoHeaderSelectionCell"
@@ -74,11 +73,6 @@ class PrestamoHeaderSelectionCell: BaseConfigurablewCell {
         label.font = AppFontProvider.shared.getFont50Bold()
         label.textColor = AppColorStyle.shared.textBlack
         label.textAlignment = .center
-//        label.isSkeletonable = true
-//        label.linesCornerRadius = 10
-//        label.lastLineFillPercent = 100
-//        label.skeletonTextLineHeight = .fixed(40)
-//        label.showAnimatedSkeleton()
         return label
     }()
     
@@ -173,7 +167,8 @@ class PrestamoHeaderSelectionCell: BaseConfigurablewCell {
         guard let homeItem = item as? PrestamoHome else { return }
         
         titleLabel.text = homeItem.title
-        valueLabel.text = homeItem.value
+        valueLabel.text = homeItem.value?.formattedNumber()
+        
         confirmButton.setTitle(homeItem.buttonTitle, for: .normal)
         bottomTitleLabel.text = homeItem.bottomTitle
         self.buttonTapHandler = homeItem.solicitarAhoraAction

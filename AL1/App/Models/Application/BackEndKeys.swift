@@ -55,9 +55,9 @@ struct BackendORCKeys {
     // Nombre
     static let name = "foxPFFW8QXYt88"
     // apellido paterno
-    static let lastName = "tStWiy"
+    static let fatherName = "tStWiy"
     // apellido materno
-    static let middleName = "tc4tNeoQMkLa"
+    static let motherName = "tc4tNeoQMkLa"
     // Genero
     // 性别 1-男性 2-女性,示例值(gender)
     static let gender = "lDL1GdY"

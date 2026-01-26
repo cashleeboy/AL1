@@ -14,7 +14,7 @@ struct AppRootSwitcher {
     static func switchToMain(withPushVC pushVC: UIViewController? = nil) {
         let tabBarVC = ALTabBarViewController()
         
-        updateRoot(to: tabBarVC, animation: .transitionCrossDissolve) {
+        updateRoot(to: tabBarVC, animation: .transitionCrossDissolve) { _ in 
             // 确保动画完成后执行
             guard let pushVC = pushVC else { return }
             
@@ -35,18 +35,44 @@ struct AppRootSwitcher {
         updateRoot(to: nav, animation: .transitionFlipFromRight)
     }
     
-    private static func updateRoot(to vc: UIViewController,
-                                   animation: UIView.AnimationOptions,
-                                   completion: (() -> Void)? = nil) {
+//    private static func updateRoot(to vc: UIViewController,
+//                                   animation: UIView.AnimationOptions,
+//                                   completion: (() -> Void)? = nil) {
+//        guard let window = UIApplication.shared.windows.first(where: { $0.isKeyWindow }) else { return }
+//        
+//        UIView.transition(with: window, duration: 0.5, options: animation, animations: {
+//            // 建议：在替换前清除旧的视图层级，防止某些特定 SDK 的视图残留
+//            window.rootViewController = vc
+//        }) { _ in
+//            completion?()
+//        }
+//        
+//        window.makeKeyAndVisible()
+//    }
+    
+    /// 核心切换方法：增加 completion 回调返回新的 RootVC
+    static func updateRoot(to vc: UIViewController,
+                           animation: UIView.AnimationOptions = .transitionCrossDissolve,
+                           completion: ((UIViewController) -> Void)? = nil) {
         guard let window = UIApplication.shared.windows.first(where: { $0.isKeyWindow }) else { return }
         
         UIView.transition(with: window, duration: 0.5, options: animation, animations: {
-            // 建议：在替换前清除旧的视图层级，防止某些特定 SDK 的视图残留
+            let oldState = UIView.areAnimationsEnabled
+            UIView.setAnimationsEnabled(false)
             window.rootViewController = vc
+            UIView.setAnimationsEnabled(oldState)
         }) { _ in
-            completion?()
+            completion?(vc)
         }
-        
-        window.makeKeyAndVisible()
+    }
+    
+    /// 切换到主界面
+    static func switchToMainAfter(completion: ((ALTabBarViewController) -> Void)? = nil) {
+        let tabBarVC = ALTabBarViewController()
+        updateRoot(to: tabBarVC) { root in
+            if let tabBar = root as? ALTabBarViewController {
+                completion?(tabBar)
+            }
+        }
     }
 }

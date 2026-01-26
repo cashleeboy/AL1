@@ -12,18 +12,18 @@ enum AppEnvironment {
     
     var baseURL: String {
         switch self {
-        case .dev:  return "https://al-test-al10-h5.quarksre.com"
-        case .test: return "https://al-test-al10-h5.quarksre.com"
-        case .prod: return "https://al-test-al10-h5.quarksre.com"
+        case .dev:  return "https://dcvmozkwnr.ruammitpico.com"
+        case .test: return "https://al-test-app-manager10.quarksre.com"
+        case .prod: return "https://dcvmozkwnr.ruammitpico.com"
         }
     }
     
     // H5 网页域名 (你提供的域名)
     var h5BaseURL: String {
         switch self {
-        case .dev:  return "https://al-test-al10-h5.quarksre.com"
+        case .dev:  return "https://eiuhcfgska.ruammitpico.com"
         case .test: return "https://al-test-al10-h5.quarksre.com"
-        case .prod: return "https://al-test-al10-h5.quarksre.com" // 生产环境通常不同
+        case .prod: return "https://eiuhcfgska.ruammitpico.com" // 生产环境通常不同
         }
     }
 }
@@ -31,9 +31,10 @@ enum AppEnvironment {
 struct AppConfig {
     // 建议通过 Compiler Flag 或 xcconfig 动态指定
     #if DEBUG
-    static var currentEnv: AppEnvironment = .dev
+    static var currentEnv: AppEnvironment = .test
     #else
-    static var currentEnv: AppEnvironment = .dev
+    static var currentEnv: AppEnvironment = .test
+//    static var currentEnv: AppEnvironment = .dev
     #endif
 }
 
@@ -43,7 +44,7 @@ enum H5Url {
     
     private var path: String {
         switch self {
-        case .privacyPolicy:   return "/privacy-policy.html"
+        case .privacyPolicy:   return "/Ez7n7QHZ6lIHEE.html"
         case .feedback:        return "/feedback.html"
         }
     }

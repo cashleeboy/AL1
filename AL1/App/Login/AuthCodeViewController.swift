@@ -19,8 +19,22 @@ class AuthCodeViewController: BaseLoginTableViewController {
     override func setupBindings() {
         super.setupBindings()
         
-        viewModel.bindLoginStatus {
-            AppRootSwitcher.switchToMain()
+        viewModel.bindLoginStatus { [weak self] in
+            guard self != nil else { return }
+            if let session = UserSession.shared.session {
+                if session.isFirstRegister {
+                    // 1. 切换 Root
+                    AppRootSwitcher.switchToMainAfter { tabBarVC in
+                        guard let nav = tabBarVC.selectedViewController as? UINavigationController else {
+                            return
+                        }
+                        let coordinator = AuthFlowViewModel()
+                        coordinator.startFlow(from: nav, startStep: .personal)
+                    }
+                } else {
+                    AppRootSwitcher.switchToMain()
+                }
+            }   
         }
     }
     

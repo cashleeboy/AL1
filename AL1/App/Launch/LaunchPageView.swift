@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import SnapKit
 import Combine
 
 class LaunchPageView: UIViewController {
@@ -14,7 +13,7 @@ class LaunchPageView: UIViewController {
     private lazy var launchImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(named: "LaunchScreen_BG")
-        imageView.contentMode = .scaleAspectFill
+        imageView.contentMode = .scaleToFill
         return imageView
     }()
     
@@ -31,9 +30,25 @@ class LaunchPageView: UIViewController {
         super.viewDidLoad()
         setupUI()
         bindViewModel()
-        // 1. 获取 IDFA（独立线程/逻辑，不阻塞跳转）
-        viewModel.fetchIdfa()
+        
+        viewModel.performNetworkCheck()
     }
+    
+//    @objc private func handleAppDidBecomeActive() {
+//        // 延迟一秒给系统留出渲染时间，提高弹窗成功率
+//        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [weak self] in
+//            self?.viewModel.fetchIdfa()
+//        }
+//
+//        NotificationCenter.default.removeObserver(self, name: UIApplication.didBecomeActiveNotification, object: nil)
+//    }
+//    
+//    deinit {
+//        NotificationCenter.default.removeObserver(self)
+//    }
+}
+
+extension LaunchPageView {
     
     private func setupUI() {
         view.addSubview(launchImageView)
@@ -44,6 +59,27 @@ class LaunchPageView: UIViewController {
     }
     
     private func bindViewModel() {
+        // 1. 核心跳转逻辑：使用 CombineLatest 组合两个状态
+//        Publishers.CombineLatest(viewModel.$isIdfaTaskDone, viewModel.$loadingState)
+//            .receive(on: DispatchQueue.main)
+//            .sink { [weak self] (isIdfaDone, loadingState) in
+//                guard let self = self else { return }
+//                
+//                // 只有两个条件同时满足才执行跳转
+//                if isIdfaDone, case .success = loadingState {
+//                    // 延迟一小段时间进入，避免闪现，体验更好
+//                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+//                        AppRootSwitcher.switchToMain()
+//                    }
+//                }
+//                
+//                // 错误处理逻辑（单独处理 loadingState 的失败情况）
+//                if case .failed(let message) = loadingState {
+//                    self.showErrorRetry(message: message)
+//                }
+//            }
+//            .store(in: &cancellables)
+        
         viewModel.$loadingState
             .receive(on: DispatchQueue.main)
             .sink { [weak self] state in

@@ -23,29 +23,15 @@ class MZDatePickerView: UIView {
     
     // MARK: - 属性配置
     /// 起始时间
-    var startDate: Date? {
-        didSet { datePicker.minimumDate = startDate }
-    }
+    var startDate: Date?
     
     /// 结束时间
-    var endDate: Date? {
-        didSet { datePicker.maximumDate = endDate }
-    }
+    var endDate: Date?
     
     /// 当前选中时间
-    var currentDate: Date {
-        get { return datePicker.date }
-        set { datePicker.setDate(newValue, animated: false) }
-    }
+    var currentDate: Date?
     
-    var canSelectFutureDate: Bool = true {
-        didSet {
-            // 如果不允许选未来，则将最大时间设为现在；否则设回默认的远期时间
-            datePicker.maximumDate = canSelectFutureDate ?
-                Calendar.current.date(byAdding: .year, value: 100, to: Date()) :
-                Date()
-        }
-    }
+    var canSelectFutureDate: Bool = true
     
     // MARK: - UI 组件
     private lazy var toolBar: UIView = {
@@ -72,19 +58,13 @@ class MZDatePickerView: UIView {
         return btn
     }()
     
-    private lazy var datePicker: UIDatePicker = {
-        let picker = UIDatePicker()
-        picker.datePickerMode = .date
-        // 设置语言为当前系统语言，会自动显示对应的单位
-        picker.locale = Locale.current
-        
-        // 适配 iOS 13.4+ 强制使用滚轮样式
-        if #available(iOS 13.4, *) {
-            picker.preferredDatePickerStyle = .wheels
+    private lazy var customDatePicker: CustomDatePicker = {
+        let customPicker = CustomDatePicker(frame: .zero, startYearOffset: 100, endYearOffset: 0)
+        customPicker.onDateChanged = { [weak self] date in
+            guard let self else { return }
+            currentDate = date
         }
-        
-        picker.addTarget(self, action: #selector(dateChanged(_:)), for: .valueChanged)
-        return picker
+        return customPicker
     }()
     
     // MARK: - Init
@@ -103,16 +83,8 @@ class MZDatePickerView: UIView {
         addSubview(toolBar)
         toolBar.addSubview(cancelButton)
         toolBar.addSubview(doneButton)
-        addSubview(datePicker)
+        addSubview(customDatePicker)
         
-        // 默认范围设置（保持你之前的 1900 到 当前+100年）
-        let minDate = Calendar.current.date(from: DateComponents(year: 1900, month: 1, day: 1))
-        let maxDate = Calendar.current.date(byAdding: .year, value: 100, to: Date())
-        datePicker.minimumDate = minDate
-        datePicker.maximumDate = maxDate
-        
-        
-        // SnapKit 布局
         toolBar.snp.makeConstraints { make in
             make.top.leading.trailing.equalToSuperview()
             make.height.equalTo(44)
@@ -128,7 +100,7 @@ class MZDatePickerView: UIView {
             make.centerY.equalToSuperview()
         }
         
-        datePicker.snp.makeConstraints { make in
+        customDatePicker.snp.makeConstraints { make in
             make.top.equalTo(toolBar.snp.bottom)
             make.leading.trailing.bottom.equalToSuperview()
         }
@@ -145,7 +117,10 @@ class MZDatePickerView: UIView {
     }
     
     @objc private func doneClick() {
-        delegate?.datePickerViewDidClickDone(self, date: datePicker.date)
-        doneHandler?(datePicker.date)
+        guard let current = currentDate else {
+            return
+        }
+        delegate?.datePickerViewDidClickDone(self, date: current)
+        doneHandler?(current)
     }
 }

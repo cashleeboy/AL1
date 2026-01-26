@@ -9,17 +9,8 @@ import UIKit
 import Foundation
 
 struct API {
-    // host
-    static var DOMAIN = "https://al-test-app-manager10.quarksre.com"
-    static var backupDomain = "https://al-test-app-manager10.quarksre.com"
-
-    private static let domainQueue = DispatchQueue(label: "com.api.domain.al1")
     
-    static func updateDomain(to newDomain: String) {
-        domainQueue.sync {
-            DOMAIN = newDomain
-        }
-    }
+    private static let domainQueue = DispatchQueue(label: "com.api.domain.al1")
     
     struct ProjectConfig {
         // 获取项目初始配置

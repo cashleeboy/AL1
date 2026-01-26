@@ -74,6 +74,32 @@ extension String {
     var digitsOnly: String {
         return components(separatedBy: CharacterSet.decimalDigits.inverted).joined()
     }
+
+    /// 灵活的千分位转换方法
+    /// - Parameters:
+    ///   - fractionDigits: 最多保留的小数位数
+    ///   - prefix: 前缀（如 "$", "¥"）
+    func formattedNumber(fractionDigits: Int = 2, prefix: String = "") -> String {
+        // 1. 尝试将字符串转换为数字，失败则返回原字符串
+        guard let number = Double(self) else { return self }
+        
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .decimal
+        
+        // 2. 核心设置：
+        // 只有当有小数时才显示，最多显示 fractionDigits 位
+        formatter.maximumFractionDigits = fractionDigits
+        // 最小保留 0 位，这样整数就不会带上 .00
+        formatter.minimumFractionDigits = 0
+        
+        // 3. 格式化
+        let formattedString = formatter.string(from: NSNumber(value: number)) ?? self
+        return prefix + formattedString
+    }
+    
+    // 使用示例
+    // "1234567.8".formattedNumber(fractionDigits: 0)            // 输出: "1,234,568" (自动四舍五入)
+    // "99999.99".formattedNumber(fractionDigits: 2, prefix: "¥") // 输出: "¥99,999.99"
 }
 
 extension String {
@@ -90,25 +116,6 @@ extension String {
         // return self.allSatisfy { $0.isNumber }
     }
     
-    /// 检查字符串是否只包含英文字母 (a-z, A-Z)。
-    /// 例如: "Hello" -> true, "Hello1" -> false, "" -> true
-    var isAlphabetic: Bool {
-        let alphaPattern = "^[a-zA-Z]*$"
-        let predicate = NSPredicate(format: "SELF MATCHES %@", alphaPattern)
-        return predicate.evaluate(with: self)
-        
-        // 更 Swift 且更高效的实现 (需 iOS 13+):
-        // return self.allSatisfy { $0.isLetter && $0.isASCII }
-    }
-    
-    /// 检查字符串是否只包含数字和英文字母。
-    /// 例如: "abc123" -> true, "abc 123" -> false
-    var isAlphanumeric: Bool {
-        let alphaNumericPattern = "^[a-zA-Z0-9]*$"
-        let predicate = NSPredicate(format: "SELF MATCHES %@", alphaNumericPattern)
-        return predicate.evaluate(with: self)
-    }
-
     /// 检查字符串是否只包含给定字符集中的字符。
     /// 这是一个通用的验证方法。
     func containsOnly(charactersIn set: CharacterSet) -> Bool {

@@ -48,45 +48,45 @@ struct DeviceInfo {
     
     let isJailbroken: Bool
 
-    func toDictionary() -> [String: Any] {
-        return [
-            "jPpDL2tisdQHoAurev" : [
-                "qjMmruhjLQop7": deviceModel,
-                "hPwQjcIzekdGPSrSR": deviceBrand,
-                "rAsevvCXL": osVersion,
-                "m71TMNCxOlsp": deviceId,
-                
-                "lKNYK5": appVersion,
-                "mgkeUyzUHHGmht": appBuildNumber,
-                
-                "bG3RmPUIqylHzn": localTimezone,
-                "bNgUmtc4d": language,
-                "pueFc5ruBO2jZtkF": screenSize,
-                
-                "nD11iX6hOY": batteryLevel,
-                "alfQJMy248tkn": batteryState,
-                
-                "pNG53btUd": networkType,
-                "peNVkgrNROOLjZsjPwP": carrierName,
-                "xiQ4j84soH": ipAddress,
-                
-                "hOdEboUQzlF1uzn9Q": currentTime,
-                "bWgfnfmd01": bootTime,
-                
-                "mBXE4_rUGFJ": screenWidth,
-                "thyVxbWcKDxro7Scum": screenHeight,
-                "hJ0hmr1P4IKWlEy1R00": batteryLevel,      // battery_power
-                "sn2fglK": isCharging,      //is_charging
-                
-                "tnucFGUZssOMpxCI": idfa,     // ios 系统 idfa,示例值(idfa)
-                "teL0nVZnJRF67ekcH": idfv,    // ios 系统 idfv,示例值(idfv)
-                
-                "rqcMyAWfgacgpQ9_tv": "1",        // 客户端类型 0=安卓 1=IOS,示例值(client_type)
-                "wu2I1apv4mZnxxNxNVLh": isJailbroken
-            ]
+    func toDictionary(extraParams: [String: Any] = [:]) -> [String: Any] {
+        var innerData: [String: Any] = [
+            "qjMmruhjLQop7": deviceModel,
+            "hPwQjcIzekdGPSrSR": deviceBrand,
+            "rAsevvCXL": osVersion,
+            "m71TMNCxOlsp": deviceId,
+            
+            "lKNYK5": appVersion,
+            "fTXFvqWjaI4VtZxh": appBuildNumber,     //tags build number
+            
+            "bG3RmPUIqylHzn": localTimezone,
+            "bNgUmtc4d": language,
+            "pueFc5ruBO2jZtkF": screenSize,
+            
+            "nD11iX6hOY": batteryLevel,
+            "alfQJMy248tkn": batteryState,
+            
+            "pNG53btUd": networkType,
+            "peNVkgrNROOLjZsjPwP": carrierName,
+            "xiQ4j84soH": ipAddress,
+            
+            "hOdEboUQzlF1uzn9Q": currentTime,
+            "bWgfnfmd01": bootTime,
+            
+            "mBXE4_rUGFJ": screenWidth,
+            "thyVxbWcKDxro7Scum": screenHeight,
+            "hJ0hmr1P4IKWlEy1R00": batteryLevel,      // battery_power
+            "sn2fglK": isCharging,      //is_charging
+            
+            "tnucFGUZssOMpxCI": idfa,     // ios 系统 idfa,示例值(idfa)
+            "teL0nVZnJRF67ekcH": idfv,    // ios 系统 idfv,示例值(idfv)
+            
+            "rqcMyAWfgacgpQ9_tv": "1",        // 客户端类型 0=安卓 1=IOS,示例值(client_type)
+            "wu2I1apv4mZnxxNxNVLh": isJailbroken
         ]
+        // 将额外参数合并到内部字典
+        for (key, value) in extraParams {
+            innerData[key] = value
+        }
+        return ["jPpDL2tisdQHoAurev" : innerData]
     }
-    
-    
-//                "isJailbroken": isJailbroken
 }

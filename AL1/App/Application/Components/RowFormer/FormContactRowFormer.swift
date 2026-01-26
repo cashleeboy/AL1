@@ -13,6 +13,10 @@ protocol FormContactFormableRow: FormableRow {
     func getNumeroField() -> AppInputTextField?
     func updateInfoModel(with item: ContactInfoModel)
     func getContactBookButton() -> UIButton?
+    
+    func updateRelacionFileStatus(_ status: FormFileStatus?)
+    func updateNumeroFileStatus(_ status: FormFileStatus?)
+    func updateNombresFileStatus(_ status: FormFileStatus?)
 }
 
 class FormContactRowFormer<T: UITableViewCell>: BaseRowFormer<T>, Formable where T: FormContactFormableRow
@@ -41,8 +45,24 @@ class FormContactRowFormer<T: UITableViewCell>: BaseRowFormer<T>, Formable where
             cell.getNumeroField()?.text = numeroFieldText
         }
     }
-    
-    
+    var relacionStatus: FormFileStatus? {
+        didSet {
+            // show error
+            cell.updateRelacionFileStatus(relacionStatus)
+        }
+    }
+    var numeroStatus: FormFileStatus? {
+        didSet {
+            // show error
+            cell.updateNumeroFileStatus(numeroStatus)
+        }
+    }
+    var nombresStatus: FormFileStatus? {
+        didSet {
+            cell.updateNombresFileStatus(nombresStatus)
+        }
+    }
+        
     required init(instantiateType: Former.InstantiateType = .Class, cellSetup: ((T) -> Void)? = nil) {
         super.init(instantiateType: instantiateType, cellSetup: cellSetup)
     }
@@ -113,6 +133,7 @@ class FormContactRowFormer<T: UITableViewCell>: BaseRowFormer<T>, Formable where
                 guard replacement.allSatisfy({ $0.isNumber }) else {
                     return false
                 }
+                numeroStatus = .normal
                 onNumeroHandler?(currentText)
                 return true
             }

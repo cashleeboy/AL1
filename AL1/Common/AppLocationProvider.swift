@@ -16,7 +16,9 @@ class AppLocationProvider: NSObject {
     
     // 异步回调获取坐标
     private var locationHandler: ((CLLocation?, Error?) -> Void)?
-    
+    // ⭐️ 增加权限回调：用于通知 VC 权限流程走完了
+    var authUpdateHandler: ((CLAuthorizationStatus) -> Void)?
+
     private override init() {
         super.init()
         locationManager.delegate = self
@@ -112,8 +114,9 @@ extension AppLocationProvider: CLLocationManagerDelegate {
     
     // 监听权限变化 (兼容 iOS 13 & 14+)
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
-        if status == .authorizedWhenInUse || status == .authorizedAlways {
-            // 权限通过后的逻辑（如果需要自动触发获取可以加在这里）
+        if status != .notDetermined {
+            authUpdateHandler?(status)
+            authUpdateHandler = nil // 只回调一次
         }
     }
 }

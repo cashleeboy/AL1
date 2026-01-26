@@ -55,7 +55,6 @@ class ContactModuleViewModel: ObservableObject, ApplicationAuthModuleProtocol {
                     return dict[info.mobileKey] == cleanMobile
                 }
                 if isDuplicate {
-                    print("手机号冲突: \(cleanMobile)")
                     return false // 仅在需要验证且发现重复时返回 false
                 }
             }

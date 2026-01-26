@@ -112,6 +112,7 @@ extension BankModuleViewModel
     private func updateUI(for info: IdentityInfoModel, text: String) {
         if let index = bankRows.firstIndex(where: { $0.infoModel?.type == info.type }) {
             bankRows[index].filedText = text
+            bankRows[index].fileStatus = .normal
         }
         isDataComplete = validate()
     }
@@ -136,7 +137,7 @@ extension BankModuleViewModel
     }
     
     /// 校验逻辑
-    private func validate() -> Bool {
+    func validate() -> Bool {
         guard !bankRows.isEmpty else { return false }
         return bankRows.allSatisfy { row in
             guard let info = row.infoModel else { return true }

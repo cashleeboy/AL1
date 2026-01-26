@@ -19,6 +19,13 @@ class FormContactCell: BaseFormCell {
     }()
     
     /// 关系
+    private lazy var relacionStackView: UIStackView = {
+        let stack = UIStackView()
+        stack.axis = .vertical
+        stack.spacing = 5
+        stack.alignment = .fill
+        return stack
+    }()
     private lazy var relacionLabel: UILabel = {
         let label = UILabel()
         label.font = AppFontProvider.shared.getFont13Regular()
@@ -37,21 +44,33 @@ class FormContactCell: BaseFormCell {
         input.setRightIcon(UIImage(named: "right_arrow_icon"), size: CGSize(width: 13, height: 13))
         return input
     }()
+    private lazy var bottomRelacionLabel: UILabel = {
+        let label = UILabel()
+        label.font = AppFontProvider.shared.getFont12Regular()
+        label.textColor = UIColor(hex: "#FF0000")
+        label.isHidden = true
+        return label
+    }()
+
+    private lazy var contactBookButton: UIButton = {
+        let button = UIButton(frame: CGRect(origin: .zero, size: CGSize(width: 16, height: 16)))
+        button.setImage(UIImage(named: "contact_book_icon"), for: .normal)
+        return button
+    }()
     
-    // 名字
+    private lazy var nombresStackView: UIStackView = {
+        let stack = UIStackView()
+        stack.axis = .vertical
+        stack.spacing = 5
+        stack.alignment = .fill
+        return stack
+    }()
     private lazy var nombresLabel: UILabel = {
         let label = UILabel()
         label.font = AppFontProvider.shared.getFont13Regular()
         label.textColor = AppColorStyle.shared.textGrayForm
         return label
     }()
-    private lazy var contactBookButton: UIButton = {
-        let button = UIButton(frame: CGRect(origin: .zero, size: CGSize(width: 16, height: 16)))
-        button.setImage(UIImage(named: "contact_book_icon"), for: .normal)
-//        button.addTarget(self, action: #selector(contactBookAction), for: .touchUpInside)
-        return button
-    }()
-    
     private lazy var nombresField: AppInputTextField = {
         let input = AppInputTextField()
         input.rightViewMode = .always
@@ -61,10 +80,23 @@ class FormContactCell: BaseFormCell {
         input.textColor = UIColor(hex: "#333333")
         input.font = AppFontProvider.shared.getFont14Semibold()
         input.rightView = contactBookButton
-//        input.setRightIcon(contactBookButton, size: CGSize(width: 16, height: 16))
         return input
     }()
+    private lazy var bottomNombresLabel: UILabel = {
+        let label = UILabel()
+        label.font = AppFontProvider.shared.getFont12Regular()
+        label.textColor = UIColor(hex: "#FF0000")
+        label.isHidden = true
+        return label
+    }()
     
+    private lazy var numeroStackView: UIStackView = {
+        let stack = UIStackView()
+        stack.axis = .vertical
+        stack.spacing = 5
+        stack.alignment = .fill
+        return stack
+    }()
     // numero de Celular
     private lazy var numeroLabel: UILabel = {
         let label = UILabel()
@@ -83,19 +115,34 @@ class FormContactCell: BaseFormCell {
         input.keyboardType = .asciiCapableNumberPad
         return input
     }()
+    private lazy var bottomNumeroLabel: UILabel = {
+        let label = UILabel()
+        label.font = AppFontProvider.shared.getFont12Regular()
+        label.textColor = UIColor(hex: "#FF0000")
+        label.isHidden = true
+        return label
+    }()
 
-    
     // MARK: - Setup
     override func setupViews() {
         super.setupViews()
         
         contentView.addSubview(contactTitleLabel)
-        contentView.addSubview(relacionLabel)
-        contentView.addSubview(relacionField)
-        contentView.addSubview(nombresLabel)
-        contentView.addSubview(nombresField)
-        contentView.addSubview(numeroLabel)
-        contentView.addSubview(numeroField)
+        
+        contentView.addSubview(relacionStackView)
+        relacionStackView.addArrangedSubview(relacionLabel)
+        relacionStackView.addArrangedSubview(relacionField)
+        relacionStackView.addArrangedSubview(bottomRelacionLabel)
+        
+        contentView.addSubview(nombresStackView)
+        nombresStackView.addArrangedSubview(nombresLabel)
+        nombresStackView.addArrangedSubview(nombresField)
+        nombresStackView.addArrangedSubview(bottomNombresLabel)
+
+        contentView.addSubview(numeroStackView)
+        numeroStackView.addArrangedSubview(numeroLabel)
+        numeroStackView.addArrangedSubview(numeroField)
+        numeroStackView.addArrangedSubview(bottomNumeroLabel)
         
         setupLayout()
     }
@@ -106,38 +153,30 @@ class FormContactCell: BaseFormCell {
             make.left.equalToSuperview().offset(16)
             make.right.equalToSuperview().offset(-16)
         }
-        relacionLabel.snp.makeConstraints { make in
+        
+        relacionStackView.snp.makeConstraints { make in
             make.top.equalTo(contactTitleLabel.snp.bottom).offset(12)
-            make.left.equalToSuperview().offset(16)
-            make.right.equalToSuperview().offset(-16)
+            make.leading.trailing.equalToSuperview().inset(16)
         }
         relacionField.snp.makeConstraints { make in
-            make.top.equalTo(relacionLabel.snp.bottom).offset(8)
-            make.left.right.equalTo(relacionLabel)
             make.height.equalTo(48) // 标准表单高度
         }
         
-        nombresLabel.snp.makeConstraints { make in
-            make.top.equalTo(relacionField.snp.bottom).offset(15)
-            make.left.equalToSuperview().offset(16)
-            make.right.equalToSuperview().offset(-16)
+        nombresStackView.snp.makeConstraints { make in
+            make.top.equalTo(relacionStackView.snp.bottom).offset(15)
+            make.leading.trailing.equalToSuperview().inset(16)
         }
         nombresField.snp.makeConstraints { make in
-            make.top.equalTo(nombresLabel.snp.bottom).offset(8)
-            make.left.right.equalTo(relacionLabel)
             make.height.equalTo(48) // 标准表单高度
         }
         
-        numeroLabel.snp.makeConstraints { make in
-            make.top.equalTo(nombresField.snp.bottom).offset(15)
-            make.left.equalToSuperview().offset(16)
-            make.right.equalToSuperview().offset(-16)
+        numeroStackView.snp.makeConstraints { make in
+            make.top.equalTo(nombresStackView.snp.bottom).offset(15)
+            make.leading.trailing.equalToSuperview().inset(16)
+            make.bottom.equalToSuperview().offset(-12) // 撑开 Cell 高度
         }
         numeroField.snp.makeConstraints { make in
-            make.top.equalTo(numeroLabel.snp.bottom).offset(8)
-            make.left.right.equalTo(relacionLabel)
             make.height.equalTo(48) // 标准表单高度
-            make.bottom.equalToSuperview().offset(-12) // 撑开 Cell 高度
         }
     }
 }
@@ -168,5 +207,47 @@ extension FormContactCell: FormContactFormableRow
     
     func getContactBookButton() -> UIButton? {
         contactBookButton
+    }
+    
+    func updateRelacionFileStatus(_ status: FormFileStatus?) {
+        guard let status else {
+            bottomRelacionLabel.isHidden = true
+            return
+        }
+        switch status {
+        case .normal:
+            bottomRelacionLabel.isHidden = true
+        case .showRedError(let message):
+            bottomRelacionLabel.isHidden = false
+            bottomRelacionLabel.text = message
+        }
+    }
+    
+    func updateNumeroFileStatus(_ status: FormFileStatus?) {
+        guard let status else {
+            bottomNumeroLabel.isHidden = true
+            return
+        }
+        switch status {
+        case .normal:
+            bottomNumeroLabel.isHidden = true
+        case .showRedError(let message):
+            bottomNumeroLabel.isHidden = false
+            bottomNumeroLabel.text = message
+        }
+    }
+    
+    func updateNombresFileStatus(_ status: FormFileStatus?) {
+        guard let status else {
+            bottomNombresLabel.isHidden = true
+            return
+        }
+        switch status {
+        case .normal:
+            bottomNombresLabel.isHidden = true
+        case .showRedError(let message):
+            bottomNombresLabel.isHidden = false
+            bottomNombresLabel.text = message
+        }
     }
 }

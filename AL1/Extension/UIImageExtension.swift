@@ -14,7 +14,7 @@ extension UIImage {
             fromLayerRect: previewLayer.bounds
         )
 
-        let cgImage = cgImage!
+        guard let cgImage = cgImage else { return self }
         let width = CGFloat(cgImage.width)
         let height = CGFloat(cgImage.height)
 

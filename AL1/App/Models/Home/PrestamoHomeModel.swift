@@ -101,7 +101,7 @@ struct LoanInfoModel {
     let showType: String            //展示类型: 1、默认展示营销 2、只展示最小可借 3、只展示最大可借 4、展示范围
     let repaymentAmount: Int                //  还款金额 pKvuYmz8
     let rent: Int                           // 总利息，单位为分 iqdGp98
-    let receiptAmount: Int                  // 到账金额 orkhVnsORxaaV4WEBu
+    let receiptAmount: String                  // 到账金额 orkhVnsORxaaV4WEBu
     
     init(json: JSON) {
         self.bankCardName = json["c9hWsHC"].stringValue
@@ -121,7 +121,7 @@ struct LoanInfoModel {
         self.showType = json["luULO4MDZNnihj"].stringValue
         self.repaymentAmount = json["pKvuYmz8"].intValue
         self.rent = json["iqdGp98"].intValue
-        self.receiptAmount = json["orkhVnsORxaaV4WEBu"].intValue
+        self.receiptAmount = json["orkhVnsORxaaV4WEBu"].stringValue
     }
 }
 
@@ -139,9 +139,9 @@ struct LoanProductModel {
     let isCheck: Bool                       // mkEfI7jNRkCs8gO
     let repayDate: String
     let totalDays: Int                      // 期限 总天数 pS9x0qIsa
-    let compServiceFee: Int                 // 综合服务费 egDPL
-    let repaymentAmount: Int                //  应还金额 pKvuYmz8
-    let receiptAmount: Int                  // 到账金额 orkhVnsORxaaV4WEBu
+    let compServiceFee: String                 // 综合服务费 egDPL
+    let repaymentAmount: String                //  应还金额 pKvuYmz8
+    let receiptAmount: String                  // 到账金额 orkhVnsORxaaV4WEBu
     let interest: String
 
     init(json: JSON) {
@@ -157,9 +157,9 @@ struct LoanProductModel {
         self.isCheck = json["mkEfI7jNRkCs8gO"].boolValue
         self.repayDate = json["yfB94TdOW1tDNAGp"].stringValue
         self.totalDays = json["pS9x0qIsa"].intValue
-        self.compServiceFee = json["egDPL"].intValue
-        self.receiptAmount = json["orkhVnsORxaaV4WEBu"].intValue
-        self.repaymentAmount = json["pKvuYmz8"].intValue
+        self.compServiceFee = json["egDPL"].stringValue
+        self.receiptAmount = json["orkhVnsORxaaV4WEBu"].stringValue
+        self.repaymentAmount = json["pKvuYmz8"].stringValue
         self.interest = json["aTGXpg0"].stringValue
     }
     
@@ -195,18 +195,18 @@ struct RepaymentPlanModel {
 
 // MARK: - 费用详情 (eHp5mtR601Vd)
 struct FeeDetailModel {
-    let creditServiceFee: Int            //征信服务费 g80pYruWY
+    let creditServiceFee: String            //征信服务费 g80pYruWY
     let interest: String                    // 利息 aTGXpg0
-    let payChannelFee: Int               //支付通道费 dNuTf
-    let serviceFee: Int                  // 服务费 iMuLp_O74wA2
-    let taxation: Int                    // 费 i7zlLwtp8i6sf1
+    let payChannelFee: String               //支付通道费 dNuTf
+    let serviceFee: String                  // 服务费 iMuLp_O74wA2
+    let taxation: String                    // 费 i7zlLwtp8i6sf1
 
     init(json: JSON) {
-        self.creditServiceFee = json["g80pYruWY"].intValue
+        self.creditServiceFee = json["g80pYruWY"].stringValue
         self.interest = json["aTGXpg0"].stringValue
-        self.payChannelFee = json["dNuTf"].intValue
-        self.serviceFee = json["iMuLp_O74wA2"].intValue
-        self.taxation = json["i7zlLwtp8i6sf1"].intValue
+        self.payChannelFee = json["dNuTf"].stringValue
+        self.serviceFee = json["iMuLp_O74wA2"].stringValue
+        self.taxation = json["i7zlLwtp8i6sf1"].stringValue
     }
 }
 

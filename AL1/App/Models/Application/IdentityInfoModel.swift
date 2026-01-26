@@ -23,8 +23,8 @@ enum PersonalType {
     // cer type
     case ocr
     case name
-    case lastName
-    case middleName
+    case fatherName
+    case motherName
     case genero
     case nuiNumber
     case birthday
@@ -49,9 +49,9 @@ enum PersonalType {
             "Ingresos mensuales"
         case .name:
             "Nombre"
-        case .lastName:
+        case .fatherName:
             "apellido paterno"
-        case .middleName:
+        case .motherName:
             "apellido materno"
         case .genero:
             "Género"
@@ -60,7 +60,7 @@ enum PersonalType {
         case .birthday:
             "Fecha de nacimiento"
         case .bankName:
-            "Seleccione su banco"
+            "Número de tarjeta bancaria"
         case .bankAccountType:
             "Tipo de Cuenta Bancaria"
         case .CCI:
@@ -69,6 +69,31 @@ enum PersonalType {
             "Número de cuenta bancaria"
         case .email:
             "Correo"
+        default:
+            ""
+        }
+    }
+    
+    var status: String {
+        switch self {
+        case .bankName:
+            "Por favor seleccione el banco"
+        case .bankAccountType:
+            "Por favor seleccione el tipo de cuenta"
+        case .CCI:
+            "El CCI no puede estar vacío"
+        case .bankNumber:
+            "Por favor ingrese el número de tarjeta bancaria"
+        case .ocr, .nuiNumber:
+            "Complete su número de cédula de identidad"
+        case .name:
+            "Por favor, complete su nombre"
+        case .fatherName:
+            "Por favor, complete su apellido paterno"
+        case .genero:
+            "Por favor seleccione su género"
+        case .birthday:
+            "Por favor seleccione su fecha de nacimiento"
         default:
             ""
         }
@@ -126,8 +151,8 @@ extension PersonalType {
         case .education:  return nil
         case .genero:     return \.gender
         case .name:       return \.firstName
-        case .lastName:   return \.lastName
-        case .middleName: return \.middleName
+        case .fatherName:   return \.fatherName
+        case .motherName: return \.motherName
         case .nuiNumber:  return \.idCardNumber
         case .birthday:   return \.birthday
         default:          return nil

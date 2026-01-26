@@ -17,12 +17,12 @@ struct ContactInfoModel {
     let relactionKey: String = BackendUserContactKeys.contactRelationship
     
     // 2. 姓名字段映射
-    let name: String = "Nombres"
+    let name: String = "Nombre y apellido"
     let nameType: IdentityFieldType
     let nameKey: String = BackendUserContactKeys.contactName
     
     // 3. 电话字段映射
-    let mobile: String = "Número de Celular"
+    let mobile: String = "Número de teléfono móvil"
     let mobileType: IdentityFieldType
     let mobileKey: String = BackendUserContactKeys.contactPhoneNumber
     

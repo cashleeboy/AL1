@@ -5,8 +5,8 @@
 //  Created by cashlee on 2025/12/26.
 //
 
-import AVFoundation
 import UIKit
+import AVFoundation
 
 enum CameraPermissionStatus {
     case authorized    // 已授权
@@ -39,7 +39,7 @@ class FaceCameraManager: NSObject {
     private var rotationObservation: NSKeyValueObservation?
     
     // MARK: - 权限检查
-    private func checkPermission(completion: @escaping (Bool) -> Void) {
+    func checkPermission(completion: @escaping (Bool) -> Void) {
         switch AVCaptureDevice.authorizationStatus(for: .video) {
         case .authorized:
             completion(true)
@@ -61,22 +61,35 @@ class FaceCameraManager: NSObject {
         self.currentPosition = initialPosition
         self.currentVideoOrientation = orientation
         
-        checkPermission { [weak self] granted in
-            guard let self = self else { return }
-            if granted {
-                self.sessionQueue.async {
-                    // 如果已经配置过且正在运行，只需确保预览层在正确的视图上
-                    if self.captureSession.isRunning {
-                        DispatchQueue.main.async {
-                            self.setupPreviewLayer(in: view)
-                        }
-                        return
-                    }
-                    self.setupSession(in: view, position: initialPosition)
+        // 1. 先查状态
+        let status = currentPermissionStatus()
+        if status == .authorized {
+            self.initSession(in: view)
+        } else if status == .notDetermined {
+            // 2. 只有没请求过才请求
+            requestCameraPermission { [weak self] granted in
+                if granted {
+                    self?.initSession(in: view)
+                } else {
+                    self?.onError?("Permiso denegado por el usuario")
                 }
-            } else {
-                self.onError?("Sin permiso de cámara...")
             }
+        } else {
+            // 3. 已拒绝或受限
+            onPermissionDenied?()
+            self.onError?("Sin permiso de cámara. Por favor, actívelo en la configuración.")
+        }
+    }
+    
+    // 抽取出来的私有初始化逻辑
+    private func initSession(in view: UIView) {
+        sessionQueue.async { [weak self] in
+            guard let self = self else { return }
+            if self.captureSession.isRunning {
+                DispatchQueue.main.async { self.setupPreviewLayer(in: view) }
+                return
+            }
+            self.setupSession(in: view, position: self.currentPosition)
         }
     }
     
@@ -258,5 +271,54 @@ extension FaceCameraManager: AVCapturePhotoCaptureDelegate {
         guard let imageData = photo.fileDataRepresentation(),
               let image = UIImage(data: imageData) else { return }
         onImageCaptured?(image)
+    }
+}
+
+extension FaceCameraManager {
+    
+    /// 获取当前的权限状态（同步）
+    func currentPermissionStatus() -> CameraPermissionStatus {
+        let status = AVCaptureDevice.authorizationStatus(for: .video)
+        switch status {
+        case .authorized:          return .authorized
+        case .denied:              return .denied
+        case .restricted:          return .restricted
+        case .notDetermined:       return .notDetermined
+        @unknown default:          return .notDetermined
+        }
+    }
+
+    /// 请求权限并处理结果
+    func requestCameraPermission(completion: @escaping (Bool) -> Void) {
+        let status = AVCaptureDevice.authorizationStatus(for: .video)
+        
+        switch status {
+        case .authorized:
+            completion(true)
+            
+        case .notDetermined:
+            // 首次请求
+            AVCaptureDevice.requestAccess(for: .video) { granted in
+                DispatchQueue.main.async {
+                    completion(granted)
+                }
+            }
+            
+        case .denied, .restricted:
+            // 已被拒绝或受限
+            completion(false)
+            onPermissionDenied?() // 触发 UI 弹窗逻辑
+            
+        @unknown default:
+            completion(false)
+        }
+    }
+
+    /// 引导用户跳转到系统设置界面
+    func openAppSettings() {
+        guard let settingsUrl = URL(string: UIApplication.openSettingsURLString) else { return }
+        if UIApplication.shared.canOpenURL(settingsUrl) {
+            UIApplication.shared.open(settingsUrl)
+        }
     }
 }

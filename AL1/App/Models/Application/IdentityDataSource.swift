@@ -30,7 +30,7 @@ enum IdentityFieldType {
         case .bankNumber:
             "Por favor ingrese su propia cuenta bancaria"
         case .email:
-            "Por favor ingrese la dirección de correo electrónico correcta"
+            "Ingresa su correo electronico personal"
         default:
             ""
         }

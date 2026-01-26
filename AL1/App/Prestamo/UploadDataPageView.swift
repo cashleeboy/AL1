@@ -53,11 +53,31 @@ class UploadDataPageView: BaseTableViewController {
         isShowBottomButtonContainer = false
         updateTableViewTop(to: .safeArea, animated: false)
         
-        // 1. 开始模拟进度 (从 0 到 95%，留 5% 给真正的接口完成)
+        var extraParams: [String: Any] = [:]
+        AppLocationProvider.shared.requestLocationPermission { [weak self] status in
+            guard let self else { return }
+            if status == .denied || status == .restricted {
+                submit(extraParams: extraParams)
+            } else {
+                AppLocationProvider.shared.fetchCurrentLocation { [weak self] location, error in
+                    guard let self else { return }
+                    guard let location else {
+                        submit(extraParams: extraParams)
+                        return
+                    }
+                    extraParams = [
+                        "vxWHB6HFFjkY": location.coordinate.longitude,
+                        "nDN9JDFwC": location.coordinate.latitude,
+                    ]
+                    submit(extraParams: extraParams)
+                }
+            }
+        }
+    }
+    
+    func submit(extraParams: [String: Any]) {
         startSimulatingProgress()
-        
-        // 这个post接口，所以帮我模拟一个progress的过程
-        viewModel.submitCustomerUploaded { [weak self] in
+        viewModel.submitCustomerUploaded(extraParams: extraParams) { [weak self] in
             guard let self else { return }
             completeProgress() // 成功：强制到 100%
         } onFail: { [weak self] message in
@@ -65,7 +85,6 @@ class UploadDataPageView: BaseTableViewController {
             navigationController?.popViewController(animated: true)
             showToast(message)
         }
-
     }
     
     override func setupNavigationBar() {

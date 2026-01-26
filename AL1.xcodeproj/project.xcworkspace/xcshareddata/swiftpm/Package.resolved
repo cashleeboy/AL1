@@ -1,6 +1,15 @@
 {
-  "originHash" : "9d301a74696d799b293d06a6deb3b965ebd0eca93b692c33f90af2b3b4210019",
+  "originHash" : "7a48f7c3a5535fcd1d6385e2c3309fd838443499159d54e4afe1ac61e4b79f88",
   "pins" : [
+    {
+      "identity" : "adjust_signature_sdk",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/adjust/adjust_signature_sdk.git",
+      "state" : {
+        "revision" : "b54cae6aac6fdf980e16cbe4493c07a8e7011947",
+        "version" : "3.62.0"
+      }
+    },
     {
       "identity" : "alamofire",
       "kind" : "remoteSourceControl",
@@ -17,6 +26,42 @@
       "state" : {
         "revision" : "1eaf3b6c6882bed10f6e7b119665599dd2329aa1",
         "version" : "4.3.0"
+      }
+    },
+    {
+      "identity" : "google-ads-on-device-conversion-ios-sdk",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/googleads/google-ads-on-device-conversion-ios-sdk.git",
+      "state" : {
+        "revision" : "35b601a60fbbea2de3ea461f604deaaa4d8bbd0c",
+        "version" : "3.2.0"
+      }
+    },
+    {
+      "identity" : "googleutilities",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/google/GoogleUtilities.git",
+      "state" : {
+        "revision" : "60da361632d0de02786f709bdc0c4df340f7613e",
+        "version" : "8.1.0"
+      }
+    },
+    {
+      "identity" : "ios_sdk",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/adjust/ios_sdk",
+      "state" : {
+        "branch" : "master",
+        "revision" : "81948fa49d914896a8f467fec670e494ca6d7408"
+      }
+    },
+    {
+      "identity" : "nanopb",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/firebase/nanopb.git",
+      "state" : {
+        "revision" : "b7e1104502eca3a213b46303391ca4d3bc8ddec1",
+        "version" : "2.30910.0"
       }
     },
     {

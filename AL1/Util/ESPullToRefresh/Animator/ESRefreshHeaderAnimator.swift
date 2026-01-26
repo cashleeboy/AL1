@@ -153,8 +153,8 @@ open class ESRefreshHeaderAnimator: UIView, ESRefreshProtocol, ESRefreshAnimator
 //            indicatorView.center = CGPoint.init(x: titleLabel.frame.origin.x - 16.0, y: h / 2.0)
 //            imageView.frame = CGRect.init(x: titleLabel.frame.origin.x - 28.0, y: (h - 18.0) / 2.0, width: 18.0, height: 18.0)
             
-            indicatorView.center = CGPoint.init(x: titleLabel.frame.origin.x - 8.0, y: h / 2.0)
-            imageView.frame = CGRect.init(x: titleLabel.frame.origin.x - 14.0, y: (h - 18.0) / 2.0, width: 18.0, height: 18.0)
+            indicatorView.center = CGPoint.init(x: titleLabel.frame.origin.x, y: h / 2.0)
+            imageView.frame = CGRect.init(x: titleLabel.frame.origin.x - 12.0, y: (h - 18.0) / 2.0, width: 18.0, height: 18.0)
         }
     }
     

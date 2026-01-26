@@ -33,7 +33,8 @@ struct APIItem: HWAPIProtocol {
             ParameterKeys.channel: RequestHeaderConfig.channel,
             ParameterKeys.appVersion: RequestHeaderConfig.appVersionInt,
             ParameterKeys.clientType: RequestHeaderConfig.clienType,
-            ParameterKeys.deviceUdid: RequestHeaderConfig.deviceUdid,
+//            ParameterKeys.deviceUdid: RequestHeaderConfig.deviceUdid,
+            ParameterKeys.deviceUdid: RequestHeaderConfig.adjustAdid,
             ParameterKeys.deviceIdfa: RequestHeaderConfig.deviceIdfa
         ]
         
@@ -69,7 +70,7 @@ struct APIItem: HWAPIProtocol {
 
     // MARK: - 私有辅助方法
     private func buildUrl(isAbsolute: Bool) -> String {
-        let base = isAbsolute ? "" : API.DOMAIN
+        let base = isAbsolute ? "" : AppConfig.currentEnv.baseURL
         let fullPath = base + endpoint
         
         guard var components = URLComponents(string: fullPath) else {

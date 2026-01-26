@@ -66,7 +66,7 @@ public class HWNetworking {
     /// TaskQueue Array for (`Alamofire.Request` & callback)
     private(set) var taskQueue = [HWNetworkRequest]()
     /// `Session` creates and manages Alamofire's `Request` types during their lifetimes.
-    var sessionManager: Alamofire.Session!
+    let sessionManager: Alamofire.Session
 
     /// Network reachability manager, The first call to method `startMonitoring()` will be initialized.
     var reachability: NetworkReachabilityManager?
@@ -81,7 +81,7 @@ public class HWNetworking {
         let config = URLSessionConfiguration.af.default
         config.timeoutIntervalForRequest = 20  // Timeout interval
         config.timeoutIntervalForResource = 20  // Timeout interval
-        sessionManager = Alamofire.Session(configuration: config)
+        self.sessionManager = Alamofire.Session(configuration: config)
     }
 
     /// Creates a `DataRequest` from a `URLRequest` created using the passed components
@@ -205,10 +205,11 @@ extension HWNetworking {
     /// - note: more see: `self.request(...)`
     @discardableResult
     public func POST(url: String, parameters: [String: String]? = nil, headers: [String: String]? = nil, datas: [HWMultipartData]? = nil) -> HWNetworkRequest {
-        guard datas != nil else {
+        if let datas = datas {
+            return upload(url: url, parameters: parameters, datas: datas, headers: headers)
+        } else {
             return request(url: url, method: .post, parameters: parameters, headers: nil)
         }
-        return upload(url: url, parameters: parameters, datas: datas!, headers: headers)
     }
 
     /// Creates a GET request

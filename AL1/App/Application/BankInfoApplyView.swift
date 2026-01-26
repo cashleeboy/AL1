@@ -13,14 +13,7 @@ class BankInfoApplyView: BaseApplyViewController<BankModuleViewModel>
     private var bankConfigModel: BankConfigModel?
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        moduleVM.isDataCompletePublisher
-            .compactMap { $0 }
-            .sink { [weak self] isDone in
-                guard let self else { return }
-                self.bottomContainer.setPrimaryState(isEnable: isDone)
-            }
-            .store(in: &self.moduleVM.cancellables)
+        bottomContainer.setPrimaryState(isEnable: true)
         
         moduleVM.fetchData { [weak self] result in
             guard let self else { return }
@@ -86,6 +79,7 @@ class BankInfoApplyView: BaseApplyViewController<BankModuleViewModel>
                         return
                     }
                     showBankSheet(wiht: bankConfigModel.bankList) { selectItem in
+                        currentRow.fileStatus = .normal
                         self.moduleVM.updateBankValue(for: model, value: nil, map: [
                             BackendUserBankInfoKeys.bankName: selectItem.name,
                             BackendUserBankInfoKeys.bankId: selectItem.id
@@ -100,6 +94,7 @@ class BankInfoApplyView: BaseApplyViewController<BankModuleViewModel>
                 showCCIDialog()
             }.textFieldTextHandler { [weak self] currentRow, text in
                 guard let self, let text else { return }
+                currentRow.fileStatus = .normal
                 moduleVM.updateBankValue(for: model, value: text, map: nil, displayText: text)
             }
             row.infoModel = model
@@ -111,6 +106,17 @@ class BankInfoApplyView: BaseApplyViewController<BankModuleViewModel>
     
     // next page to certificate
     override func bottomAction() {
+        guard moduleVM.validate() else {
+            moduleVM.bankRows.forEach { row in
+                if row.filedText == nil || row.filedText?.isEmpty == true {
+                    row.fileStatus = .showRedError(message: row.infoModel?.type.status ?? "Por favor elija")
+                } else {
+                    row.fileStatus = .normal
+                }
+            }
+            tableView.reloadData()
+            return
+        }
         let nameRow = moduleVM.bankRows.first { row in row.infoModel?.type == .bankName }
         let displayBankName = nameRow?.filedText ?? ""
 

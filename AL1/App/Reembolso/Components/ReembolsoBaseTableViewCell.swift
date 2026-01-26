@@ -56,7 +56,6 @@ class ReembolsoBaseTableViewCell: BaseTableViewCell {
        let button = TextInsetLabel()
         button.textInsets = UIEdgeInsets(top: 6, left: 12, bottom: 6, right: 12) // 设置内边距
         button.font = AppFontProvider.shared.getFont12Medium()
-//        button.addTarget(self, action: #selector(ahoraAction), for: .touchUpInside)
         button.layer.cornerRadius = buttonHeight / 2
         button.layer.masksToBounds = true
         return button
@@ -155,7 +154,7 @@ class ReembolsoBaseTableViewCell: BaseTableViewCell {
             $0.removeFromSuperview()
         }
         
-        let amountText = item.loanAmount
+        let amountText = item.loanAmount.formattedNumber()
         let loanAmountTitle = "Monto a pagar: S/\(amountText)"
         let v1 = TitleValueView(frame: .zero, title: loanAmountTitle, value: "S/\(amountText)")
         orderStackView.addArrangedSubview(v1)

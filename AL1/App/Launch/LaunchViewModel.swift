@@ -5,8 +5,10 @@
 //  Created by cashlee on 2025/12/29.
 //
 
+import UIKit
 import Combine
-import Foundation
+import AdSupport
+import AppTrackingTransparency
 
 enum LaunchLoadingState {
     case idle
@@ -26,10 +28,6 @@ class LaunchViewModel {
     @Published private(set) var isIdfaTaskDone: Bool = false
     @Published var isNetworkAvailable: Bool = false
     
-    init() {
-        performNetworkCheck()
-    }
-    
     // 获取项目初始配置
     func obtainInitial() {
         loadingState = .loading
@@ -45,27 +43,29 @@ class LaunchViewModel {
         }
     }
     
-    
-    /// 异步获取 IDFA 授权
-    /// 该逻辑独立运行，结果仅用于后续业务（如埋点或风控），不阻塞页面跳转
     func fetchIdfa() {
-        // 苹果建议：在应用处于 Active 状态时请求
-        // 如果在 ViewDidLoad 立即调用，建议稍微延迟以确保弹窗能正常弹出
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-            AppIDFAProvider.shared.requestAuthorization { isAuthorized in
-                let idfa = AppIDFAProvider.shared.getIDFA()
-                print("*** IDFA 授权结果: \(isAuthorized), IDFA 值: \(idfa) ***")
-                
-                // 这里可以将获取到的 IDFA 存储到 UserDefault 或全局配置中
-                // 例如：AppConfig.shared.idfa = idfa
-            }
+//        guard #available(iOS 14, *) else {
+//            print("IDFA: iOS 14 以下系统，自动跳过授权")
+//            AppIDFAProvider.shared.requestAuthorization { [weak self] isAuthorized in
+//                self?.isIdfaTaskDone = true
+//            }
+//            return
+//        }
+//        
+//        // 2. 检查状态，只有 .notDetermined 才请求
+//        let status = ATTrackingManager.trackingAuthorizationStatus
+//        guard status == .notDetermined else {
+//            self.isIdfaTaskDone = true
+//            return
+//        }
+//        
+        // 3. 明确指定 status 类型以修复编译报错
+        AppIDFAProvider.shared.requestAuthorization { [weak self] isAuthorized in
+            self?.isIdfaTaskDone = true
         }
     }
-}
 
-extension LaunchViewModel
-{
-    private func performNetworkCheck() {
+    func performNetworkCheck() {
         NWPathMonitorManager.shared.onStatusChanged = { [weak self] isAvailable, isRestricted in
             guard let self = self else { return }
             if isAvailable {

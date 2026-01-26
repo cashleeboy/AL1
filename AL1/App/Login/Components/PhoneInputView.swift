@@ -261,33 +261,6 @@ extension PhoneInputView: UITextFieldDelegate
         return true
     }
     
-//    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-//        if string.isEmpty {
-//            let currentText = textField.text ?? ""
-//            let nsString = currentText as NSString
-//            let newText = nsString.replacingCharacters(in: range, with: string)
-//            textFieldAction?(newText, false)
-//            return true
-//        }
-//        
-//        let isNumeric = string.allSatisfy { $0.isNumber }
-//        guard isNumeric else { return false }
-//        
-//        let currentText = textField.text ?? ""
-//        let nsString = currentText as NSString
-//        let newString = nsString.replacingCharacters(in: range, with: string)
-//        
-//        // 4. 长度限制判断
-//        if let custome = textField as? CustomTextField,
-//           newString.count <= custome.maxCount {
-//            textFieldAction?(newString, false)
-//            return true
-//        } else {
-//            textFieldAction?(nsString, true)
-//            return false
-//        }
-//    }
-
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         // 1. 获取预期的最终文本
         let currentText = textField.text ?? ""

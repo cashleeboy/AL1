@@ -46,12 +46,15 @@ class FormSelectionRowFormer<T: UITableViewCell>: BaseRowFormer<T>, IdentityForm
         didSet {
             if infoModel?.type == .CCI {
                 maxCount = 20
+            } else if infoModel?.type == .bankNumber {
+                keyboardType = .numberPad
             }
         }
     }
     var currentGener: GeneroType? { nil }
     
     var maxCount: Int?
+    var keyboardType: UIKeyboardType?
     var fileStatus: FormFileStatus? {
         didSet {
             // show error
@@ -101,6 +104,9 @@ class FormSelectionRowFormer<T: UITableViewCell>: BaseRowFormer<T>, IdentityForm
         }
         
         if let field = cell.getSelectionField() {
+            if let keyboardType {
+                field.keyboardType = keyboardType
+            }
             field.shouldBeginEditing = { [weak self] in
                 guard let self else { return false }
                 onSelectionFieldHandler?(self)
@@ -117,6 +123,9 @@ class FormSelectionRowFormer<T: UITableViewCell>: BaseRowFormer<T>, IdentityForm
             field.shouldChangeCharacters = { [weak self] currentText, replacement in
                 guard let self else { return true }
                 let prospectiveText = (currentText ?? "") + replacement
+                if field.keyboardType == .numberPad, !prospectiveText.isNumeric {
+                    return false
+                }
                 if prospectiveText.hasPrefix(" ") {
                     return false
                 }

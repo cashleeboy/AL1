@@ -60,9 +60,27 @@ class PersonalViewController: BaseTableViewController {
                     }
                 }
                 self.stopPullToRefresh()
-//                DispatchQueue.main.asyncAfter(deadline: .now() + 2.1) {
-//                    self.tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-//                }
+                
+                let isBankRow: (RowRepresentable) -> Bool = { row in
+                    return row.item.identifier == UserProfileType.bankAccount.rawValue
+                }
+                if model.needsToSetBank {
+                    let containBankRows = tableController?.containsRow(where: isBankRow)
+                    if let contain = containBankRows, !contain {
+                        let bankItem = UserProfile(identifier: UserProfileType.bankAccount.rawValue,
+                                                   title: "Cuenta bancaria", icon: "personal_list_icon_2", position: .middle, type: .bankAccount)
+                        
+                        let targetPath = IndexPath(row: 2, section: 0)
+                        
+                        tableController?.insert(item: bankItem, at: targetPath, animation: .fade) { item in
+                            return (item as! UserProfile).toRow { [weak self] selected in
+                                self?.handleRowSelection(item: selected)
+                            }
+                        }
+                    }
+                } else {
+                    tableController?.removeRow(where: isBankRow, animation: .fade)
+                }
             }
             .store(in: &viewModel.cancellables)
         
@@ -78,12 +96,16 @@ class PersonalViewController: BaseTableViewController {
     override func setupData() {
         self.formItems = [
             HeaderProfile(topInset: safeViewTopInset),
-            UserProfile(title: "historial de endeudamiento", icon: "personal_list_icon_1", position: .top, type: .loanHistory),
-            UserProfile(title: "Cuenta bancaria", icon: "personal_list_icon_2", position: .middle, type: .bankAccount),
-            UserProfile(title: "Feedback", icon: "personal_list_icon_3", position: .middle, type: .feedback),
-            UserProfile(title: "Acerca de nosotros", icon: "personal_list_icon_4", position: .middle, type: .aboutUs),
-            UserProfile(title: "Política de Privacidad", icon: "personal_list_icon_5", position: .middle, type: .privacy),
-            UserProfile(title: "Configuración", icon: "personal_list_icon_6", position: .bottom, type: .settings),
+            UserProfile(identifier: UserProfileType.loanHistory.rawValue,
+                        title: "historial de endeudamiento", icon: "personal_list_icon_1", position: .top, type: .loanHistory),
+            UserProfile(identifier: UserProfileType.feedback.rawValue,
+                        title: "Feedback", icon: "personal_list_icon_3", position: .middle, type: .feedback),
+            UserProfile(identifier: UserProfileType.aboutUs.rawValue,
+                        title: "Acerca de nosotros", icon: "personal_list_icon_4", position: .middle, type: .aboutUs),
+            UserProfile(identifier: UserProfileType.privacy.rawValue,
+                        title: "Acuerdo", icon: "personal_list_icon_5", position: .middle, type: .privacy),
+            UserProfile(identifier: UserProfileType.settings.rawValue,
+                        title: "Configuración", icon: "personal_list_icon_6", position: .bottom, type: .settings),
         ]
         
         let rows: [RowRepresentable] = formItems.compactMap { item in
@@ -93,13 +115,6 @@ class PersonalViewController: BaseTableViewController {
                 })
             }
             return nil
-//            switch item {
-//            case let homeItem as UserProfile:
-//                return ConcreteRow<UserProfile, ProfileHeaderSelectionView>(item: homeItem) { _ in
-//                    // 具体的业务跳转
-//                }
-//            default:
-//            }
         }
         reloadData(with: rows)
     }
@@ -138,8 +153,7 @@ extension PersonalViewController {
             let vc = ConfigurarPageView()
             navigationController?.pushViewController(vc, animated: true)
         case .privacy:
-            let url = H5Url.privacyPolicy.urlString
-            let vc = CommonWebViewController(url: url)
+            let vc = AcuerdoViewController()
             navigationController?.pushViewController(vc, animated: true)
         }
     }

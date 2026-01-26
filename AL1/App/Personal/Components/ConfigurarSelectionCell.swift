@@ -12,21 +12,32 @@ enum ConfigurarType {
     case cache
     case version
     
+    case Política
+    case Condiciones
+    case Contrato
+     
     var display: String {
         switch self {
         case .cache:
             "limpiar cache"
         case .version:
             "Versión actual"
+        case .Política:
+            "Política de Privacidad"
+        case .Condiciones:
+            "Condiciones de Servicio"
+        case .Contrato:
+            "Contrato de Préstamo"
         }
     }
     
-    var icon: String {
+    var icon: String? {
         switch self {
         case .cache:
             "configurar_cache_icon"
         case .version:
             "configurar_version_icon"
+        default: nil
         }
     }
 }
@@ -44,12 +55,14 @@ struct ConfigurarSelectionModel: IdentifiableTableItem {
         case .version:
             let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0.0"
             return "V\(version)"
+        default:
+            return nil
         }
     }
     
     // 逻辑控制：只有清除缓存需要显示箭头
     var shouldShowArrow: Bool {
-        return type == .cache
+        return type != .version
     }
     
     var onContainerTap: (() -> Void)?
@@ -149,7 +162,21 @@ class ConfigurarSelectionCell: BaseConfigurablewCell {
         onContainerTap = model.onContainerTap
         
         // 基础填充
-        iconImageView.image = UIImage(named: model.type.icon)
+        if let icon = model.type.icon {
+            iconImageView.image = UIImage(named: icon)
+            iconImageView.isHidden = false
+            leftTitleLabel.snp.remakeConstraints { make in
+                make.left.equalTo(iconImageView.snp.right).offset(12)
+                make.centerY.equalToSuperview()
+            }
+        } else {
+            iconImageView.isHidden = true
+            leftTitleLabel.snp.remakeConstraints { make in
+                make.left.equalToSuperview().offset(16)
+                make.centerY.equalToSuperview()
+            }
+        }
+        
         leftTitleLabel.text = model.type.display
         
         // 右侧逻辑处理

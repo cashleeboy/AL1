@@ -270,7 +270,7 @@ extension PersonalInfoModuleViewModel
             fieldType: .choose,
             options: IdentityDataSource.income
         ))
-        // f_ocsz    email :zj7xK2z99hDs : f_ocsz: 电子邮箱,示例值(email)
+        // email: 电子邮箱,示例值(email)
         list.append(IdentityInfoModel(
             type: .email,
             keys: ["value": BackendUserPersonalInfoKeys.email],

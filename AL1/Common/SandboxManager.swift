@@ -18,7 +18,10 @@ class SandboxManager {
     // MARK: - 路径获取
     /// 获取沙盒指定目录的 URL
     private func getDirectoryPath(for directory: FileManager.SearchPathDirectory = .documentDirectory) -> URL {
-        return FileManager.default.urls(for: directory, in: .userDomainMask).first!
+        if let url = FileManager.default.urls(for: directory, in: .userDomainMask).first {
+            return url
+        }
+        return FileManager.default.temporaryDirectory
     }
     
     /// 构建完整的文件路径

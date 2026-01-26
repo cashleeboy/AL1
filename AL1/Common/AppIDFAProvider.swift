@@ -5,7 +5,6 @@
 //  Created by cashlee on 2025/12/17.
 //
 
-import Foundation
 import AdSupport
 import AppTrackingTransparency
 
@@ -14,43 +13,46 @@ class AppIDFAProvider {
     static let shared = AppIDFAProvider()
     private init() {}
     
+    /// 标准的 IDFA 全零占位符
+    private let zeroIdentifier = "00000000-0000-0000-0000-000000000000"
+    
     /// 获取 IDFA 字符串
-    /// - Returns: 如果用户授权则返回 IDFA，否则返回全零字符串（或根据业务需求返回空）
+    /// - Returns: 授权则返回真实 IDFA，否则返回全零字符串 "00000000-..."
     func getIDFA() -> String {
-        // 在多线程环境下，ASIdentifierManager 是线程安全的
-        // 但为了严谨，如果你有缓存逻辑，建议加锁
         if #available(iOS 14, *) {
-            // iOS 14+ 需要检查授权状态
             let status = ATTrackingManager.trackingAuthorizationStatus
+            // 只有在 .authorized 状态下才能获取真实的 IDFA
             if status == .authorized {
                 return ASIdentifierManager.shared().advertisingIdentifier.uuidString
-            } else {
-                return "0"
             }
         } else {
-            // iOS 13 及以下
-            // 检查“限制广告追踪”开关
+            // iOS 13 及以下：检查系统级的“限制广告追踪”开关
             if ASIdentifierManager.shared().isAdvertisingTrackingEnabled {
                 return ASIdentifierManager.shared().advertisingIdentifier.uuidString
-            } else {
-                return "0"
             }
         }
+        
+        // 未获授权或系统受限时，返回全零字符串
+        return zeroIdentifier
     }
     
-    /// 请求追踪授权 (仅限 iOS 14+)
-    /// 建议在 App 启动后的第一个页面或初始化配置完成后调用
+    /// 请求追踪授权
     func requestAuthorization(completion: ((Bool) -> Void)? = nil) {
         if #available(iOS 14, *) {
-            // 苹果要求：必须在应用处于 Active 状态时请求
-            // 如果在启动瞬间调用，可能会因为应用未激活而失败，建议延迟或在 DidBecomeActive 中调用
-            ATTrackingManager.requestTrackingAuthorization { status in
-                DispatchQueue.main.async {
-                    completion?(status == .authorized)
+            // 优化：如果用户还没选过，才弹出申请
+            if ATTrackingManager.trackingAuthorizationStatus == .notDetermined {
+                // 确保在主线程或者应用处于 Active 状态调用
+                // 注意：由于此方法是异步的，系统会自动处理弹窗时机
+                ATTrackingManager.requestTrackingAuthorization { status in
+//                    DispatchQueue.main.async {
+                        completion?(status == .authorized)
+//                    }
                 }
+            } else {
+                // 如果已经授权或拒绝过，直接返回当前结果
+                completion?(ATTrackingManager.trackingAuthorizationStatus == .authorized)
             }
         } else {
-            // iOS 13 及以下不需要显式请求，直接回调成功
             completion?(true)
         }
     }

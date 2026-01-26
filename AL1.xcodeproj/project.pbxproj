@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8F2BBF222F271BA30084DB42 /* AcuerdoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F2BBF212F271BA30084DB42 /* AcuerdoViewController.swift */; };
 		8F318E672EF25E3400808724 /* JYPageContollerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F318E612EF25E3400808724 /* JYPageContollerProtocol.swift */; };
 		8F318E682EF25E3400808724 /* JYPageMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F318E642EF25E3400808724 /* JYPageMenuView.swift */; };
 		8F318E692EF25E3400808724 /* JYScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F318E652EF25E3400808724 /* JYScrollView.swift */; };
@@ -40,6 +41,7 @@
 		8F5719C42F0B6C61000B793D /* CommonWebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F5719C32F0B6C61000B793D /* CommonWebView.swift */; };
 		8F5719C62F0B6E39000B793D /* WebViewDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F5719C52F0B6E39000B793D /* WebViewDialog.swift */; };
 		8F5719C92F0B717D000B793D /* CommonEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F5719C82F0B717D000B793D /* CommonEnum.swift */; };
+		8F5D64962F1F712D00E466C5 /* AdjustSdk in Frameworks */ = {isa = PBXBuildFile; productRef = 8F5D64952F1F712D00E466C5 /* AdjustSdk */; };
 		8F60811D2EF8DB77005A8A8E /* ServiceInquiryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F60811C2EF8DB77005A8A8E /* ServiceInquiryModel.swift */; };
 		8F60813D2EF91396005A8A8E /* UserSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F60813C2EF91396005A8A8E /* UserSession.swift */; };
 		8F60813F2EF97ABF005A8A8E /* RegionConfigModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F60813E2EF97ABF005A8A8E /* RegionConfigModel.swift */; };
@@ -236,6 +238,8 @@
 		8FCE8F632EEDAD82009B87C4 /* UITableViewController+EachNavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FCE8F4F2EEDAD82009B87C4 /* UITableViewController+EachNavigationBar.swift */; };
 		8FCE8F672EEDB4F2009B87C4 /* PrestamoHeaderSelectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FCE8F662EEDB4F2009B87C4 /* PrestamoHeaderSelectionCell.swift */; };
 		8FCE8F692EEDB62F009B87C4 /* BaseConfigurablewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FCE8F682EEDB62F009B87C4 /* BaseConfigurablewCell.swift */; };
+		8FDE49462F21EE5B001916BA /* PrivacyTermsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FDE49452F21EE5B001916BA /* PrivacyTermsView.swift */; };
+		8FDE494E2F227A8C001916BA /* CustomDatePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FDE494D2F227A8C001916BA /* CustomDatePicker.swift */; };
 		8FE3A20A2EEC6F6F001A08AC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8FE3A2012EEC6F6F001A08AC /* Assets.xcassets */; };
 		8FE3A20C2EEC6F6F001A08AC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8FE3A2042EEC6F6F001A08AC /* LaunchScreen.storyboard */; };
 		8FE3A20D2EEC6F6F001A08AC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8FE3A2062EEC6F6F001A08AC /* Main.storyboard */; };
@@ -306,6 +310,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		8F2BBF212F271BA30084DB42 /* AcuerdoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AcuerdoViewController.swift; sourceTree = "<group>"; };
 		8F318E602EF25E3400808724 /* JYPageConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JYPageConfig.swift; sourceTree = "<group>"; };
 		8F318E612EF25E3400808724 /* JYPageContollerProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JYPageContollerProtocol.swift; sourceTree = "<group>"; };
 		8F318E622EF25E3400808724 /* JYPageController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JYPageController.swift; sourceTree = "<group>"; };
@@ -529,6 +534,8 @@
 		8FCE8F532EEDAD82009B87C4 /* UIViewController+Swizzling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Swizzling.swift"; sourceTree = "<group>"; };
 		8FCE8F662EEDB4F2009B87C4 /* PrestamoHeaderSelectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrestamoHeaderSelectionCell.swift; sourceTree = "<group>"; };
 		8FCE8F682EEDB62F009B87C4 /* BaseConfigurablewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseConfigurablewCell.swift; sourceTree = "<group>"; };
+		8FDE49452F21EE5B001916BA /* PrivacyTermsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacyTermsView.swift; sourceTree = "<group>"; };
+		8FDE494D2F227A8C001916BA /* CustomDatePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomDatePicker.swift; sourceTree = "<group>"; };
 		8FE3A1CC2EEC6F68001A08AC /* AL1.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AL1.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8FE3A1E22EEC6F69001A08AC /* AL1Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AL1Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		8FE3A1EC2EEC6F69001A08AC /* AL1UITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AL1UITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -608,6 +615,7 @@
 				8FCB8F662EFA4BD300F5B078 /* Toast in Frameworks */,
 				8F61DE732F02179300FE2D69 /* SkeletonView in Frameworks */,
 				8FCE8F202EECF92F009B87C4 /* SwiftEntryKit in Frameworks */,
+				8F5D64962F1F712D00E466C5 /* AdjustSdk in Frameworks */,
 				8FEF7B5C2F0A029100FA4205 /* AlamofireImage in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -629,6 +637,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		8F2BBF202F271B940084DB42 /* Acuerdo */ = {
+			isa = PBXGroup;
+			children = (
+				8F2BBF212F271BA30084DB42 /* AcuerdoViewController.swift */,
+			);
+			path = Acuerdo;
+			sourceTree = "<group>";
+		};
 		8F318E662EF25E3400808724 /* PageController */ = {
 			isa = PBXGroup;
 			children = (
@@ -729,6 +745,7 @@
 				8FADF2872EF43D18003BB16E /* ImageStepSlider.swift */,
 				8F6081402EF991AE005A8A8E /* ApplyObfuscatedKey.swift */,
 				8FFC8FDF2F10F3B1005A0650 /* EmailRecommendationView.swift */,
+				8FDE494D2F227A8C001916BA /* CustomDatePicker.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -1370,6 +1387,7 @@
 				8FCB90372EFCD58F00F5B078 /* ConfigurarPageView.swift */,
 				8FCB903B2EFCDCF100F5B078 /* AcercaMePageView.swift */,
 				8F61DE4F2F001F7600FE2D69 /* FeedbackPageView.swift */,
+				8F2BBF202F271B940084DB42 /* Acuerdo */,
 				8FCBB7112EF0692D005B5A38 /* LoadOrder */,
 				8FFC8F6F2F0D2F31005A0650 /* BankList */,
 				8FE3A2232EEC704C001A08AC /* Components */,
@@ -1412,6 +1430,7 @@
 				8FEF7B612F0A0F5300FA4205 /* FirstLoamHeaderCell.swift */,
 				8FEF7B632F0A245800FA4205 /* FirstLoamItemCell.swift */,
 				8FEF7B6B2F0A54D000FA4205 /* PrestamoEmptySectionCell.swift */,
+				8FDE49452F21EE5B001916BA /* PrivacyTermsView.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -1513,6 +1532,7 @@
 				8FCB8F652EFA4BD300F5B078 /* Toast */,
 				8F61DE722F02179300FE2D69 /* SkeletonView */,
 				8FEF7B5B2F0A029100FA4205 /* AlamofireImage */,
+				8F5D64952F1F712D00E466C5 /* AdjustSdk */,
 			);
 			productName = AL1;
 			productReference = 8FE3A1CC2EEC6F68001A08AC /* AL1.app */;
@@ -1606,6 +1626,7 @@
 				8FCB8F632EFA488800F5B078 /* XCRemoteSwiftPackageReference "Toast-Swift" */,
 				8F61DE532F02131C00FE2D69 /* XCRemoteSwiftPackageReference "SkeletonView" */,
 				8FEF7B5A2F0A027E00FA4205 /* XCRemoteSwiftPackageReference "AlamofireImage" */,
+				8F5D64942F1F711900E466C5 /* XCRemoteSwiftPackageReference "ios_sdk" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 8FE3A1CD2EEC6F68001A08AC /* Products */;
@@ -1694,6 +1715,7 @@
 				8FCBB9732EF1ACBB005B5A38 /* HWNetworking.swift in Sources */,
 				8FCBB9742EF1ACBB005B5A38 /* API.swift in Sources */,
 				8FCBB9752EF1ACBB005B5A38 /* HWNetworkingError.swift in Sources */,
+				8FDE494E2F227A8C001916BA /* CustomDatePicker.swift in Sources */,
 				8FB43C812EF5101700D93B1C /* FormBankBannerCell.swift in Sources */,
 				8FCB903E2EFCDD1E00F5B078 /* AcercaMeSelectionCell.swift in Sources */,
 				8FB43D332EF69AE800D93B1C /* CertificateApplyView.swift in Sources */,
@@ -1751,6 +1773,7 @@
 				8F5719C02F0B6A8A000B793D /* JSBridgeMessage.swift in Sources */,
 				8FADF5F12EF44561003BB16E /* FormerProtocol.swift in Sources */,
 				8F4460E02F0CF1B900A77EF3 /* LoanOrderDetailViewModel.swift in Sources */,
+				8F2BBF222F271BA30084DB42 /* AcuerdoViewController.swift in Sources */,
 				8FCB90302EFBD8AF00F5B078 /* AuthFlowViewModel.swift in Sources */,
 				8FB43C8B2EF537A300D93B1C /* FormGeneroRowFormer.swift in Sources */,
 				8FADF5F82EF44561003BB16E /* Former.swift in Sources */,
@@ -1907,6 +1930,7 @@
 				8FADF2A02EF443A4003BB16E /* ContactInfoApplyView.swift in Sources */,
 				8FB4456F2EF8375400D93B1C /* BankTableSheet.swift in Sources */,
 				8F6081472EF99531005A8A8E /* UserProfileModel.swift in Sources */,
+				8FDE49462F21EE5B001916BA /* PrivacyTermsView.swift in Sources */,
 				8FCBB6722EEEC15C005B5A38 /* AgreementDialog.swift in Sources */,
 				8FB445652EF7F82600D93B1C /* ContactModuleViewModel.swift in Sources */,
 				8FB43CB42EF59CAD00D93B1C /* ReembolsoBaseViewModel.swift in Sources */,
@@ -1987,17 +2011,17 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 202601131848;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = "";
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = AL1/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Fácil Crédito";
-				INFOPLIST_KEY_NSCameraUsageDescription = "Necesitamos usar tu cámara para tomar fotos de los documentos.";
-				INFOPLIST_KEY_NSContactsUsageDescription = "Accede a tu lista de contactos. Sube fácilmente tu información de contacto, simplificando el proceso y agilizando tu solicitud de préstamo.";
-				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Su ubicación se utiliza para verificar la seguridad de su cuenta y cumplir con las regulaciones financieras locales.";
+				INFOPLIST_KEY_NSCameraUsageDescription = "Fácil Crédito necesita acceder a la cámara para que pueda tomar fotografías o subir imágenes cuando sea necesario. Si no otorga este permiso, no podrá realizar ni cargar fotos dentro de la aplicación.";
+				INFOPLIST_KEY_NSContactsUsageDescription = "Fácil Crédito pide acceso a sus contactos únicamente para que pueda seleccionar uno y completar la información de manera automática. No almacenamos ni enviamos sus datos de contactos a ningún servidor.";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Fácil Crédito requiere permiso para usar su ubicación y así habilitar servicios que dependen de la zona en la que usted se encuentre. En caso de no autorizar el acceso, ciertas funciones basadas en su ubicación no estarán disponibles.";
 				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "Necesitamos guardar fotos en tu galería.";
-				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Necesitamos acceder a tu galería para subir fotos de los documentos.";
-				INFOPLIST_KEY_NSUserTrackingUsageDescription = "Tracking Usage Description";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Fácil Crédito solicita acceso a su galería de fotos para permitirle seleccionar o subir imágenes desde su dispositivo. Si rechaza este permiso, no podrá elegir archivos desde su álbum.";
+				INFOPLIST_KEY_NSUserTrackingUsageDescription = "Fácil Crédito solicita acceder a su Identificador de Publicidad (IDFA) para ofrecerle recomendaciones de contenido y promociones que se ajusten mejor a sus preferencias. Si decide no permitirlo, la exactitud de estas sugerencias podría verse reducida, aunque el resto de funciones de la aplicación seguirá operando con normalidad.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -2009,7 +2033,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1;
-				PRODUCT_BUNDLE_IDENTIFIER = com.test.AL10;
+				PRODUCT_BUNDLE_IDENTIFIER = com.test.AL1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -2030,18 +2054,18 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 202601131848;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = F7XLR9JPD6;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = AL1/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Fácil Crédito";
-				INFOPLIST_KEY_NSCameraUsageDescription = "Necesitamos usar tu cámara para tomar fotos de los documentos.";
-				INFOPLIST_KEY_NSContactsUsageDescription = "Accede a tu lista de contactos. Sube fácilmente tu información de contacto, simplificando el proceso y agilizando tu solicitud de préstamo.";
-				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Su ubicación se utiliza para verificar la seguridad de su cuenta y cumplir con las regulaciones financieras locales.";
+				INFOPLIST_KEY_NSCameraUsageDescription = "Fácil Crédito necesita acceder a la cámara para que pueda tomar fotografías o subir imágenes cuando sea necesario. Si no otorga este permiso, no podrá realizar ni cargar fotos dentro de la aplicación.";
+				INFOPLIST_KEY_NSContactsUsageDescription = "Fácil Crédito pide acceso a sus contactos únicamente para que pueda seleccionar uno y completar la información de manera automática. No almacenamos ni enviamos sus datos de contactos a ningún servidor.";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Fácil Crédito requiere permiso para usar su ubicación y así habilitar servicios que dependen de la zona en la que usted se encuentre. En caso de no autorizar el acceso, ciertas funciones basadas en su ubicación no estarán disponibles.";
 				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "Necesitamos guardar fotos en tu galería.";
-				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Necesitamos acceder a tu galería para subir fotos de los documentos.";
-				INFOPLIST_KEY_NSUserTrackingUsageDescription = "Tracking Usage Description";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Fácil Crédito solicita acceso a su galería de fotos para permitirle seleccionar o subir imágenes desde su dispositivo. Si rechaza este permiso, no podrá elegir archivos desde su álbum.";
+				INFOPLIST_KEY_NSUserTrackingUsageDescription = "Fácil Crédito solicita acceder a su Identificador de Publicidad (IDFA) para ofrecerle recomendaciones de contenido y promociones que se ajusten mejor a sus preferencias. Si decide no permitirlo, la exactitud de estas sugerencias podría verse reducida, aunque el resto de funciones de la aplicación seguirá operando con normalidad.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -2191,7 +2215,7 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 202601131848;
+				CURRENT_PROJECT_VERSION = 202601201252;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 18.5;
 				MARKETING_VERSION = 1.0;
@@ -2209,7 +2233,7 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 202601131848;
+				CURRENT_PROJECT_VERSION = 202601201252;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 18.5;
 				MARKETING_VERSION = 1.0;
@@ -2226,7 +2250,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 202601131848;
+				CURRENT_PROJECT_VERSION = 202601201252;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.test.AL1UITests;
@@ -2242,7 +2266,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 202601131848;
+				CURRENT_PROJECT_VERSION = 202601201252;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.test.AL1UITests;
@@ -2296,6 +2320,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		8F5D64942F1F711900E466C5 /* XCRemoteSwiftPackageReference "ios_sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/adjust/ios_sdk";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
 		8F61DE532F02131C00FE2D69 /* XCRemoteSwiftPackageReference "SkeletonView" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Juanpe/SkeletonView.git";
@@ -2355,6 +2387,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		8F5D64952F1F712D00E466C5 /* AdjustSdk */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 8F5D64942F1F711900E466C5 /* XCRemoteSwiftPackageReference "ios_sdk" */;
+			productName = AdjustSdk;
+		};
 		8F61DE722F02179300FE2D69 /* SkeletonView */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 8F61DE532F02131C00FE2D69 /* XCRemoteSwiftPackageReference "SkeletonView" */;

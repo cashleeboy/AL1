@@ -9,13 +9,13 @@ import UIKit
 import SnapKit
 
 // 1. 定义功能类型
-enum UserProfileType {
-    case loanHistory    // 借贷记录
-    case bankAccount    // 银行账户
-    case feedback       // 反馈
-    case aboutUs        // 关于我们
-    case privacy        // 隐私政策
-    case settings       // 设置
+enum UserProfileType: String {
+    case loanHistory = "loanHistory"    // 借贷记录
+    case bankAccount = "bankAccount"    // 银行账户
+    case feedback = "feedback"       // 反馈
+    case aboutUs = "aboutUs"        // 关于我们
+    case privacy = "privacy"        // 隐私政策
+    case settings = "settings"       // 设置
 }
 
 enum CardPositoin {
@@ -26,7 +26,7 @@ enum CardPositoin {
 
 // 1. 数据模型 (必须是 Hashable)
 struct UserProfile: TableItemProtocol {
-    let identifier: String = "ProfileSelectionCell"
+    let identifier: String
     let title: String
     var icon: String
     var position: CardPositoin

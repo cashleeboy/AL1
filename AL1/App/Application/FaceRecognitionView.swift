@@ -85,35 +85,7 @@ class FaceRecognitionView: BaseTableViewController {
             } else {
                 recognitionModel?.triggerCapture?()
                 #if DEBUG
-                guard let fixImg = UIImage(named: "face")?.fixImageOrientation() else {
-                    return
-                }
-                self.bottomContainer.setPrimaryState(isEnable: false)
-                
-                self.moduleVM.customerOCRVerify(with: fixImg, from: .camera, progressHandler: { progress in
-                    
-                }) { [weak self] result in
-                    guard let self = self else { return }
-                    self.bottomContainer.setPrimaryState(isEnable: true)
-                    
-                    switch result {
-                    case .success(let response):
-                        // 根据接口返回的 isSuccess 决定显示哪个状态
-                        let step: FaceAuthStepType = response.isSuccess ? .success : .failure
-                        self.updateToStatusUI(step: step)
-                        
-                        // after 1.08
-                        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1.06) { 
-                            self.flowCoordinator?.handleModuleEntryFinished(current: self.moduleVM.reviewType)
-                        }
-                        
-                    case .failure(let error):
-                        // 接口报错处理：可以显示失败 UI 或弹窗
-                        self.showToast(error.localizedDescription)
-                        self.updateToStatusUI(step: .failure)
-                       
-                    }
-                }
+                debugCamera()
                 #endif
             }
         }
@@ -161,7 +133,10 @@ class FaceRecognitionView: BaseTableViewController {
         self.recognitionModel = model
         renderRows(with: [model])
     }
-    
+}
+
+extension FaceRecognitionView
+{
     /// 刷新表格行映射
     private func renderRows(with items: [any TableItemProtocol]) {
         // 每次渲染新行前，确保旧相机关掉
@@ -196,6 +171,36 @@ class FaceRecognitionView: BaseTableViewController {
         else {
             // 如果成功，隐藏或禁用按钮
             bottomContainer.isHidden = true
+        }
+    }
+    
+    private func debugCamera() {
+        guard let fixImg = UIImage(named: "face")?.fixImageOrientation() else {
+            return
+        }
+        self.bottomContainer.setPrimaryState(isEnable: false)
+        self.moduleVM.customerOCRVerify(with: fixImg, from: .camera, progressHandler: { progress in
+        }) { [weak self] result in
+            guard let self = self else { return }
+            self.bottomContainer.setPrimaryState(isEnable: true)
+            
+            switch result {
+            case .success(let response):
+                // 根据接口返回的 isSuccess 决定显示哪个状态
+                let step: FaceAuthStepType = response.isSuccess ? .success : .failure
+                self.updateToStatusUI(step: step)
+                
+                // after 1.08
+                DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1.06) {
+                    self.flowCoordinator?.handleModuleEntryFinished(current: self.moduleVM.reviewType)
+                }
+                
+            case .failure(let error):
+                // 接口报错处理：可以显示失败 UI 或弹窗
+                self.showToast(error.localizedDescription)
+                self.updateToStatusUI(step: .failure)
+               
+            }
         }
     }
 }

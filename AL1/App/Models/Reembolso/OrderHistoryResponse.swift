@@ -21,7 +21,7 @@ struct OrderHistoryResponse: DecodableData {
 
 struct OrderListItem {
     let appOrderId: String     // 订单id
-    let loanAmount: Int
+    let loanAmount: String
     let repayAmount: String?
     let remainingDays: Int?
     let productName: String?
@@ -43,7 +43,7 @@ struct OrderListItem {
     
     init(json: JSON) {
         self.appOrderId = json["poW1L_VZhHh"].stringValue
-        self.loanAmount = json["fS2chxKewoa7dtFQSV"].intValue
+        self.loanAmount = json["fS2chxKewoa7dtFQSV"].stringValue
         self.repayAmount = json["qmxrJ0hkFPoe62zPS"].string
         self.remainingDays = json["xzR0DojhJyPAdgmp"].int
         self.productName = json["eODIjjJ"].string

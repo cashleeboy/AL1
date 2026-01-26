@@ -15,7 +15,7 @@ class FaceRecognitionSectionModel: IdentifiableTableItem {
     var triggerCapture: (() -> Void)? = nil
     
     var onStopRuningCapture: (() -> Void)? = nil
-    
+    // 
     init(onImageCaptured: @escaping (UIImage) -> Void) {
         self.onImageCaptured = onImageCaptured
     }

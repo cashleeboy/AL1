@@ -82,7 +82,7 @@ class LoginViewModel {
             }
             .store(in: &cancellables)
     }
-    //
+    
     func sendAuthCode() {
         guard let phone else { return }
 

@@ -7,10 +7,13 @@
 
 import UIKit
 import AlamofireImage
+import AdjustSdk
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
+    private let adjustToken = "b1x43quil24g"
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         
@@ -26,7 +29,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //            print("*** orientatioin mask = \(orientationMask)")
 //        }
         
+        adjustInit()
         return true
+    }
+    
+    func adjustInit() {
+        let adjustConfig = ADJConfig(appToken: adjustToken, environment: ADJEnvironmentSandbox)
+        adjustConfig?.logLevel = ADJLogLevel.verbose
+        Adjust.initSdk(adjustConfig)
+        
+        Adjust.adid { adid in
+            if let adid = adid {
+                RequestHeaderConfig.adjustAdid = adid
+            }
+        }
     }
 
     // MARK: UISceneSession Lifecycle

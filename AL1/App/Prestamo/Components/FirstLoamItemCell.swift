@@ -176,30 +176,16 @@ class FirstLoamItemCell: BaseConfigurablewCell {
         iconImageView.loadImage(loanItem.loanInfoModel.productLogo, placeholder: UIImage(named: "pre_pro_icon"))
         titleLabel.text = loanItem.loanInfoModel.productName
         
-        amountValueLabel.text = "$\(loanItem.loanInfoModel.loanAmount)"
+        amountValueLabel.text = loanItem.loanInfoModel.loanAmount.formattedNumber(prefix: "$")
         // 还款日期
         termValueLabel.text = loanItem.loanInfoModel.repayDate
         
         let isOnlyOne = loanItem.isOnlyOne
         statusButton.isSelected = isOnlyOne ? true : loanItem.isSelected
-//        statusButton.isUserInteractionEnabled = !isOnlyOne
-        
+
         buttonTapHandler = { isSelected in
             let params: [String: String] = loanItem.loanInfoModel.fetchComfirmLoan()
             loanItem.onSelected?(loanItem.uuid, isSelected, params)
         }
-    }
-}
-
-extension FirstLoamItemCell {
-    func drawDashLine(on view: UIView) {
-        let shapeLayer = CAShapeLayer()
-        shapeLayer.strokeColor = AppColorStyle.shared.textGrayD9.cgColor
-        shapeLayer.lineWidth = 1
-        shapeLayer.lineDashPattern = [4, 2] // 4px 实线, 2px 间隔
-        let path = CGMutablePath()
-        path.addLines(between: [CGPoint(x: 0, y: 0), CGPoint(x: view.frame.width, y: 0)])
-        shapeLayer.path = path
-        view.layer.addSublayer(shapeLayer)
     }
 }

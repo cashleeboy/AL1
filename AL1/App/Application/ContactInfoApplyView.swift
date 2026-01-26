@@ -16,15 +16,8 @@ class ContactInfoApplyView: BaseApplyViewController<ContactModuleViewModel>
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        bottomContainer.setPrimaryState(isEnable: true)
         
-        moduleVM.isDataCompletePublisher
-            .compactMap { $0 }
-            .sink { [weak self] isDone in
-                guard let self else { return }
-                self.bottomContainer.setPrimaryState(isEnable: isDone)
-            }
-            .store(in: &moduleVM.cancellables)
-
         moduleVM.fetchData { [weak self] result in
             guard let self else { return }
             switch result {
@@ -97,8 +90,32 @@ class ContactInfoApplyView: BaseApplyViewController<ContactModuleViewModel>
     }
     
     override func bottomAction() {
+        // 进行页面所有项的校验
+        guard moduleVM.validate() else {
+            moduleVM.contactRows.forEach { row in
+                // relationship
+                if row.keyStrings == nil {
+                    row.relacionStatus = .showRedError(message: "Por favor seleccione la relación con su contacto")
+                } else {
+                    row.relacionStatus = .normal
+                }
+                // numero
+                if row.numeroFieldText == nil {
+                    row.numeroStatus = .showRedError(message: "Por favor ingrese")
+                } else {
+                    row.numeroStatus = .normal
+                }
+                // nombresStatus
+                if row.nombresFieldText == nil {
+                    row.nombresStatus = .showRedError(message: "Por favor ingrese")
+                } else {
+                    row.nombresStatus = .normal
+                }
+            }
+            tableView.reloadData()
+            return
+        }
         // submit contact list
-        
         notifyStepFinished()
     }
     
@@ -131,9 +148,11 @@ class ContactInfoApplyView: BaseApplyViewController<ContactModuleViewModel>
 //                        case .failure(let failure): break
 //                        }
 //                    }
-                    let contactPicker = CNContactPickerViewController()
-                    contactPicker.delegate = self // 设置代理
-                    self.present(contactPicker, animated: true, completion: nil)
+                    DispatchQueue.main.async {
+                        let contactPicker = CNContactPickerViewController()
+                        contactPicker.delegate = self // 设置代理
+                        self.present(contactPicker, animated: true, completion: nil)
+                    }
                 }
             case .failure(_):
                 break
@@ -174,6 +193,7 @@ extension ContactInfoApplyView: MZPickerControllerDelegate, MZPickerControllerDa
             if row.infoModel?.contactTitle == selectedContactInfo?.contactTitle, let idx = rows.first {
                 if let info = row.infoModel, let option = info.options?[idx] {
                     row.relacionFieldText = option.value
+                    row.relacionStatus = .normal
                     moduleVM.updateContact(with: info, field: .relation(key: option.key))
                 }
             }
@@ -203,6 +223,8 @@ extension ContactInfoApplyView: CNContactPickerDelegate
             if result {
                 row.nombresFieldText = name
                 row.numeroFieldText = number
+                row.numeroStatus = .normal
+                row.nombresStatus = .normal
             } else {
                 showToast(ContactValidationError.duplicateMobile.message)
             }

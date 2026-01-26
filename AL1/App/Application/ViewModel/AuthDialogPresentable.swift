@@ -214,7 +214,7 @@ extension AuthDialogPresentable {
     // Date of birth
     func showDateSheet(onDoneHandler: @escaping ((Date) -> Void)) {
         let date = MZDatePickerView(frame: CGRectMake(0, 0, 0, MZDatePickerView.defaultHeight))
-        date.canSelectFutureDate = false
+//        date.canSelectFutureDate = false
         date.doneHandler = { date in
             onDoneHandler(date)
             SwiftEntryKit.dismiss()

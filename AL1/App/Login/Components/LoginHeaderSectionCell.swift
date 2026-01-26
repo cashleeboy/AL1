@@ -79,7 +79,7 @@ class LoginHeaderSectionCell: BaseConfigurablewCell
     
     private let subtitleLabel: UILabel = {
         let label = UILabel()
-        label.text = "Bienvenido a QoriCredi"
+        label.text = "Bienvenido a Fácil Crédito"
         label.font = AppFontProvider.shared.getFont14Semibold()
         label.textColor = AppColorStyle.shared.backgroundWhite
         return label
@@ -120,34 +120,6 @@ class LoginHeaderSectionCell: BaseConfigurablewCell
     private lazy var countdownTimer = CountDownTimer(duration: 60.0)
     private lazy var phoneInputView = PhoneInputView()
     
-    private let voiceAuthLabel: TapActionLabel = {
-        let label = TapActionLabel()
-        label.backgroundColor = .clear
-        label.isUserInteractionEnabled = true
-        label.textAlignment = .center
-        // 你没有收到验证码？尝试语音验证。
-        let fullText = "¿No recibió el código de verificación? Pruebe la verificación por voz."
-        let linkText = "verificación por voz."
-        
-        let defaultFont = AppFontProvider.shared.getFont12Regular()
-        let linkColor = AppColorStyle.shared.brandPrimary
-        let defaultColor = AppColorStyle.shared.textGray
-        
-        let attributedString = NSAttributedString.createLinkString(
-            fullText: fullText,
-            linkText: linkText,
-            linkColor: linkColor,
-            defaultFont: defaultFont,
-            defaultColor: defaultColor
-        )
-        
-        label.setText(attributedString)
-        label.tap(string: linkText) {
-            print("*** link text = \(linkText)")
-        }
-        return label
-    }()
-    
     private lazy var agreementStackView: UIStackView = {
         let stack = UIStackView()
         stack.axis = .horizontal
@@ -171,24 +143,31 @@ class LoginHeaderSectionCell: BaseConfigurablewCell
         let label = TapActionLabel()
         label.backgroundColor = .clear
         label.isUserInteractionEnabled = true
-        let linkText = "Acuerdo de privacidad"
+        let fullText = "He aceptado el \"Acuerdo de Privacidad\" y los \"Términos de Servicio\"."
+        let boldParts = [
+            "\"Acuerdo de Privacidad\"",
+            "\"Términos de Servicio\""
+        ]
         
         let defaultFont = AppFontProvider.shared.getFont12Regular()
         let linkColor = AppColorStyle.shared.brandPrimary
         let defaultColor = AppColorStyle.shared.textGray
         
         // 单击“下一步”接受隐私协议
-        let attributedString = NSAttributedString.createLinkString(
-            fullText: "Haga clic en Siguiente para aceptar el Acuerdo de privacidad",
-            linkText: linkText,
-            linkColor: linkColor,
-            defaultFont: defaultFont,
-            defaultColor: defaultColor
-        )
+        let attributedString = NSMutableAttributedString.makeStyledText(fullText: fullText, boldParts: boldParts, font: defaultFont, textColor: defaultColor, boldTextColor: linkColor, lineSpacing: 6.0)
+        
         label.setText(attributedString)
-        label.tap(string: linkText) { [weak self] in
-            guard let self else { return }
-            headerSection?.privacyAction?()
+        if let first = boldParts.first {
+            label.tap(string: first) { [weak self] in
+                guard let self else { return }
+                headerSection?.privacyAction?()
+            }
+        }
+        if let last = boldParts.last {
+            label.tap(string: last) { [weak self] in
+                guard let self else { return }
+                headerSection?.privacyAction?()
+            }
         }
         return label
     }()

@@ -23,6 +23,10 @@ struct RequestHeaderConfig
     @Storage(key: "app_ase_key", defaultValue: "")
     static var aesKey
     
+    // Adjust 专属标识符，通常用于归因分析
+    @Storage(key: "app_adjust_adid_key", defaultValue: "")
+    static var adjustAdid: String
+    
     static var appVersion: String {
         return Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? ""
     }

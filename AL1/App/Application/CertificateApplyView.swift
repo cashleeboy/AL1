@@ -84,22 +84,13 @@ class CertificateApplyView: BaseApplyViewController<CertificateModuleViewModel>
     }
     
     override func bottomAction() {
+        guard identityInfoRowFormer?.isIdentityStatus == .success else {
+            returnToTake()
+            return
+        }
         // 校验提示
         if let verifyResult = self.moduleVM.validate() {
-            switch verifyResult {
-            case .ocr, .nuiNumber:
-                showToast("Complete su número de cédula de identidad")
-            case .name:
-                showToast("Por favor, complete su nombre")
-            case .lastName:
-                showToast("Por favor, complete su apellido paterno")
-            case .genero:
-                showToast("Por favor seleccione su género")
-            case .birthday:
-                showToast("Por favor seleccione su fecha de nacimiento")
-            default:
-                break
-            }
+            showToast(verifyResult.status)
             return
         }
         let getTextByType: (PersonalType) -> String = { type in

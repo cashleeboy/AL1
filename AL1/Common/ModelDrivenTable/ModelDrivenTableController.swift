@@ -126,6 +126,22 @@ final class ModelDrivenTableController: NSObject {
         sections.remove(at: index)
         tableView.deleteSections(IndexSet(integer: index), with: animation)
     }
+    
+    /// 根据标识符查找并删除 Row
+    func removeRow(where predicate: (RowRepresentable) -> Bool, animation: UITableView.RowAnimation = .automatic) {
+        for (sIndex, section) in sections.enumerated() {
+            if let rIndex = section.firstIndex(where: predicate) {
+                let indexPath = IndexPath(row: rIndex, section: sIndex)
+                self.remove(at: indexPath, animation: animation)
+                return // 找到并删除后退出
+            }
+        }
+    }
+    
+    /// 检查是否存在某个 Row
+    func containsRow(where predicate: (RowRepresentable) -> Bool) -> Bool {
+        return sections.flatMap { $0 }.contains(where: predicate)
+    }
 }
 
 extension ModelDrivenTableController: UITableViewDataSource, UITableViewDelegate

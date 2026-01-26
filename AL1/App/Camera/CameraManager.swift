@@ -596,22 +596,31 @@ open class CameraManager: NSObject, AVCaptureFileOutputRecordingDelegate, UIGest
     
     fileprivate func _imageDataWithEXIF(forImage _: UIImage, _ data: Data) -> NSData? {
         let cfdata: CFData = data as CFData
-        let source = CGImageSourceCreateWithData(cfdata, nil)!
-        let UTI: CFString = CGImageSourceGetType(source)!
         let mutableData: CFMutableData = NSMutableData(data: data) as CFMutableData
-        let destination = CGImageDestinationCreateWithData(mutableData, UTI, 1, nil)!
         
-        let imageSourceRef = CGImageSourceCreateWithData(cfdata, nil)
-        let imageProperties = CGImageSourceCopyMetadataAtIndex(imageSourceRef!, 0, nil)!
+        guard let source = CGImageSourceCreateWithData(cfdata, nil),
+              let uti = CGImageSourceGetType(source),
+              let destination = CGImageDestinationCreateWithData(mutableData, uti, 1, nil) else {
+            return nil
+        }
         
-        var mutableMetadata = CGImageMetadataCreateMutableCopy(imageProperties)!
+        guard let imageSourceRef = CGImageSourceCreateWithData(cfdata, nil),
+              let imageProperties = CGImageSourceCopyMetadataAtIndex(imageSourceRef, 0, nil),
+              let metadataCopy = CGImageMetadataCreateMutableCopy(imageProperties) else {
+            return nil
+        }
         
+        var mutableMetadata = metadataCopy
         if let location = locationManager?.latestLocation {
             mutableMetadata = _gpsMetadata(mutableMetadata, withLocation: location)
         }
-        
         let finalMetadata: CGImageMetadata = mutableMetadata
-        CGImageDestinationAddImageAndMetadata(destination, UIImage(data: data)!.cgImage!, finalMetadata, nil)
+        
+        guard let baseImage = UIImage(data: data),
+              let cg = baseImage.cgImage else {
+            return nil
+        }
+        CGImageDestinationAddImageAndMetadata(destination, cg, finalMetadata, nil)
         CGImageDestinationFinalize(destination)
         return mutableData
     }
@@ -1243,8 +1252,18 @@ open class CameraManager: NSObject, AVCaptureFileOutputRecordingDelegate, UIGest
         if movieOutput == nil {
             _createMovieOutput()
         }
-        
-        return movieOutput!
+        if let output = movieOutput {
+            return output
+        }
+        let new = AVCaptureMovieFileOutput()
+        movieOutput = new
+        _setupVideoConnection()
+        if let captureSession = captureSession, captureSession.canAddOutput(new) {
+            captureSession.beginConfiguration()
+            captureSession.addOutput(new)
+            captureSession.commitConfiguration()
+        }
+        return new
     }
     
     fileprivate func _createMovieOutput() {
@@ -2031,8 +2050,12 @@ extension PHPhotoLibrary {
             let createAlbumRequest = PHAssetCollectionChangeRequest.creationRequestForAssetCollection(withTitle: name)
             placeholder = createAlbumRequest.placeholderForCreatedAssetCollection
         }, completionHandler: { _, _ in
-            let fetchResult = PHAssetCollection.fetchAssetCollections(withLocalIdentifiers: [placeholder!.localIdentifier], options: nil)
-            completion(fetchResult.firstObject!)
+            guard let ph = placeholder else { return }
+            let ids = [ph.localIdentifier]
+            let fetchResult = PHAssetCollection.fetchAssetCollections(withLocalIdentifiers: ids, options: nil)
+            if let album = fetchResult.firstObject {
+                completion(album)
+            }
         })
     }
     

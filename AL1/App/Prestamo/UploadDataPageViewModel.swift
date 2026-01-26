@@ -10,9 +10,11 @@ import Foundation
 class UploadDataPageViewModel {
     private lazy var repository: BaseRepository = BaseRepository()
     
-    func submitCustomerUploaded(onSuccess: @escaping (() -> Void), onFail: @escaping ((String) -> Void)) {
+    // 提交需要添加额外的字典
+    func submitCustomerUploaded(extraParams: [String: Any] = [:], onSuccess: @escaping (() -> Void), onFail: @escaping ((String) -> Void)) {
         let infos = DeviceInfoHelper.fetchCurrentDeviceInfo()
-        repository.submitCustomerUploaded(with: infos.toDictionary()) { result in
+        let fullParams = infos.toDictionary(extraParams: extraParams)
+        repository.submitCustomerUploaded(with: fullParams) { result in
             switch result {
             case .success(_):
                 onSuccess()

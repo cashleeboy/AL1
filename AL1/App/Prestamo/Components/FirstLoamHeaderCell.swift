@@ -157,7 +157,7 @@ class FirstLoamHeaderCell: BaseConfigurablewCell {
         
         let info = firstItem.loanInfoModel
         
-        valueLabel.text = "S/ \(info.loanAmount)"
+        valueLabel.text = "S/ \(info.loanAmount.formattedNumber())"
         // 遍历 totalDays
         let totalSum = info.products.compactMap { $0.totalDays }.sum()
         if let repayDate = info.products.first?.repayDate, !repayDate.isEmpty {
@@ -179,14 +179,14 @@ class FirstLoamHeaderCell: BaseConfigurablewCell {
         
         // 2. 借款金额
         let v2 = PrestamoCommonItemView(title: "Cantidad real recibida",
-                                        value: "$\(info.receiptAmount)",
+                                        value: info.receiptAmount.formattedNumber(prefix: "$"),
                                         valueColor: AppColorStyle.shared.textBlack)
         itemsStackView.addArrangedSubview(v2)
         
         // 3. 综合服务费 (带问号提示)
-        let compServiceFee = info.products.sum(for: \.compServiceFee)
+        let compServiceFee = info.products.sumString(for: \.compServiceFee).formattedNumber(prefix: "$")
         let v3 = PrestamoCommonItemView(title: "Tarifa de servicio integral",
-                                        value: "$\(compServiceFee)")
+                                        value: compServiceFee)
         v3.setValueColor(AppColorStyle.shared.brandPrimary)
         v3.showQuestionIcon(color: AppColorStyle.shared.brandPrimary)
         v3.onValueClick = {
@@ -194,17 +194,17 @@ class FirstLoamHeaderCell: BaseConfigurablewCell {
                 model.feeDetail
             }
             //let interest = feeDetails.sum(for: \.interest)
-            let creditServiceFee = feeDetails.sum(for: \.creditServiceFee)
-            let payChannelFee = feeDetails.sum(for: \.payChannelFee)
-            let serviceFee = feeDetails.sum(for: \.serviceFee)
-            let taxation = feeDetails.sum(for: \.taxation)
+            let creditServiceFee = feeDetails.sumString(for: \.creditServiceFee).formattedNumber(prefix: "$")
+            let payChannelFee = feeDetails.sumString(for: \.payChannelFee).formattedNumber(prefix: "$")
+            let serviceFee = feeDetails.sumString(for: \.serviceFee).formattedNumber(prefix: "$")
+            let taxation = feeDetails.sumString(for: \.taxation).formattedNumber(prefix: "$")
             
             let rawData: [(title: String, value: String)] = [
                 //("Interés", "$\(interest)"),
-                ("Honorarios de crédito", "$\(creditServiceFee)"),
-                ("Pagar tarifa de acceso", "$\(payChannelFee)"),
-                ("Comisión", "$\(serviceFee)"),
-                ("IVA", "$\(taxation)")
+                ("Honorarios de crédito", creditServiceFee),
+                ("Pagar tarifa de acceso", payChannelFee),
+                ("Comisión", payChannelFee),
+                ("IVA", payChannelFee)
             ]
             let titles = rawData.map { $0.title }
             let values = rawData.map { $0.value }
@@ -213,16 +213,16 @@ class FirstLoamHeaderCell: BaseConfigurablewCell {
         itemsStackView.addArrangedSubview(v3)
         
         // 4. 利息
-        let interest = info.products.sumString(for: \.interest) // "" -> "0", "1.5" -> "1.5"
+        let interest = info.products.sumString(for: \.interest).formattedNumber(prefix: "$") // "" -> "0", "1.5" -> "1.5"
         let v4 = PrestamoCommonItemView(title: "Interés",
-                                        value: "$\(interest)",
+                                        value: interest,
                                         valueColor: AppColorStyle.shared.textBlack)
         itemsStackView.addArrangedSubview(v4)
         
         // 5. 还款明细
-        let repaymentAmount = info.products.sum(for: \.repaymentAmount)
+        let repaymentAmount = info.products.sumString(for: \.repaymentAmount).formattedNumber(prefix: "$")
         let v5 = PrestamoCommonItemView(title: "Monto Pagado",
-                                        value: "$\(repaymentAmount)")
+                                        value: repaymentAmount)
         v5.setValueColor(AppColorStyle.shared.brandPrimary)
         v5.showArrow(color: AppColorStyle.shared.brandPrimary)
         v5.onValueClick = {
@@ -232,12 +232,12 @@ class FirstLoamHeaderCell: BaseConfigurablewCell {
                 "Interés",
                 "Cantidad pagable"]
             
-            let receiptAmount = info.products.sum(for: \.receiptAmount)
+            let receiptAmount = info.products.sumString(for: \.receiptAmount).formattedNumber(prefix: "$")
             let values = [
-                "$\(receiptAmount)",
-                "$\(compServiceFee)",
-                "$\(interest)",
-                "$\(repaymentAmount)"
+                receiptAmount,
+                compServiceFee,
+                interest,
+                repaymentAmount
             ]
             firstItem.serviceRepaymentPopupAction("Detalles de la cantidad de reembolso", titles, values, true)
         }

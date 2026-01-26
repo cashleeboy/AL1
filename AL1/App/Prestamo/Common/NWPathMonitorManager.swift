@@ -32,8 +32,6 @@ class NWPathMonitorManager {
             let isAvailable = (path.status == .satisfied)
             let isRestricted = (path.status == .requiresConnection)
             
-            print("*** 网络状态变化: status=\(path.status), isAvailable=\(isAvailable)")
-            
             DispatchQueue.main.async {
                 self.onStatusChanged?(isAvailable, isRestricted)
                 

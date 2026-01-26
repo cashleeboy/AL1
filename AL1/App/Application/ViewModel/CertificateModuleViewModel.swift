@@ -97,8 +97,8 @@ class CertificateModuleViewModel: ObservableObject, ApplicationAuthModuleProtoco
     private func syncValuesToFiledValues(from model: UserOcrIdentityModel) {
         isUpdate = model.isUpdate
         selectedIdentityMap[BackendORCKeys.name] = model.firstName
-        selectedIdentityMap[BackendORCKeys.middleName] = model.middleName
-        selectedIdentityMap[BackendORCKeys.lastName] = model.lastName
+        selectedIdentityMap[BackendORCKeys.motherName] = model.motherName
+        selectedIdentityMap[BackendORCKeys.fatherName] = model.fatherName
         selectedIdentityMap[BackendORCKeys.nuiNumber] = model.idCardNumber
         selectedIdentityMap[BackendORCKeys.birthDay] = model.birthday
         selectedIdentityMap[BackendORCKeys.gender] = model.gender
@@ -166,7 +166,7 @@ extension CertificateModuleViewModel
                     let value = selectedIdentityMap[key] ?? ""
                     return value.isValidName(min: 1, max: 30)   // 假设该行只有一个 key 对应姓名
                 }
-            case .lastName:
+            case .fatherName:
                 return !backendKeys.allSatisfy { key in
                     let value = selectedIdentityMap[key] ?? ""
                     return value.isValidName(min: 3, max: 60)   // 校验 Apellidos: 3~60个字符
@@ -204,15 +204,15 @@ extension CertificateModuleViewModel
         ))
         // last name
         list.append(IdentityInfoModel(
-            type: .lastName,
+            type: .fatherName,
             keys: [
-                "value": BackendORCKeys.lastName,
+                "value": BackendORCKeys.fatherName,
             ],
             fieldType: .write
         ))
         list.append(IdentityInfoModel(
-            type: .middleName,
-            keys: ["value": BackendORCKeys.middleName],
+            type: .motherName,
+            keys: ["value": BackendORCKeys.motherName],
             fieldType: .write
         ))
         list.append(IdentityInfoModel(
