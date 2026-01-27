@@ -94,7 +94,7 @@ class ContactInfoApplyView: BaseApplyViewController<ContactModuleViewModel>
         guard moduleVM.validate() else {
             moduleVM.contactRows.forEach { row in
                 // relationship
-                if row.keyStrings == nil {
+                if row.relacionFieldText == nil {
                     row.relacionStatus = .showRedError(message: "Por favor seleccione la relación con su contacto")
                 } else {
                     row.relacionStatus = .normal

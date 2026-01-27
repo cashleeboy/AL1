@@ -61,6 +61,7 @@ class PrestamoViewModel
         let applyClosure: (() -> Void) = { [weak self] in
             guard let self else { return }
             userSolicitar()
+//            onActionNavigateToAuth?(.contactInfo)
         }
         prestamoHome = PrestamoHome(solicitarAhoraAction: applyClosure)
         
@@ -377,8 +378,7 @@ extension PrestamoViewModel
     }
     
     // 首款申请
-    func fetchComfirmToLoan() {
-        
+    func fetchComfirmToLoan(with confirmLoanCompletion: @escaping ((Bool) -> Void)) {
         dataValid { [weak self] isValid in
             guard let self else { return }
             guard isValid else {
@@ -392,11 +392,13 @@ extension PrestamoViewModel
             if let bankId = UserSession.shared.bankInfoAuditing?.id {
                 params[PrestamoKey.LoanOrder.bankId.rawValue] = bankId
             }
+//            confirmLoanCompletion(true)
             repository.fetchComfirmToLoan(with: params) { [weak self] result in
                 guard let self = self else { return }
                 switch result {
-                case .success:
+                case .success(let data):
                     self.onActionFinish?()
+                    confirmLoanCompletion(data.firstConfirm)
                 case .failure(let failure):
                     self.onErrorMessage?(failure.message)
                 }

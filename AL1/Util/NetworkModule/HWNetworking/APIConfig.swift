@@ -27,6 +27,7 @@ struct APIConfig {
             static let homeSearch = "/k61ybqx5l5/tQA4XToikfJ3/xXOH_nABohDVx/dL7Hndvk0y"
             static let recommendInfo = "/oFYsT5JHoF/cglwb_6QBX/zRgAOCxw43/z36XIzoSIdGtC"
             static let comfirmLoan = "/naiPUGj/cF_eRxBwKS/eoL9w3j6qV41H"
+            static let applySuccess = "/c3YdW/pYAHH/t0Do"
         }
         
         struct Auth {

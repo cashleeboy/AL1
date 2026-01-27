@@ -19,7 +19,6 @@ class LoginViewModel {
     // ⭐️ 使用 @Published，外部可以直接订阅
     @Published var authCodeModel: LoginAuthModel? = nil
     @Published var authCodeFailure: RequestError? = nil
-    @Published var userLoginInModel: LoginSession? = nil
     @Published var isLoggedIn: Bool = false
     @Published var serviceInquiryItems: [ServiceInquiryItem] = []
     

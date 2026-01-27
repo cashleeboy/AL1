@@ -135,7 +135,7 @@ class ReembolsoBaseTableViewCell: BaseTableViewCell {
         
     }
 
-    func configure(with item: OrderListItem, onConfirmToggle: @escaping ((Bool) -> Void))
+    func configure(with item: OrderListItem, isRevision: Bool = false, onConfirmToggle: @escaping ((Bool) -> Void))
     {
         self.onConfirmToggle = onConfirmToggle
         
@@ -153,17 +153,26 @@ class ReembolsoBaseTableViewCell: BaseTableViewCell {
         orderStackView.arrangedSubviews.forEach {
             $0.removeFromSuperview()
         }
-        
-        let amountText = item.loanAmount.formattedNumber()
-        let loanAmountTitle = "Monto a pagar: S/\(amountText)"
-        let v1 = TitleValueView(frame: .zero, title: loanAmountTitle, value: "S/\(amountText)")
-        orderStackView.addArrangedSubview(v1)
-        
-        let repayDateStr = item.repayDateStr ?? ""
-        let repayDateStrTitle = "Monto a pagar: S/\(repayDateStr)"
-        let v2 = TitleValueView(frame: .zero, title: repayDateStrTitle, value: "S/\(repayDateStr)")
-        orderStackView.addArrangedSubview(v2)
-        
+    
+        let value = "S/\(item.loanAmount.formattedNumber())"
+        let dateValue = item.applyDateStr ?? ""
+        if isRevision {
+            let montoTitle = "Monto del préstamo: \(value)"
+            let v1 = TitleValueView(frame: .zero, title: montoTitle, value: value)
+            orderStackView.addArrangedSubview(v1)
+            
+            let tiempoTitle = "Tiempo de aplicación: \(dateValue)"
+            let v2 = TitleValueView(frame: .zero, title: tiempoTitle, value: dateValue)
+            orderStackView.addArrangedSubview(v2)
+        } else {
+            let montoTitle = "Monto a pagar: \(value)"
+            let v1 = TitleValueView(frame: .zero, title: montoTitle, value: value)
+            orderStackView.addArrangedSubview(v1)
+            
+            let fechaTitle = "Fecha de vencimiento: \(dateValue)"
+            let v2 = TitleValueView(frame: .zero, title: fechaTitle, value: dateValue)
+            orderStackView.addArrangedSubview(v2)
+        }
     }
     
     @objc func confirmAction(_ sender: UIButton) {

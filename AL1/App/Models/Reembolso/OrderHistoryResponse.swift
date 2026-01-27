@@ -29,7 +29,7 @@ struct OrderListItem {
     let repaidAmount :String?       //ujZR5zdZy1SZefSzXgf
     let repayDate :String?
     let repayDateStr :String?
-    let applyDate: String?
+    let applyDateStr: String?
     let installments: [InstallmentItem] // 对应 eEhc3g5ke
     // orderStatus 订单状态 20:审核中 22:审核拒绝 3:放款中 4:还款中 5:放款失败未关闭 6:还款完成 结清订单 7-异常关闭
     let status: OrderStatus
@@ -51,7 +51,7 @@ struct OrderListItem {
         self.repaidAmount = json["ujZR5zdZy1SZefSzXgf"].string
         self.repayDate = json["jknobDslqwT"].string
         self.repayDateStr = json["enpJvKYQzP09n"].string
-        self.applyDate = json["kL_mQzDHgbfChU"].stringValue
+        self.applyDateStr = json["kL_mQzDHgbfChU"].stringValue
         
         // 映射分期详情
         self.installments = json["eEhc3g5ke"].arrayValue.map { InstallmentItem(json: $0) }

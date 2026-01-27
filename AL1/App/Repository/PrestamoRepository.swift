@@ -15,8 +15,8 @@ class PrestamoRepository {
         NW.requestGET(API.Prestamo.homeSearch) { (result: Result<PrestamoHomeModel, RequestError>) in
             switch result {
             case .success(let success):
-                print("*** success.code = \(success.code)")
-//                print("*** success = \(success)")
+//                print("*** success.code = \(success.code)")
+                break
             case .failure(_):
                 break
             }
@@ -41,12 +41,19 @@ class PrestamoRepository {
      }
      ]
      */
-    func fetchComfirmToLoan(with param: [String: Any], completion: @escaping (Result<PlainData, RequestError>) -> Void) {
+    func fetchComfirmToLoan(with param: [String: Any], completion: @escaping (Result<LoanConfirmModel, RequestError>) -> Void) {
         GIFHUD.runTask { finish in
-            NW.requestPOST(API.Prestamo.comfirmLoan, parameters: param) { (result: Result<PlainData, RequestError>) in
+            NW.requestPOST(API.Prestamo.comfirmLoan, parameters: param) { (result: Result<LoanConfirmModel, RequestError>) in
                 finish()
                 completion(result)
             }
+        }
+    }
+    
+    // 申请成功推荐
+    func fetchApplySuccess(with completion: @escaping (Result<LoanApplyModel, RequestError>) -> Void) {
+        NW.requestPOST(API.Prestamo.applySuccess) { (result: Result<LoanApplyModel, RequestError>) in   
+            completion(result)
         }
     }
 }

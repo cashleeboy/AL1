@@ -32,6 +32,8 @@ struct API {
         
         // 确认借款-提交订单
         static let comfirmLoan = APIItem(APIConfig.Path.Loan.comfirmLoan)
+        // 申请成功推荐
+        static let applySuccess = APIItem(APIConfig.Path.Loan.applySuccess, m: .post)
     }
     
     struct Login {

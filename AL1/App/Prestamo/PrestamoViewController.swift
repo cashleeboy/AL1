@@ -318,17 +318,13 @@ extension PrestamoViewController
             let coordinator = AuthFlowViewModel()
             coordinator.startFlow(from: navigationController, startStep: .faceRecognition) { [weak self] in
                 guard let self else { return }
-                viewModel.obtainInitial(useHud: true) {
-                } onFailure: {
-                }
+                refresh()
             }
         case .isDataValid:
             let coordinator = AuthFlowViewModel()
             coordinator.startFlow(from: navigationController, startStep: .dataValid) { [weak self] in
                 guard let self else { return }
-                viewModel.obtainInitial(useHud: true) {
-                } onFailure: {
-                }
+                refresh()
             }
         default:
             break
@@ -380,10 +376,14 @@ extension PrestamoViewController
         ) { [weak self] in
             guard let self = self, self.privacyTermsView.isAccepted else {
                 // Mostrar alerta de "Debe aceptar los términos"
-                self?.showToast("Primero seleccione y acepte nuestra política de privacidad.")
+                self?.showToast("Por favor lea y acepte nuestro Contrato de Préstamo.")
                 return
             }
-            self.viewModel.fetchComfirmToLoan()
+            self.viewModel.fetchComfirmToLoan { model in
+                // push
+                let vc = ConfirmLoanPageView(isFirstConfirm: model)
+                self.navigationController?.pushViewController(vc, animated: true)
+            }
         }
         bottomContainer.configure(with: style)
     }

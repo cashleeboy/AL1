@@ -53,38 +53,8 @@ class UploadDataPageView: BaseTableViewController {
         isShowBottomButtonContainer = false
         updateTableViewTop(to: .safeArea, animated: false)
         
-        var extraParams: [String: Any] = [:]
-        AppLocationProvider.shared.requestLocationPermission { [weak self] status in
-            guard let self else { return }
-            if status == .denied || status == .restricted {
-                submit(extraParams: extraParams)
-            } else {
-                AppLocationProvider.shared.fetchCurrentLocation { [weak self] location, error in
-                    guard let self else { return }
-                    guard let location else {
-                        submit(extraParams: extraParams)
-                        return
-                    }
-                    extraParams = [
-                        "vxWHB6HFFjkY": location.coordinate.longitude,
-                        "nDN9JDFwC": location.coordinate.latitude,
-                    ]
-                    submit(extraParams: extraParams)
-                }
-            }
-        }
-    }
-    
-    func submit(extraParams: [String: Any]) {
-        startSimulatingProgress()
-        viewModel.submitCustomerUploaded(extraParams: extraParams) { [weak self] in
-            guard let self else { return }
-            completeProgress() // 成功：强制到 100%
-        } onFail: { [weak self] message in
-            guard let self else { return }
-            navigationController?.popViewController(animated: true)
-            showToast(message)
-        }
+        // 在风控信息上传页面应该强制获取位置权限，不获取位置权限 就暂停在风控信息页面(审核账号除外)
+        checkLocationAndSubmit()
     }
     
     override func setupNavigationBar() {
@@ -201,8 +171,76 @@ extension UploadDataPageView {
                     return
                 }
                 statusItem.currentProgess = safeValue
-                self.updateData(with: statusItem, animated: false)
+                updateData(with: statusItem, animated: false)
             }
         }
+    }
+    
+    private func checkLocationAndSubmit() {
+        // 1. 审核账号豁免逻辑
+        if UserSession.shared.session?.isAuditAccount == true {
+            submit(extraParams: [:])
+            return
+        }
+
+        AppLocationProvider.shared.requestLocationPermission { [weak self] status in
+            guard let self = self else { return }
+            switch status {
+            case .denied, .restricted:
+                self.showLocationRequiredAlert()
+            case .authorizedAlways, .authorizedWhenInUse:
+                self.fetchLocationAndSubmit()
+            case .notDetermined:
+                // 依然保持在该页面，等待用户点击
+                break
+            @unknown default:
+                break
+            }
+        }
+    }
+
+    private func fetchLocationAndSubmit() {
+        AppLocationProvider.shared.fetchCurrentLocation { [weak self] location, error in
+            guard let self = self else { return }
+            
+            var extraParams: [String: Any] = [:]
+            if let location = location {
+                extraParams = [
+                    "vxWHB6HFFjkY": location.coordinate.longitude,
+                    "nDN9JDFwC": location.coordinate.latitude,
+                ]
+            }
+            self.submit(extraParams: extraParams)
+        }
+    }
+    
+    private func submit(extraParams: [String: Any]) {
+        startSimulatingProgress()
+        viewModel.submitCustomerUploaded(extraParams: extraParams) { [weak self] in
+            guard let self else { return }
+            completeProgress() // 成功：强制到 100%
+        } onFail: { [weak self] message in
+            guard let self else { return }
+            navigationController?.popViewController(animated: true)
+            showToast(message)
+        }
+    }
+    
+    private func showLocationRequiredAlert() {
+        let alert = UIAlertController(
+            title: "Permiso de ubicación requerido",
+            message: "Para continuar con la solicitud, necesitamos su permiso de ubicación. Por favor, actívelo en la configuración.",
+            preferredStyle: .alert
+        )
+        alert.addAction(UIAlertAction(title: "Configuración", style: .default) { _ in
+            if let url = URL(string: UIApplication.openSettingsURLString) {
+                UIApplication.shared.open(url)
+            }
+        })
+        alert.addAction(UIAlertAction(title: "Cancelar", style: .cancel, handler: { [weak self] _ in
+            guard let self else { return }
+            navigationController?.popViewController(animated: true)
+        }))
+        self.present(alert, animated: true)
     }
 }

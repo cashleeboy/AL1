@@ -147,7 +147,7 @@ class LoanOrderTableViewCell: BaseTableViewCell {
         orderStackView.addArrangedSubview(v2)
         
         // 申请时间
-        let applyDate = item.applyDate ?? ""
+        let applyDate = item.applyDateStr ?? ""
         let aplicacionTitle =  "Tiempo de aplicación: \(applyDate)"
         let v3 = TitleValueView(frame: .zero, title: aplicacionTitle, value: applyDate)
         orderStackView.addArrangedSubview(v3)

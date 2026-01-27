@@ -9,7 +9,6 @@ import SwiftyJSON
 import Foundation
 
 struct LoanApplyModel: DecodableData {
-    
     // 基础状态标识
     var autoConfirmFlag: String = ""
     var bankId: String = ""
@@ -49,6 +48,8 @@ struct LoanProductItem {
     var productLogo: String = ""
     var productCode: String = ""
     var repaymentDate: String = ""
+    
+    var isSelected: Bool = true
     
     // 利率范围详情
     var rates: LoanRateDetail

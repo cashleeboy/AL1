@@ -10,6 +10,7 @@ import Combine
 
 /// 借款列表基础页面类，处理共有逻辑
 class ReembolsoBasePage: BaseTableViewController, JYPageChildContollerProtocol {
+    var isRevisionMode: Bool { return false } // 基类默认 false
     
     lazy var viewModel = ReembolsoBaseViewModel()
     
@@ -110,7 +111,7 @@ extension ReembolsoBasePage {
         }
         
         if let model = dataSources[indexPath.row] as? OrderListItem {
-            cell.configure(with: model) { [weak self] toggle in
+            cell.configure(with: model, isRevision: isRevisionMode) { [weak self] toggle in
                 guard let self else { return }
                 viewModel.setupToggleProduct(with: indexPath.row, result: toggle)
                 isShowBottomButtonContainer = viewModel.isShowBottomBtn()

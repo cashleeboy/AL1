@@ -208,46 +208,26 @@ extension FormContactCell: FormContactFormableRow
     func getContactBookButton() -> UIButton? {
         contactBookButton
     }
-    
+    // 优化后的公共调用方法
     func updateRelacionFileStatus(_ status: FormFileStatus?) {
-        guard let status else {
-            bottomRelacionLabel.isHidden = true
-            return
-        }
-        switch status {
-        case .normal:
-            bottomRelacionLabel.isHidden = true
-        case .showRedError(let message):
-            bottomRelacionLabel.isHidden = false
-            bottomRelacionLabel.text = message
-        }
+        updateLabel(bottomRelacionLabel, with: status)
     }
-    
+
     func updateNumeroFileStatus(_ status: FormFileStatus?) {
-        guard let status else {
-            bottomNumeroLabel.isHidden = true
-            return
-        }
-        switch status {
-        case .normal:
-            bottomNumeroLabel.isHidden = true
-        case .showRedError(let message):
-            bottomNumeroLabel.isHidden = false
-            bottomNumeroLabel.text = message
-        }
+        updateLabel(bottomNumeroLabel, with: status)
     }
-    
+
     func updateNombresFileStatus(_ status: FormFileStatus?) {
-        guard let status else {
-            bottomNombresLabel.isHidden = true
+        updateLabel(bottomNombresLabel, with: status)
+    }
+
+    // 核心逻辑抽离
+    private func updateLabel(_ label: UILabel, with status: FormFileStatus?) {
+        guard let status = status, case .showRedError(let message) = status else {
+            label.isHidden = true
             return
         }
-        switch status {
-        case .normal:
-            bottomNombresLabel.isHidden = true
-        case .showRedError(let message):
-            bottomNombresLabel.isHidden = false
-            bottomNombresLabel.text = message
-        }
+        label.isHidden = false
+        label.text = message
     }
 }

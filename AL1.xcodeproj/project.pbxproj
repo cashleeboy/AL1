@@ -8,6 +8,13 @@
 
 /* Begin PBXBuildFile section */
 		8F2BBF222F271BA30084DB42 /* AcuerdoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F2BBF212F271BA30084DB42 /* AcuerdoViewController.swift */; };
+		8F2BBF2B2F2758050084DB42 /* ConfirmLoanPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F2BBF2A2F2758050084DB42 /* ConfirmLoanPageView.swift */; };
+		8F2BBF2D2F27580C0084DB42 /* ConfirmLoanViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F2BBF2C2F27580C0084DB42 /* ConfirmLoanViewModel.swift */; };
+		8F2BBF2F2F27592A0084DB42 /* LoanApplyModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F2BBF2E2F27592A0084DB42 /* LoanApplyModel.swift */; };
+		8F2BBF312F275CA50084DB42 /* LoanConfirmModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F2BBF302F275CA50084DB42 /* LoanConfirmModel.swift */; };
+		8F2BBF332F2761D50084DB42 /* ConfirmLoanTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F2BBF322F2761D50084DB42 /* ConfirmLoanTableViewCell.swift */; };
+		8F2BBF352F2761E00084DB42 /* ConfirmLoanHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F2BBF342F2761E00084DB42 /* ConfirmLoanHeaderCell.swift */; };
+		8F2BBF372F27943A0084DB42 /* RatingDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F2BBF362F27943A0084DB42 /* RatingDialog.swift */; };
 		8F318E672EF25E3400808724 /* JYPageContollerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F318E612EF25E3400808724 /* JYPageContollerProtocol.swift */; };
 		8F318E682EF25E3400808724 /* JYPageMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F318E642EF25E3400808724 /* JYPageMenuView.swift */; };
 		8F318E692EF25E3400808724 /* JYScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F318E652EF25E3400808724 /* JYScrollView.swift */; };
@@ -65,7 +72,6 @@
 		8F61DE4E2F00079300FE2D69 /* NWPathMonitorManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F61DE4D2F00079300FE2D69 /* NWPathMonitorManager.swift */; };
 		8F61DE502F001F7600FE2D69 /* FeedbackPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F61DE4F2F001F7600FE2D69 /* FeedbackPageView.swift */; };
 		8F61DE522F001FC500FE2D69 /* FeedbackSelectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F61DE512F001FC500FE2D69 /* FeedbackSelectionCell.swift */; };
-		8F61DE732F02179300FE2D69 /* SkeletonView in Frameworks */ = {isa = PBXBuildFile; productRef = 8F61DE722F02179300FE2D69 /* SkeletonView */; };
 		8F61DE932F026BAF00FE2D69 /* ImagePickerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F61DE922F026BAF00FE2D69 /* ImagePickerManager.swift */; };
 		8F61DE952F02759D00FE2D69 /* DeviceInfoHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F61DE942F02759D00FE2D69 /* DeviceInfoHelper.swift */; };
 		8F61DE982F0275B600FE2D69 /* DeviceInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F61DE972F0275B600FE2D69 /* DeviceInfo.swift */; };
@@ -311,6 +317,13 @@
 
 /* Begin PBXFileReference section */
 		8F2BBF212F271BA30084DB42 /* AcuerdoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AcuerdoViewController.swift; sourceTree = "<group>"; };
+		8F2BBF2A2F2758050084DB42 /* ConfirmLoanPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmLoanPageView.swift; sourceTree = "<group>"; };
+		8F2BBF2C2F27580C0084DB42 /* ConfirmLoanViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmLoanViewModel.swift; sourceTree = "<group>"; };
+		8F2BBF2E2F27592A0084DB42 /* LoanApplyModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoanApplyModel.swift; sourceTree = "<group>"; };
+		8F2BBF302F275CA50084DB42 /* LoanConfirmModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoanConfirmModel.swift; sourceTree = "<group>"; };
+		8F2BBF322F2761D50084DB42 /* ConfirmLoanTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmLoanTableViewCell.swift; sourceTree = "<group>"; };
+		8F2BBF342F2761E00084DB42 /* ConfirmLoanHeaderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmLoanHeaderCell.swift; sourceTree = "<group>"; };
+		8F2BBF362F27943A0084DB42 /* RatingDialog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RatingDialog.swift; sourceTree = "<group>"; };
 		8F318E602EF25E3400808724 /* JYPageConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JYPageConfig.swift; sourceTree = "<group>"; };
 		8F318E612EF25E3400808724 /* JYPageContollerProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JYPageContollerProtocol.swift; sourceTree = "<group>"; };
 		8F318E622EF25E3400808724 /* JYPageController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JYPageController.swift; sourceTree = "<group>"; };
@@ -613,7 +626,6 @@
 				8FCE8F3B2EECFA55009B87C4 /* Alamofire in Frameworks */,
 				8FCBB98E2EF248DE005B5A38 /* SwiftyJSON in Frameworks */,
 				8FCB8F662EFA4BD300F5B078 /* Toast in Frameworks */,
-				8F61DE732F02179300FE2D69 /* SkeletonView in Frameworks */,
 				8FCE8F202EECF92F009B87C4 /* SwiftEntryKit in Frameworks */,
 				8F5D64962F1F712D00E466C5 /* AdjustSdk in Frameworks */,
 				8FEF7B5C2F0A029100FA4205 /* AlamofireImage in Frameworks */,
@@ -643,6 +655,15 @@
 				8F2BBF212F271BA30084DB42 /* AcuerdoViewController.swift */,
 			);
 			path = Acuerdo;
+			sourceTree = "<group>";
+		};
+		8F2BBF292F2757F00084DB42 /* ConfirmLoan  */ = {
+			isa = PBXGroup;
+			children = (
+				8F2BBF2C2F27580C0084DB42 /* ConfirmLoanViewModel.swift */,
+				8F2BBF2A2F2758050084DB42 /* ConfirmLoanPageView.swift */,
+			);
+			path = "ConfirmLoan ";
 			sourceTree = "<group>";
 		};
 		8F318E662EF25E3400808724 /* PageController */ = {
@@ -706,6 +727,8 @@
 			children = (
 				8FCB8F692EFA641400F5B078 /* PrestamoHomeModel.swift */,
 				8F33ABD42EF2FCB3009F6B25 /* HomeProductDetail.swift */,
+				8F2BBF2E2F27592A0084DB42 /* LoanApplyModel.swift */,
+				8F2BBF302F275CA50084DB42 /* LoanConfirmModel.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -1055,6 +1078,7 @@
 				8F5719C52F0B6E39000B793D /* WebViewDialog.swift */,
 				8FCBB6732EEED4DD005B5A38 /* InformationConfirmDialog.swift */,
 				8FFC8FC12F0FE5EF005A0650 /* RewardFillingDialog.swift */,
+				8F2BBF362F27943A0084DB42 /* RatingDialog.swift */,
 			);
 			path = Dialog;
 			sourceTree = "<group>";
@@ -1360,6 +1384,7 @@
 				8FE3A2292EEC70DF001A08AC /* PrestamoViewController.swift */,
 				8FEF7B652F0A32BE00FA4205 /* UploadDataPageView.swift */,
 				8FEF7B672F0A3F5C00FA4205 /* UploadDataPageViewModel.swift */,
+				8F2BBF292F2757F00084DB42 /* ConfirmLoan  */,
 				8FE3A2252EEC7063001A08AC /* Components */,
 				8F61DE4C2F00077C00FE2D69 /* Common */,
 			);
@@ -1431,6 +1456,8 @@
 				8FEF7B632F0A245800FA4205 /* FirstLoamItemCell.swift */,
 				8FEF7B6B2F0A54D000FA4205 /* PrestamoEmptySectionCell.swift */,
 				8FDE49452F21EE5B001916BA /* PrivacyTermsView.swift */,
+				8F2BBF342F2761E00084DB42 /* ConfirmLoanHeaderCell.swift */,
+				8F2BBF322F2761D50084DB42 /* ConfirmLoanTableViewCell.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -1530,7 +1557,6 @@
 				8FCBB65C2EEDC39B005B5A38 /* SnapKit */,
 				8FCBB98D2EF248DE005B5A38 /* SwiftyJSON */,
 				8FCB8F652EFA4BD300F5B078 /* Toast */,
-				8F61DE722F02179300FE2D69 /* SkeletonView */,
 				8FEF7B5B2F0A029100FA4205 /* AlamofireImage */,
 				8F5D64952F1F712D00E466C5 /* AdjustSdk */,
 			);
@@ -1624,7 +1650,6 @@
 				8FCE8F6B2EEDC149009B87C4 /* XCRemoteSwiftPackageReference "SnapKit" */,
 				8FCBB98C2EF248A0005B5A38 /* XCRemoteSwiftPackageReference "SwiftyJSON" */,
 				8FCB8F632EFA488800F5B078 /* XCRemoteSwiftPackageReference "Toast-Swift" */,
-				8F61DE532F02131C00FE2D69 /* XCRemoteSwiftPackageReference "SkeletonView" */,
 				8FEF7B5A2F0A027E00FA4205 /* XCRemoteSwiftPackageReference "AlamofireImage" */,
 				8F5D64942F1F711900E466C5 /* XCRemoteSwiftPackageReference "ios_sdk" */,
 			);
@@ -1747,6 +1772,7 @@
 				8FFC8FC62F100770005A0650 /* DeviceIDManager.swift in Sources */,
 				8FB43D2B2EF676DA00D93B1C /* IdentityInfoModel.swift in Sources */,
 				8FB4405E2EF6F48600D93B1C /* MZDatePickerView.swift in Sources */,
+				8F2BBF2B2F2758050084DB42 /* ConfirmLoanPageView.swift in Sources */,
 				8FB4405F2EF6F48600D93B1C /* MZDateUitl.swift in Sources */,
 				8F4460DE2F0CF13C00A77EF3 /* LoanOrderDetailViewController.swift in Sources */,
 				8FB440602EF6F48600D93B1C /* MZPickerCell.swift in Sources */,
@@ -1818,6 +1844,7 @@
 				8FCB903A2EFCD67A00F5B078 /* ConfigurarSelectionCell.swift in Sources */,
 				8F318E6C2EF25E3400808724 /* JYPageConfig.swift in Sources */,
 				8FCB8F622EFA439D00F5B078 /* OrderReviewSectionCell.swift in Sources */,
+				8F2BBF2F2F27592A0084DB42 /* LoanApplyModel.swift in Sources */,
 				8FCB8F6A2EFA641400F5B078 /* PrestamoHomeModel.swift in Sources */,
 				8FCE8F622EEDAD82009B87C4 /* Shadow.swift in Sources */,
 				8F4460D82F0CD70000A77EF3 /* BaseTableViewModel.swift in Sources */,
@@ -1851,14 +1878,17 @@
 				8FCB90382EFCD58F00F5B078 /* ConfigurarPageView.swift in Sources */,
 				8FCBB66A2EEEBFE6005B5A38 /* BaseDialog.swift in Sources */,
 				8FB43C852EF526BA00D93B1C /* FormIdentityInfoRowFormer.swift in Sources */,
+				8F2BBF372F27943A0084DB42 /* RatingDialog.swift in Sources */,
 				8FB4455B2EF7A6E900D93B1C /* SwiftyContacts.swift in Sources */,
 				8FCBB75D2EF12ACE005B5A38 /* EmptyStateConfig.swift in Sources */,
+				8F2BBF332F2761D50084DB42 /* ConfirmLoanTableViewCell.swift in Sources */,
 				8FCE8F692EEDB62F009B87C4 /* BaseConfigurablewCell.swift in Sources */,
 				8FADF60C2EF4476C003BB16E /* InformationStepsCell.swift in Sources */,
 				8FCBB70E2EEFF0EE005B5A38 /* ServiceContactDialog.swift in Sources */,
 				8FADF1E22EF3AFE5003BB16E /* LoginAuthModel.swift in Sources */,
 				8FE3A22E2EEC7102001A08AC /* ReembolsoViewController.swift in Sources */,
 				8FCE8E6A2EEC9257009B87C4 /* TableItemProtocol.swift in Sources */,
+				8F2BBF2D2F27580C0084DB42 /* ConfirmLoanViewModel.swift in Sources */,
 				8FFC8FC42F10074E005A0650 /* KeychainStorage.swift in Sources */,
 				8F33A8812EF28A63009F6B25 /* Storage.swift in Sources */,
 				8F60813D2EF91396005A8A8E /* UserSession.swift in Sources */,
@@ -1890,6 +1920,7 @@
 				8FFC8FEB2F112542005A0650 /* OrderStatus.swift in Sources */,
 				8FCB90282EFB897700F5B078 /* IdentityDataSource.swift in Sources */,
 				8F61D82B2EFE89A900FE2D69 /* FaceRecognitionSectionCell.swift in Sources */,
+				8F2BBF312F275CA50084DB42 /* LoanConfirmModel.swift in Sources */,
 				8FCBB6E02EEFD7CB005B5A38 /* CountDownTimer.swift in Sources */,
 				8FFC8FC22F0FE5EF005A0650 /* RewardFillingDialog.swift in Sources */,
 				8FEF7B5E2F0A030C00FA4205 /* ImageLoader.swift in Sources */,
@@ -1920,6 +1951,7 @@
 				8FE3A23A2EEC7804001A08AC /* AppFontProvider.swift in Sources */,
 				8FCBB6742EEED4DD005B5A38 /* InformationConfirmDialog.swift in Sources */,
 				8FE3A2452EEC837A001A08AC /* EmptyStateView.swift in Sources */,
+				8F2BBF352F2761E00084DB42 /* ConfirmLoanHeaderCell.swift in Sources */,
 				8FFC8F752F0D34CE005A0650 /* UserBankCardTableViewCell.swift in Sources */,
 				8FCE8E762EECE956009B87C4 /* ColorExtensions.swift in Sources */,
 				8FEF7B602F0A034200FA4205 /* UIImageViewExtension.swift in Sources */,
@@ -2328,14 +2360,6 @@
 				kind = branch;
 			};
 		};
-		8F61DE532F02131C00FE2D69 /* XCRemoteSwiftPackageReference "SkeletonView" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/Juanpe/SkeletonView.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 1.31.0;
-			};
-		};
 		8FCB8F632EFA488800F5B078 /* XCRemoteSwiftPackageReference "Toast-Swift" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/scalessec/Toast-Swift";
@@ -2391,11 +2415,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 8F5D64942F1F711900E466C5 /* XCRemoteSwiftPackageReference "ios_sdk" */;
 			productName = AdjustSdk;
-		};
-		8F61DE722F02179300FE2D69 /* SkeletonView */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 8F61DE532F02131C00FE2D69 /* XCRemoteSwiftPackageReference "SkeletonView" */;
-			productName = SkeletonView;
 		};
 		8FCB8F652EFA4BD300F5B078 /* Toast */ = {
 			isa = XCSwiftPackageProductDependency;

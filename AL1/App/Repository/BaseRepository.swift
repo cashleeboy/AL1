@@ -27,7 +27,6 @@ struct BaseRepository
         NW.requestGET(API.ProjectConfig.projectConfig, encryption: false) { (result: Result<AppInitialConfig, RequestError>) in
             switch result {
             case .success(let config):
-                print("*** 请求成功: channel = \(config.channel), aesKey = \(config.aesKey)")
                 
                 RequestHeaderConfig.channel = config.channel
                 RequestHeaderConfig.aesKey = config.aesKey
