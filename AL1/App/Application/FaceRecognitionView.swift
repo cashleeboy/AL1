@@ -115,7 +115,6 @@ class FaceRecognitionView: BaseTableViewController {
                     let step: FaceAuthStepType = response.isSuccess ? .success : .failure
                     self.updateToStatusUI(step: step)
                     
-                    
                     if response.isSuccess {
                         // after 1.08
                         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1.06) {
@@ -129,8 +128,13 @@ class FaceRecognitionView: BaseTableViewController {
                 }
             }
         }
-        let model = FaceRecognitionSectionModel(onImageCaptured: imageCapturedClosure)
-        self.recognitionModel = model
+        let onPermissionDenied: (() -> Void) = { [weak self] in
+            guard let self else { return }
+            // show alert
+            showLocationRequiredAlert()
+        }
+        let model = FaceRecognitionSectionModel(onImageCaptured: imageCapturedClosure, onPermissionDenied: onPermissionDenied)
+        recognitionModel = model
         renderRows(with: [model])
     }
 }
@@ -201,6 +205,15 @@ extension FaceRecognitionView
                 self.updateToStatusUI(step: .failure)
                
             }
+        }
+    }
+}
+
+extension FaceRecognitionView: AlertPresentable {
+    private func showLocationRequiredAlert() {
+        // 直接调用协议方法
+        showPermissionAlert(title: "Permiso de ubicación requerido") { [weak self] in
+            self?.navigationController?.popViewController(animated: true)
         }
     }
 }

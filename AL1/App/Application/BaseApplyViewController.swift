@@ -47,7 +47,11 @@ class BaseApplyViewController<VM: ApplicationAuthModuleProtocol>: BaseFormerView
             guard let self else { return }
             switch result {
             case .success(_):
-                flowCoordinator?.handleModuleEntryFinished(current: moduleVM.reviewType)
+                if moduleVM.reviewType == .certificate, UserSession.shared.isAuditAccount {
+                    flowCoordinator?.handleModuleEntryFinished(current: .dataValid)
+                } else {
+                    flowCoordinator?.handleModuleEntryFinished(current: moduleVM.reviewType)
+                }
             case .failure(let failure):
                 showToast(failure.message)
             }

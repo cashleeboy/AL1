@@ -11,6 +11,7 @@ import Foundation
 struct DeviceIDManager {
     
     private static let deviceIdKey = "com.yourapp.bundle.uniqueDeviceId"
+    static let adjustAdidKey = "com.yourapp.bundle.uniqueadjustAdid"
     
     static func getDeviceId() -> String {
         // 1. 尝试从 Keychain 读取
@@ -25,5 +26,12 @@ struct DeviceIDManager {
         KeychainStorage.save(key: deviceIdKey, data: newId)
         
         return newId
+    }
+    
+    static func getAdid() -> String {
+        if let savedId = KeychainStorage.load(key: adjustAdidKey), !savedId.isEmpty {
+            return savedId
+        }
+        return DeviceIDManager.getDeviceId()
     }
 }

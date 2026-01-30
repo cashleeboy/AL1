@@ -12,10 +12,10 @@ class PrivacyTermsView: UIView {
     var onToggle: ((Bool) -> Void)?
     var onPrivacyTerms: (() -> Void)?
     
-    private(set) var isAccepted: Bool = true {
+    // 1. 将 didSet 逻辑抽离，方便手动调用且逻辑清晰
+    private(set) var isAccepted: Bool {
         didSet {
-            let imageName = isAccepted ? "pre_pro_enable" : "pre_pro_disable"
-            checkBtn.setImage(UIImage(named: imageName), for: .normal)
+            updateUI()
             onToggle?(isAccepted)
         }
     }
@@ -70,9 +70,13 @@ class PrivacyTermsView: UIView {
         return label
     }()
     
-    init() {
+    init(isAccepted: Bool) {
+        // 2. 先静默设置初始值（不会触发 didSet）
+        self.isAccepted = isAccepted
         super.init(frame: .zero)
         setupView()
+        // 3. 初始化完成后，手动刷新一次 UI
+        updateUI()
     }
     
     required init(coder: NSCoder) {
@@ -98,7 +102,12 @@ class PrivacyTermsView: UIView {
             guard let self else { return }
             onPrivacyTerms?()
         }
-        isAccepted = true
+    }
+    
+    // 4. 抽取 UI 更新方法
+    private func updateUI() {
+        let imageName = isAccepted ? "pre_pro_enable" : "pre_pro_disable"
+        checkBtn.setImage(UIImage(named: imageName), for: .normal)
     }
     
     @objc private func didTapCheck() {

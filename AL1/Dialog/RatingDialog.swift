@@ -30,7 +30,7 @@ class RatingDialog: BaseDialog {
     
     // 存储星星按钮以便交互
     private var starButtons: [UIButton] = []
-    var currentRating: Int = 0
+    var currentRating: Int = 5
     
     // MARK: - 初始化与布局
     override func setupViews() {
@@ -53,7 +53,8 @@ class RatingDialog: BaseDialog {
         for i in 1...5 {
             let btn = UIButton()
             // 默认显示未选中星星，第一个默认选中（参考图片）
-            let imageName = (i == 1) ? "dialog_star_selected" : "dialog_star_unselected"
+//            let imageName = (i == 1) ? "dialog_star_selected" : "dialog_star_unselected"
+            let imageName = "dialog_star_selected"
             btn.setImage(UIImage(named: imageName), for: .normal)
             btn.tag = i
             btn.addTarget(self, action: #selector(starTapped(_:)), for: .touchUpInside)

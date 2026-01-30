@@ -13,9 +13,9 @@ struct AcercaMeSelectionModel: TableItemProtocol {
     var appversion: String
     // 说明文字
     var descriptions: [String] = [
-            "Para garantizar la segunriad de préstamo, por favor da clic en el botón de Aceptar permitiendo el acceso de cámara, contactos y localización. Subiremos las informaciones a nuestro servidor. Pueden ver los detalles a continuación.",
-            "Para garantizar la segunriad de préstamo, por favor da clic en el botón de Aceptar permitiendo el acceso de cámara, contactos y localización. Subiremos las informaciones a nuestro servidor. Pueden ver los detalles a continuación.",
-            "Para garantizar la segunriad de préstamo, por favor da clic en el botón de Aceptar permitiendo el acceso de cámara, contactos y localización. Subiremos las informaciones a nuestro servidor. Pueden ver los detalles a continuación."
+            "Somos un equipo de servicio especializado en soluciones de producto digital y operaciones, comprometido a ayudar a las empresas a mejorar su eficiencia ejecutiva y sus resultados de negocio mediante una sólida capacidad de gestión de proyectos y sistemas de operaciones meticulosos.",
+            "Nuestro trabajo abarca todo el ciclo de vida del proyecto: desde la planificación inicial y la coordinación de recursos, pasando por la gestión del cronograma, hasta la entrega en hitos clave y su posterior optimización, impulsando así la implementación conforme a lo planificado. Garantizamos la ejecución efectiva de cada objetivo mediante una clara delimitación de responsabilidades, un seguimiento transparente del progreso y mecanismos de colaboración interequipos.",
+            "En materia de seguridad y cumplimiento normativo de los datos, nos regimos siempre por procesos de gestión estandarizados, adhiriéndonos estrictamente a las leyes y regulaciones locales, así como a los estándares de la industria, para asegurar un desarrollo comercial estable y sostenible."
         ]
 }
 

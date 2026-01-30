@@ -39,8 +39,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         Adjust.initSdk(adjustConfig)
         
         Adjust.adid { adid in
-            if let adid = adid {
+            if let adid {
                 RequestHeaderConfig.adjustAdid = adid
+                KeychainStorage.save(key: DeviceIDManager.adjustAdidKey, data: adid)
             }
         }
     }

@@ -176,7 +176,7 @@ class FirstLoamItemCell: BaseConfigurablewCell {
         iconImageView.loadImage(loanItem.loanInfoModel.productLogo, placeholder: UIImage(named: "pre_pro_icon"))
         titleLabel.text = loanItem.loanInfoModel.productName
         
-        amountValueLabel.text = loanItem.loanInfoModel.loanAmount.formattedNumber(prefix: "$")
+        amountValueLabel.text = loanItem.loanInfoModel.loanAmount.formattedNumber(prefix: "S/")
         // 还款日期
         termValueLabel.text = loanItem.loanInfoModel.repayDate
         

@@ -116,6 +116,11 @@ class FaceCameraManager: NSObject {
     // MARK: - 拍照功能
     func takePhoto() {
         guard captureSession.isRunning else {
+            let status = currentPermissionStatus()
+            if status == .denied {
+                onPermissionDenied?()
+                return
+            }
             onError?("La cámara no está activa.")
             return
         }

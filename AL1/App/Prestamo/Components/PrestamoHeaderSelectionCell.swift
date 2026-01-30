@@ -167,7 +167,7 @@ class PrestamoHeaderSelectionCell: BaseConfigurablewCell {
         guard let homeItem = item as? PrestamoHome else { return }
         
         titleLabel.text = homeItem.title
-        valueLabel.text = homeItem.value?.formattedNumber()
+        valueLabel.text = homeItem.value?.formattedNumber(prefix: "S/")
         
         confirmButton.setTitle(homeItem.buttonTitle, for: .normal)
         bottomTitleLabel.text = homeItem.bottomTitle

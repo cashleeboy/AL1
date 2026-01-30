@@ -7,7 +7,9 @@
 
 import UIKit
 
-class UploadDataPageView: BaseTableViewController {
+class UploadDataPageView: BaseTableViewController, PermissionHandleable {
+    var permissionObserverToken: (any NSObjectProtocol)?
+    
     let step: AuthStepType
     var flowCoordinator: AuthFlowViewModel?
     
@@ -53,7 +55,9 @@ class UploadDataPageView: BaseTableViewController {
         isShowBottomButtonContainer = false
         updateTableViewTop(to: .safeArea, animated: false)
         
-        // 在风控信息上传页面应该强制获取位置权限，不获取位置权限 就暂停在风控信息页面(审核账号除外)
+        // 1. 设置观察者（监听从设置页回来的时刻）
+        setupPermissionObserver()
+        // 2. 初始检查
         checkLocationAndSubmit()
     }
     
@@ -82,7 +86,38 @@ class UploadDataPageView: BaseTableViewController {
         super.setupData()
         updateToStatusUI(step: .uploading)
     }
-
+    
+    func checkLocationAndSubmit() {
+        if UserSession.shared.isAuditAccount == true {
+            fetchLocationAndSubmit()
+            return
+        }
+        performLocationCheck()
+    }
+    
+    // 权限通过后的具体业务
+    func onPermissionGranted() {
+        fetchLocationAndSubmit()
+    }
+    
+    private func fetchLocationAndSubmit() {
+        AppLocationProvider.shared.fetchCurrentLocation { [weak self] location, error in
+            guard let self = self else { return }
+            
+            var extraParams: [String: Any] = [:]
+            if let location = location {
+                extraParams = [
+                    "vxWHB6HFFjkY": location.coordinate.longitude,
+                    "nDN9JDFwC": location.coordinate.latitude,
+                ]
+            }
+            self.submit(extraParams: extraParams)
+        }
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
 }
 
 extension UploadDataPageView
@@ -141,6 +176,8 @@ extension UploadDataPageView {
         self.currentMockProgress = 1.0
         updateUIProgress(1.0)
         
+        removePermissionObserver()
+        
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
             // 根据业务跳转下一步
             AppRootSwitcher.switchToMain()
@@ -176,44 +213,6 @@ extension UploadDataPageView {
         }
     }
     
-    private func checkLocationAndSubmit() {
-        // 1. 审核账号豁免逻辑
-        if UserSession.shared.session?.isAuditAccount == true {
-            submit(extraParams: [:])
-            return
-        }
-
-        AppLocationProvider.shared.requestLocationPermission { [weak self] status in
-            guard let self = self else { return }
-            switch status {
-            case .denied, .restricted:
-                self.showLocationRequiredAlert()
-            case .authorizedAlways, .authorizedWhenInUse:
-                self.fetchLocationAndSubmit()
-            case .notDetermined:
-                // 依然保持在该页面，等待用户点击
-                break
-            @unknown default:
-                break
-            }
-        }
-    }
-
-    private func fetchLocationAndSubmit() {
-        AppLocationProvider.shared.fetchCurrentLocation { [weak self] location, error in
-            guard let self = self else { return }
-            
-            var extraParams: [String: Any] = [:]
-            if let location = location {
-                extraParams = [
-                    "vxWHB6HFFjkY": location.coordinate.longitude,
-                    "nDN9JDFwC": location.coordinate.latitude,
-                ]
-            }
-            self.submit(extraParams: extraParams)
-        }
-    }
-    
     private func submit(extraParams: [String: Any]) {
         startSimulatingProgress()
         viewModel.submitCustomerUploaded(extraParams: extraParams) { [weak self] in
@@ -221,26 +220,71 @@ extension UploadDataPageView {
             completeProgress() // 成功：强制到 100%
         } onFail: { [weak self] message in
             guard let self else { return }
+            removePermissionObserver()
             navigationController?.popViewController(animated: true)
             showToast(message)
         }
     }
-    
+}
+
+extension UploadDataPageView: AlertPresentable {
     private func showLocationRequiredAlert() {
-        let alert = UIAlertController(
-            title: "Permiso de ubicación requerido",
-            message: "Para continuar con la solicitud, necesitamos su permiso de ubicación. Por favor, actívelo en la configuración.",
-            preferredStyle: .alert
-        )
-        alert.addAction(UIAlertAction(title: "Configuración", style: .default) { _ in
-            if let url = URL(string: UIApplication.openSettingsURLString) {
-                UIApplication.shared.open(url)
-            }
-        })
-        alert.addAction(UIAlertAction(title: "Cancelar", style: .cancel, handler: { [weak self] _ in
+        // 直接调用协议方法
+        showPermissionAlert(title: "Permiso de ubicación requerido") { [weak self] in
             guard let self else { return }
+            removePermissionObserver()
             navigationController?.popViewController(animated: true)
-        }))
-        self.present(alert, animated: true)
+        }
+    }
+}
+
+
+protocol PermissionHandleable: AnyObject {
+    var permissionObserverToken: NSObjectProtocol? { get set } // 需要类来实现
+    
+    func setupPermissionObserver()
+    func checkLocationAndSubmit() // 权限检查入口
+    func onPermissionGranted()    // 授权成功后的业务回调
+}
+
+extension PermissionHandleable where Self: UIViewController & AlertPresentable {
+    
+    func setupPermissionObserver() {
+        // 1. 先销毁旧的，防止重复注册
+        if let oldToken = permissionObserverToken {
+            NotificationCenter.default.removeObserver(oldToken)
+        }
+
+        // 2. 注册并保存新的 Token
+        permissionObserverToken = NotificationCenter.default.addObserver(
+            forName: UIApplication.didBecomeActiveNotification,
+            object: nil,
+            queue: .main
+        ) { [weak self] _ in
+            self?.checkLocationAndSubmit()
+        }
+    }
+    
+    // 提供一个标准的定位权限检查模板
+    func performLocationCheck() {
+        AppLocationProvider.shared.requestLocationPermission { [weak self] status in
+            guard let self = self else { return }
+            switch status {
+            case .denied, .restricted:
+                self.showPermissionAlert(title: "Permiso de ubicación requerido") {
+                    self.navigationController?.popViewController(animated: true)
+                }
+            case .authorizedAlways, .authorizedWhenInUse:
+                self.onPermissionGranted() 
+            default: break
+            }
+        }
+    }
+    
+    func removePermissionObserver() {
+        if let token = permissionObserverToken {
+            NotificationCenter.default.removeObserver(token)
+            permissionObserverToken = nil
+        }
     }
 }

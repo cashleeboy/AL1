@@ -19,7 +19,7 @@ enum ConfigurarType {
     var display: String {
         switch self {
         case .cache:
-            "limpiar cache"
+            "Borrar datos"
         case .version:
             "Versión actual"
         case .Política:

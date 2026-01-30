@@ -15,6 +15,7 @@
 		8F2BBF332F2761D50084DB42 /* ConfirmLoanTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F2BBF322F2761D50084DB42 /* ConfirmLoanTableViewCell.swift */; };
 		8F2BBF352F2761E00084DB42 /* ConfirmLoanHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F2BBF342F2761E00084DB42 /* ConfirmLoanHeaderCell.swift */; };
 		8F2BBF372F27943A0084DB42 /* RatingDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F2BBF362F27943A0084DB42 /* RatingDialog.swift */; };
+		8F2BBF3F2F28C8D10084DB42 /* AlertPresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F2BBF3E2F28C8D10084DB42 /* AlertPresentable.swift */; };
 		8F318E672EF25E3400808724 /* JYPageContollerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F318E612EF25E3400808724 /* JYPageContollerProtocol.swift */; };
 		8F318E682EF25E3400808724 /* JYPageMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F318E642EF25E3400808724 /* JYPageMenuView.swift */; };
 		8F318E692EF25E3400808724 /* JYScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F318E652EF25E3400808724 /* JYScrollView.swift */; };
@@ -324,6 +325,7 @@
 		8F2BBF322F2761D50084DB42 /* ConfirmLoanTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmLoanTableViewCell.swift; sourceTree = "<group>"; };
 		8F2BBF342F2761E00084DB42 /* ConfirmLoanHeaderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmLoanHeaderCell.swift; sourceTree = "<group>"; };
 		8F2BBF362F27943A0084DB42 /* RatingDialog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RatingDialog.swift; sourceTree = "<group>"; };
+		8F2BBF3E2F28C8D10084DB42 /* AlertPresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertPresentable.swift; sourceTree = "<group>"; };
 		8F318E602EF25E3400808724 /* JYPageConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JYPageConfig.swift; sourceTree = "<group>"; };
 		8F318E612EF25E3400808724 /* JYPageContollerProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JYPageContollerProtocol.swift; sourceTree = "<group>"; };
 		8F318E622EF25E3400808724 /* JYPageController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JYPageController.swift; sourceTree = "<group>"; };
@@ -1347,6 +1349,7 @@
 				8FEF7B5D2F0A030C00FA4205 /* ImageLoader.swift */,
 				8FFC8FC32F10074E005A0650 /* KeychainStorage.swift */,
 				8FFC8FC52F100770005A0650 /* DeviceIDManager.swift */,
+				8F2BBF3E2F28C8D10084DB42 /* AlertPresentable.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -1812,6 +1815,7 @@
 				8FADF5FE2EF44561003BB16E /* FormViewController.swift in Sources */,
 				8FB43C832EF5269200D93B1C /* FormIdentityInfoCell.swift in Sources */,
 				8FADF6042EF44561003BB16E /* BaseViewFormer.swift in Sources */,
+				8F2BBF3F2F28C8D10084DB42 /* AlertPresentable.swift in Sources */,
 				8FB445672EF7F88A00D93B1C /* CertificateModuleViewModel.swift in Sources */,
 				8FCB8FE42EFA9E1500F5B078 /* AuthStatusModel.swift in Sources */,
 				8FADF91D2EF4EF07003BB16E /* FormSelectionRowFormer.swift in Sources */,
@@ -2048,12 +2052,12 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = AL1/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Fácil Crédito";
-				INFOPLIST_KEY_NSCameraUsageDescription = "Fácil Crédito necesita acceder a la cámara para que pueda tomar fotografías o subir imágenes cuando sea necesario. Si no otorga este permiso, no podrá realizar ni cargar fotos dentro de la aplicación.";
-				INFOPLIST_KEY_NSContactsUsageDescription = "Fácil Crédito pide acceso a sus contactos únicamente para que pueda seleccionar uno y completar la información de manera automática. No almacenamos ni enviamos sus datos de contactos a ningún servidor.";
-				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Fácil Crédito requiere permiso para usar su ubicación y así habilitar servicios que dependen de la zona en la que usted se encuentre. En caso de no autorizar el acceso, ciertas funciones basadas en su ubicación no estarán disponibles.";
+				INFOPLIST_KEY_NSCameraUsageDescription = "Actualmente no permite que la aplicación acceda a su cámara. Habilitar este permiso le permitirá tomar fotos y cargar los documentos necesarios para su solicitud de préstamo. ¿Desea acceder a la configuración del sistema para autorizarlo?";
+				INFOPLIST_KEY_NSContactsUsageDescription = "Para brindarle una experiencia más conveniente, Fácil Crédito necesita acceder a su información de contacto para completar rápidamente la información o ayudar con las verificaciones necesarias.";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Para ayudarle a completar correctamente su solicitud de préstamo y acceder a los servicios basados en la ubicación, necesitamos acceder a su información de geolocalización durante el uso de la aplicación.";
 				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "Necesitamos guardar fotos en tu galería.";
-				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Fácil Crédito solicita acceso a su galería de fotos para permitirle seleccionar o subir imágenes desde su dispositivo. Si rechaza este permiso, no podrá elegir archivos desde su álbum.";
-				INFOPLIST_KEY_NSUserTrackingUsageDescription = "Fácil Crédito solicita acceder a su Identificador de Publicidad (IDFA) para ofrecerle recomendaciones de contenido y promociones que se ajusten mejor a sus preferencias. Si decide no permitirlo, la exactitud de estas sugerencias podría verse reducida, aunque el resto de funciones de la aplicación seguirá operando con normalidad.";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Actualmente no permite que la aplicación acceda a su álbum de fotos. Habilitar este permiso le permitirá seleccionar y cargar fácilmente los documentos necesarios para su solicitud de préstamo desde su álbum de fotos local. ¿Desea acceder a la configuración del sistema para autorizarlo?";
+				INFOPLIST_KEY_NSUserTrackingUsageDescription = "Para recomendarle contenido publicitario más personalizado, necesitamos obtener su Identificador de Publicidad (IDFA) para rastrear sus preferencias.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -2092,12 +2096,12 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = AL1/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Fácil Crédito";
-				INFOPLIST_KEY_NSCameraUsageDescription = "Fácil Crédito necesita acceder a la cámara para que pueda tomar fotografías o subir imágenes cuando sea necesario. Si no otorga este permiso, no podrá realizar ni cargar fotos dentro de la aplicación.";
-				INFOPLIST_KEY_NSContactsUsageDescription = "Fácil Crédito pide acceso a sus contactos únicamente para que pueda seleccionar uno y completar la información de manera automática. No almacenamos ni enviamos sus datos de contactos a ningún servidor.";
-				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Fácil Crédito requiere permiso para usar su ubicación y así habilitar servicios que dependen de la zona en la que usted se encuentre. En caso de no autorizar el acceso, ciertas funciones basadas en su ubicación no estarán disponibles.";
+				INFOPLIST_KEY_NSCameraUsageDescription = "Actualmente no permite que la aplicación acceda a su cámara. Habilitar este permiso le permitirá tomar fotos y cargar los documentos necesarios para su solicitud de préstamo. ¿Desea acceder a la configuración del sistema para autorizarlo?";
+				INFOPLIST_KEY_NSContactsUsageDescription = "Para brindarle una experiencia más conveniente, Fácil Crédito necesita acceder a su información de contacto para completar rápidamente la información o ayudar con las verificaciones necesarias.";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Para ayudarle a completar correctamente su solicitud de préstamo y acceder a los servicios basados en la ubicación, necesitamos acceder a su información de geolocalización durante el uso de la aplicación.";
 				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "Necesitamos guardar fotos en tu galería.";
-				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Fácil Crédito solicita acceso a su galería de fotos para permitirle seleccionar o subir imágenes desde su dispositivo. Si rechaza este permiso, no podrá elegir archivos desde su álbum.";
-				INFOPLIST_KEY_NSUserTrackingUsageDescription = "Fácil Crédito solicita acceder a su Identificador de Publicidad (IDFA) para ofrecerle recomendaciones de contenido y promociones que se ajusten mejor a sus preferencias. Si decide no permitirlo, la exactitud de estas sugerencias podría verse reducida, aunque el resto de funciones de la aplicación seguirá operando con normalidad.";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Actualmente no permite que la aplicación acceda a su álbum de fotos. Habilitar este permiso le permitirá seleccionar y cargar fácilmente los documentos necesarios para su solicitud de préstamo desde su álbum de fotos local. ¿Desea acceder a la configuración del sistema para autorizarlo?";
+				INFOPLIST_KEY_NSUserTrackingUsageDescription = "Para recomendarle contenido publicitario más personalizado, necesitamos obtener su Identificador de Publicidad (IDFA) para rastrear sus preferencias.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;

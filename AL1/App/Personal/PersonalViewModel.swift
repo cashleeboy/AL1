@@ -16,7 +16,6 @@ class PersonalViewModel {
         }
     }
     @Published var isLogout: Bool = false
-    @Published var isAccountCancel: Bool = false
     
     // 用于处理错误消息的发布（可选）
     let errorMsg = PassthroughSubject<String, Never>()
@@ -40,7 +39,7 @@ class PersonalViewModel {
     }
     
     func clearCache(with completion: (() -> Void)? = nil) {
-        logout {
+        accountCancel {
             completion?()
         }
     }
@@ -83,14 +82,14 @@ class PersonalViewModel {
         }
     }
     
-    func accountCancel() {
+    func accountCancel(with completion: (() -> Void)?) {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.68) { [self] in
             loginRepos.cancelUserAccount { [weak self] result in
                 guard let self else { return }
                 switch result {
                 case .success(_):
                     UserSession.shared.clear()
-                    self.isAccountCancel = true
+                    completion?()
                 case .failure(let error):
                     self.errorMsg.send(error.message)
                 }

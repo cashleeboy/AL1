@@ -37,7 +37,7 @@ class DeviceInfoHelper
             deviceModel: getModelName(),
             deviceBrand: "Apple",
             osVersion: "iOS \(UIDevice.current.systemVersion)",
-            deviceId: DeviceIDManager.getDeviceId(),
+            deviceId: DeviceIDManager.getAdid(),
             appVersion: "iOS_\(version)",
             appBuildNumber: build,
             localTimezone: TimeZone.current.identifier,

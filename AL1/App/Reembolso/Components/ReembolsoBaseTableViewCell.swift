@@ -154,7 +154,7 @@ class ReembolsoBaseTableViewCell: BaseTableViewCell {
             $0.removeFromSuperview()
         }
     
-        let value = "S/\(item.loanAmount.formattedNumber())"
+        let value = item.loanAmount.formattedNumber(prefix: "S/")
         let dateValue = item.applyDateStr ?? ""
         if isRevision {
             let montoTitle = "Monto del préstamo: \(value)"

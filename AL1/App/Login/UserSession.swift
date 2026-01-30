@@ -47,6 +47,14 @@ final class UserSession {
         }
     }
     
+    // 是否审核账号 0：不是 1：是
+    var isAuditAccount: Bool {
+        guard let isAuditAccount = session?.isAuditAccount else {
+            return false
+        }
+        return isAuditAccount
+    }
+    
     // 首页审核页面，银行信息
     var bankInfoAuditing: BankModel?
     

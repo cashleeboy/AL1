@@ -31,13 +31,6 @@ class ConfigurarPageView: BaseTableViewController
             }
             .store(in: &viewModel.cancellables)
 
-        viewModel.$isAccountCancel
-            .filter { $0 }
-            .sink { _ in
-                AppRootSwitcher.switchToMain()
-            }
-            .store(in: &viewModel.cancellables)
-        
         viewModel.errorMsg
             .receive(on: RunLoop.main)
             .sink { [weak self] msg in

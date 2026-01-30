@@ -15,9 +15,12 @@ class FaceRecognitionSectionModel: IdentifiableTableItem {
     var triggerCapture: (() -> Void)? = nil
     
     var onStopRuningCapture: (() -> Void)? = nil
-    // 
-    init(onImageCaptured: @escaping (UIImage) -> Void) {
+
+    var onPermissionDenied: (() -> Void)? = nil
+    //
+    init(onImageCaptured: @escaping (UIImage) -> Void, onPermissionDenied: @escaping (() -> Void)) {
         self.onImageCaptured = onImageCaptured
+        self.onPermissionDenied = onPermissionDenied
     }
 }
 
@@ -74,7 +77,8 @@ class FaceRecognitionSectionCell: BaseConfigurablewCell {
             DispatchQueue.main.async { self?.titleLabel.text = message }
         }
         cameraManager.onPermissionDenied = { [weak self] in
-            self?.showPermissionDeniedUI()
+            guard let self else { return }
+            faceRecogModel?.onPermissionDenied?()
         }
         cameraManager.onImageCaptured = { [weak self] image in
             self?.faceRecogModel?.onImageCaptured(image)

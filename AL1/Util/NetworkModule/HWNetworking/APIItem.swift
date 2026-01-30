@@ -34,7 +34,7 @@ struct APIItem: HWAPIProtocol {
             ParameterKeys.appVersion: RequestHeaderConfig.appVersionInt,
             ParameterKeys.clientType: RequestHeaderConfig.clienType,
 //            ParameterKeys.deviceUdid: RequestHeaderConfig.deviceUdid,
-            ParameterKeys.deviceUdid: RequestHeaderConfig.adjustAdid,
+            ParameterKeys.deviceUdid: DeviceIDManager.getAdid(),
             ParameterKeys.deviceIdfa: RequestHeaderConfig.deviceIdfa
         ]
         

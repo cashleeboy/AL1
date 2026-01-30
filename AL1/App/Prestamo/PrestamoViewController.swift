@@ -22,7 +22,11 @@ class PrestamoViewController: BaseTableViewController
         return label
     }()
     
-    private lazy var privacyTermsView = PrivacyTermsView()
+    var isAccepted: Bool {
+        // 普通用户是非审核用户
+        return !UserSession.shared.isAuditAccount
+    }
+    private lazy var privacyTermsView = PrivacyTermsView(isAccepted: isAccepted)
     
     private lazy var viewModel = PrestamoViewModel()
     

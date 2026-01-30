@@ -157,7 +157,7 @@ class FirstLoamHeaderCell: BaseConfigurablewCell {
         
         let info = firstItem.loanInfoModel
         
-        valueLabel.text = "S/ \(info.loanAmount.formattedNumber())"
+        valueLabel.text = info.loanAmount.formattedNumber(prefix: "S/")
         // 遍历 totalDays
         let totalSum = info.products.compactMap { $0.totalDays }.sum()
         if let repayDate = info.products.first?.repayDate, !repayDate.isEmpty {
@@ -179,12 +179,12 @@ class FirstLoamHeaderCell: BaseConfigurablewCell {
         
         // 2. 借款金额
         let v2 = PrestamoCommonItemView(title: "Cantidad real recibida",
-                                        value: info.receiptAmount.formattedNumber(prefix: "$"),
+                                        value: info.receiptAmount.formattedNumber(prefix: "S/"),
                                         valueColor: AppColorStyle.shared.textBlack)
         itemsStackView.addArrangedSubview(v2)
         
         // 3. 综合服务费 (带问号提示)
-        let compServiceFee = info.products.sumString(for: \.compServiceFee).formattedNumber(prefix: "$")
+        let compServiceFee = info.products.sumString(for: \.compServiceFee).formattedNumber(prefix: "S/")
         let v3 = PrestamoCommonItemView(title: "Tarifa de servicio integral",
                                         value: compServiceFee)
         v3.setValueColor(AppColorStyle.shared.brandPrimary)
@@ -194,17 +194,17 @@ class FirstLoamHeaderCell: BaseConfigurablewCell {
                 model.feeDetail
             }
             //let interest = feeDetails.sum(for: \.interest)
-            let creditServiceFee = feeDetails.sumString(for: \.creditServiceFee).formattedNumber(prefix: "$")
-            let payChannelFee = feeDetails.sumString(for: \.payChannelFee).formattedNumber(prefix: "$")
-            let serviceFee = feeDetails.sumString(for: \.serviceFee).formattedNumber(prefix: "$")
-            let taxation = feeDetails.sumString(for: \.taxation).formattedNumber(prefix: "$")
+            let creditServiceFee = feeDetails.sumString(for: \.creditServiceFee).formattedNumber(prefix: "S/")
+            let payChannelFee = feeDetails.sumString(for: \.payChannelFee).formattedNumber(prefix: "S/")
+            let serviceFee = feeDetails.sumString(for: \.serviceFee).formattedNumber(prefix: "S/")
+            let taxation = feeDetails.sumString(for: \.taxation).formattedNumber(prefix: "S/")
             
             let rawData: [(title: String, value: String)] = [
                 //("Interés", "$\(interest)"),
                 ("Honorarios de crédito", creditServiceFee),
                 ("Pagar tarifa de acceso", payChannelFee),
-                ("Comisión", payChannelFee),
-                ("IVA", payChannelFee)
+                ("Comisión", serviceFee),
+                ("IVA", taxation)
             ]
             let titles = rawData.map { $0.title }
             let values = rawData.map { $0.value }
@@ -213,14 +213,14 @@ class FirstLoamHeaderCell: BaseConfigurablewCell {
         itemsStackView.addArrangedSubview(v3)
         
         // 4. 利息
-        let interest = info.products.sumString(for: \.interest).formattedNumber(prefix: "$") // "" -> "0", "1.5" -> "1.5"
+        let interest = info.products.sumString(for: \.interest).formattedNumber(prefix: "S/") // "" -> "0", "1.5" -> "1.5"
         let v4 = PrestamoCommonItemView(title: "Interés",
                                         value: interest,
                                         valueColor: AppColorStyle.shared.textBlack)
         itemsStackView.addArrangedSubview(v4)
         
         // 5. 还款明细
-        let repaymentAmount = info.products.sumString(for: \.repaymentAmount).formattedNumber(prefix: "$")
+        let repaymentAmount = info.products.sumString(for: \.repaymentAmount).formattedNumber(prefix: "S/")
         let v5 = PrestamoCommonItemView(title: "Monto Pagado",
                                         value: repaymentAmount)
         v5.setValueColor(AppColorStyle.shared.brandPrimary)
@@ -232,7 +232,7 @@ class FirstLoamHeaderCell: BaseConfigurablewCell {
                 "Interés",
                 "Cantidad pagable"]
             
-            let receiptAmount = info.products.sumString(for: \.receiptAmount).formattedNumber(prefix: "$")
+            let receiptAmount = info.products.sumString(for: \.receiptAmount).formattedNumber(prefix: "S/")
             let values = [
                 receiptAmount,
                 compServiceFee,
